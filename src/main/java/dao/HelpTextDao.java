@@ -8,7 +8,7 @@ import java.sql.SQLException;
 public class HelpTextDao {
     public String getByCode(String code) {
         String helpText = null;
-        String sql = "SELECT text FROM help_texts WHERE code = '?'";
+        String sql = "SELECT text FROM help_texts WHERE code = ?";
 
         try (Connection connection = DAOFactory.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
