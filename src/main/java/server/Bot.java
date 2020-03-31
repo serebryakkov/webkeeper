@@ -1,28 +1,28 @@
 package server;
 
+import controller.Controller;
+import entity.User;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
 public class Bot extends TelegramLongPollingBot {
+    private Controller controller = new Controller();
 
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage()) {
             Message message = update.getMessage();
             if (message.hasText()) {
-                SendMessage sendMessage = new SendMessage();
-                sendMessage.setChatId(message.getChatId());
-                sendMessage.setText("Hello World!");
-                try {
-                    execute(sendMessage);
-                } catch (TelegramApiException e) {
-                    e.printStackTrace();
+                String text = message.getText();
+                if (text.equals("/start")) {
+                    User user = new User();
+                    user.setId(message.getChatId());
+                    user.setUsername(message.getChat().getUserName());
+                    controller.startBot(user);
                 }
             }
         } else if (update.hasCallbackQuery()) {
