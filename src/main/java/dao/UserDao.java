@@ -4,6 +4,7 @@ import entity.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDao {
@@ -18,5 +19,27 @@ public class UserDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public User getById(long userId) {
+        User user = null;
+        String sql = "SELECT username FROM users WHERE uid = ?";
+
+        try (Connection connection = DAOFactory.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setLong(1, userId);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                user = new User();
+                user.setUsername(rs.getString(1));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return user;
     }
 }

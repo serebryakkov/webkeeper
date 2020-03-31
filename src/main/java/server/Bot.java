@@ -22,7 +22,7 @@ public class Bot extends TelegramLongPollingBot {
                     User user = new User();
                     user.setId(message.getChatId());
                     user.setUsername(message.getChat().getUserName());
-                    controller.startBot(user);
+                    controller.startBot(user, this);
                 }
             }
         } else if (update.hasCallbackQuery()) {

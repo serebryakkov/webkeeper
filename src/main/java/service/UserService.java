@@ -7,6 +7,8 @@ public class UserService {
     private UserDao userDao = new UserDao();
 
     public void add(User user) {
-        userDao.add(user);
+        if (userDao.getById(user.getId()) == null) {
+            userDao.add(user);
+        }
     }
 }
