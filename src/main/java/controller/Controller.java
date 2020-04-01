@@ -25,6 +25,7 @@ public class Controller {
      * @param bot Объект типа Bot для вызова метода execute при отправке сообщения.
      */
     public void startBot(User user, Bot bot) {
+        System.out.println("startBot called");
         userService.add(user);
         String text = helpTextService.getByCode("welcome");
         startMessage.sendMessage(user, text, bot);
