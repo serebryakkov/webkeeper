@@ -34,7 +34,8 @@ public class UserDao {
             if (rs.next()) {
                 user = new User();
                 user.setUsername(rs.getString(1));
-                user.setState(User.State.valueOf(rs.getString(2)));
+//                user.setState(User.State.valueOf(rs.getString(2)));
+                System.out.println("User state: " + User.State.valueOf(rs.getString(2)));
             }
 
         } catch (SQLException e) {
