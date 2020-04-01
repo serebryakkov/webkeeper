@@ -9,12 +9,13 @@ import java.sql.SQLException;
 
 public class UserDao {
     public void add(User user) {
-        String sql = "INSERT INTO users (uid, username) VALUES (?, ?)";
+        String sql = "INSERT INTO users (uid, username, state) VALUES (?, ?, ?)";
 
         try (Connection connection = DAOFactory.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setLong(1, user.getId());
             pstmt.setString(2, user.getUsername());
+            pstmt.setString(3, User.State.NULL.toString());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -34,10 +35,7 @@ public class UserDao {
             if (rs.next()) {
                 user = new User();
                 user.setUsername(rs.getString(1));
-//                String state = rs.getString(2);
-//                if (state != null) {
-//                    user.setState(User.State.valueOf(state));
-//                }
+                user.setState(User.State.valueOf(rs.getString(2)));
             }
 
         } catch (SQLException e) {
