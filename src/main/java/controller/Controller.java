@@ -32,6 +32,7 @@ public class Controller {
 
     public void getAndSendHostsList(User user, Bot bot) {
         hostService = new HostService();
+        hostsListMessage = new HostsListMessage();
         Map<Integer, String> hostsList = hostService.getAllByUserId(user);
         String text = helpTextService.getByCode("hosts_list");
         hostsListMessage.sendMessage(user, text, hostsList, bot);
