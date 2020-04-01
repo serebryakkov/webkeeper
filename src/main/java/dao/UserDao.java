@@ -34,10 +34,10 @@ public class UserDao {
             if (rs.next()) {
                 user = new User();
                 user.setUsername(rs.getString(1));
-                String state = rs.getString(2);
-                if (state != null) {
-                    user.setState(User.State.valueOf(state));
-                }
+//                String state = rs.getString(2);
+//                if (state != null) {
+//                    user.setState(User.State.valueOf(state));
+//                }
             }
 
         } catch (SQLException e) {
