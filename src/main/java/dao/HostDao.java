@@ -1,6 +1,6 @@
 package dao;
 
-import server.Host;
+import entity.Host;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

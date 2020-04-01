@@ -1,4 +1,4 @@
-package server;
+package entity;
 
 public class Host {
     private int id;
