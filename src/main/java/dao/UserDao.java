@@ -23,7 +23,7 @@ public class UserDao {
 
     public User getById(long userId) {
         User user = null;
-        String sql = "SELECT username FROM users WHERE uid = ?";
+        String sql = "SELECT username, state FROM users WHERE uid = ?";
 
         try (Connection connection = DAOFactory.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -34,6 +34,7 @@ public class UserDao {
             if (rs.next()) {
                 user = new User();
                 user.setUsername(rs.getString(1));
+                user.setState(User.State.valueOf(rs.getString(2)));
             }
 
         } catch (SQLException e) {
