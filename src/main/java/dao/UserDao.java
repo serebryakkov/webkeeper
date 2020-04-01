@@ -22,7 +22,6 @@ public class UserDao {
     }
 
     public User getById(long userId) {
-        System.out.println("UserDao getById called");
         User user = null;
         String sql = "SELECT username, state FROM users WHERE uid = ?";
 
@@ -35,7 +34,7 @@ public class UserDao {
             if (rs.next()) {
                 user = new User();
                 user.setUsername(rs.getString(1));
-//                user.setState(User.State.valueOf(rs.getString(2)));
+                user.setState(User.State.valueOf(rs.getString(2)));
             }
 
         } catch (SQLException e) {
