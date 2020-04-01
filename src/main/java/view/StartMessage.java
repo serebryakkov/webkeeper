@@ -13,6 +13,7 @@ import java.util.List;
 
 public class StartMessage {
     public void sendMessage(User user, String text, Bot bot) {
+        System.out.println("StartMessage sendMessage called");
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(user.getId());
         sendMessage.setText(text);
