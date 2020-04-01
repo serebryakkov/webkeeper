@@ -13,10 +13,8 @@ import java.util.Map;
 public class Controller {
     private UserService userService = new UserService();
     private HelpTextService helpTextService = new HelpTextService();
-    private HostService hostService;
 
     private StartMessage startMessage = new StartMessage();
-    private HostsListMessage message;
 
     /**
      * Метод добавляет юзера в БД если его там нет
@@ -30,10 +28,10 @@ public class Controller {
         startMessage.sendMessage(user, text, bot);
     }
 
-    public void getAndSendHostsList(User user, Bot bot) {
-        hostService = new HostService();
-        Map<Integer, String> hostsList = hostService.getAllByUserId(user);
-        String text = helpTextService.getByCode("hosts_list");
-        message.sendMessage(user, text, hostsList, bot);
-    }
+//    public void getAndSendHostsList(User user, Bot bot) {
+//        hostService = new HostService();
+//        Map<Integer, String> hostsList = hostService.getAllByUserId(user);
+//        String text = helpTextService.getByCode("hosts_list");
+//        message.sendMessage(user, text, hostsList, bot);
+//    }
 }
