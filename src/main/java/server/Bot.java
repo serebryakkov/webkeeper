@@ -18,15 +18,11 @@ public class Bot extends TelegramLongPollingBot {
             Message message = update.getMessage();
             if (message.hasText()) {
                 String text = message.getText();
-                switch (text) {
-                    case "/start":
-                        User user = new User();
-                        user.setId(message.getChatId());
-                        user.setUsername(message.getChat().getUserName());
-                        controller.startBot(user, this);
-                        break;
-                    case "Список сайтов":
-
+                if (text.equals("/start")) {
+                    User user = new User();
+                    user.setId(message.getChatId());
+                    user.setUsername(message.getChat().getUserName());
+                    controller.startBot(user, this);
                 }
             }
         } else if (update.hasCallbackQuery()) {
