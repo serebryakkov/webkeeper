@@ -21,18 +21,10 @@ public class Bot extends TelegramLongPollingBot {
             if (message.hasText()) {
                 String text = message.getText();
                 if (text.equals("/start")) {
-                    SendMessage sendMessage = new SendMessage();
-                    sendMessage.setChatId(message.getChatId());
-                    sendMessage.setText("Hello!");
-                    try {
-                        execute(sendMessage);
-                    } catch (TelegramApiException e) {
-                        e.printStackTrace();
-                    }
-//                    User user = new User();
-//                    user.setId(message.getChatId());
-//                    user.setUsername(message.getChat().getUserName());
-//                    controller.startBot(user, this);
+                    User user = new User();
+                    user.setId(message.getChatId());
+                    user.setUsername(message.getChat().getUserName());
+                    controller.startBot(user, this);
                 }
             }
         } else if (update.hasCallbackQuery()) {

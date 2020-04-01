@@ -16,7 +16,7 @@ public class StartMessage {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(user.getId());
         sendMessage.setText(text);
-        setButtons(sendMessage);
+//        setButtons(sendMessage);
 
         try {
             bot.execute(sendMessage);
