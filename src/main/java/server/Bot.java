@@ -23,6 +23,11 @@ public class Bot extends TelegramLongPollingBot {
                     user.setId(message.getChatId());
                     user.setUsername(message.getChat().getUserName());
                     controller.startBot(user, this);
+                } else if (text.equals("Список сайтов")) {
+                    User user = new User();
+                    user.setId(message.getChatId());
+                    user.setUsername(message.getChat().getUserName());
+                    controller.getAndSendHostsList(user, this);
                 }
             }
         } else if (update.hasCallbackQuery()) {
