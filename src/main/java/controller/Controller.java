@@ -6,6 +6,7 @@ import service.HelpTextService;
 import service.HostService;
 import service.UserService;
 import view.AboutBotMessage;
+import view.HostNameRequestMessage;
 import view.HostsListMessage;
 import view.StartMessage;
 
@@ -19,6 +20,7 @@ public class Controller {
     private StartMessage startMessage = new StartMessage();
     private HostsListMessage hostsListMessage = new HostsListMessage();
     private AboutBotMessage aboutBotMessage = new AboutBotMessage();
+    HostNameRequestMessage hostNameRequestMessage = new HostNameRequestMessage();
 
     /**
      * Метод добавляет юзера в БД если его там нет
@@ -43,8 +45,14 @@ public class Controller {
         hostsListMessage.sendMessage(user, text, hostsList, bot);
     }
 
-    public void getAndSendAboutBot(User user, Bot bot) {
+    public void getAndSendAboutBotInfo(User user, Bot bot) {
         String text = helpTextService.getByCode("about_bot");
         aboutBotMessage.sendMessage(user, text, bot);
+    }
+
+    public void sendHostNameRequest(User user, Bot bot) {
+        userService.updateUserState(user);
+        String text = helpTextService.getByCode("enter_host_name");
+        hostNameRequestMessage.sendMessage(user, text, bot);
     }
 }
