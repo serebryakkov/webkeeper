@@ -28,7 +28,7 @@ public class HostsListMessage {
     public void setInlineButtons(SendMessage sendMessage, Map<Integer, String> hostsList) {
         List<List<InlineKeyboardButton>> inlineKeyboardButtons = new ArrayList<>();
         List<InlineKeyboardButton> buttons;
-        if (hostsList != null) {
+        if (hostsList.size() > 0) {
             for (Map.Entry<Integer, String> pair : hostsList.entrySet()) {
                 buttons = new ArrayList<>();
                 buttons.add(new InlineKeyboardButton().setText(pair.getValue()).

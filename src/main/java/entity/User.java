@@ -1,16 +1,16 @@
 package entity;
 
 public class User {
-    private long id;
+    private long uid;
     private String username;
     private State state;
 
     public long getId() {
-        return id;
+        return uid;
     }
 
     public void setId(long id) {
-        this.id = id;
+        this.uid = id;
     }
 
     public String getUsername() {

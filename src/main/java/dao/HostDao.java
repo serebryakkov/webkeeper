@@ -35,7 +35,7 @@ public class HostDao {
     }
 
     public Map<Integer, String> getAllByUserId(long userId) {
-        Map<Integer, String> result = null;
+        Map<Integer, String> result = new HashMap<>();
         String sql = "SELECT id, url FROM hosts WHERE uid = ?";
 
         try (Connection connection = DAOFactory.getConnection();
@@ -45,7 +45,6 @@ public class HostDao {
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                result = new HashMap<>();
                 result.put(rs.getInt(1), rs.getString(2));
             }
 

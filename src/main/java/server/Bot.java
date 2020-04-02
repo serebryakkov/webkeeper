@@ -24,7 +24,6 @@ public class Bot extends TelegramLongPollingBot {
                     user.setUsername(message.getChat().getUserName());
                     controller.startBot(user, this);
                 } else if (text.equals("Список сайтов")) {
-                    System.out.println("Ветка условия 'Список сайтов'");
                     User user = new User();
                     user.setId(message.getChatId());
                     user.setUsername(message.getChat().getUserName());
