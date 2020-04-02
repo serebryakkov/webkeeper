@@ -13,7 +13,6 @@ import java.util.Map;
 
 public class HostsListMessage {
     public void sendMessage(User user, String text, Map<Integer, String> hostsList, Bot bot) {
-        System.out.println("Метод sendMessage (HostsListMessage) вызван");
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(user.getId());
         sendMessage.setText(text);
@@ -29,7 +28,7 @@ public class HostsListMessage {
     public void setInlineButtons(SendMessage sendMessage, Map<Integer, String> hostsList) {
         List<List<InlineKeyboardButton>> inlineKeyboardButtons = new ArrayList<>();
         List<InlineKeyboardButton> buttons;
-        if (hostsList.size() > 0) {
+        if (hostsList != null) {
             for (Map.Entry<Integer, String> pair : hostsList.entrySet()) {
                 buttons = new ArrayList<>();
                 buttons.add(new InlineKeyboardButton().setText(pair.getValue()).

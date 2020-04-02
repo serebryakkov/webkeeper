@@ -29,7 +29,6 @@ public class Controller {
     }
 
     public void getAndSendHostsList(User user, Bot bot) {
-        System.out.println("Метод getAndSendHostsList вызван");
         HostService hostService = new HostService();
         HostsListMessage hostsListMessage = new HostsListMessage();
         Map<Integer, String> hostsList = hostService.getAllByUserId(user);
