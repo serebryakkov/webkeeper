@@ -18,27 +18,39 @@ public class Bot extends TelegramLongPollingBot {
         if (update.hasMessage()) {
             Message message = update.getMessage();
             if (message.hasText()) {
-                String text = message.getText();
-                User user = new User();
-                user.setId(message.getChatId());
-                user.setUsername(message.getChat().getUserName());
-                if (text.equals("/start")) {
-                    controller.startBot(user, this);
-                } else if (text.equals("Список сайтов")) {
-                    controller.getAndSendHostsList(user, this);
-                } else if (text.equals("О боте")) {
-                    controller.getAndSendAboutBotInfo(user, this);
-                }
+                processMessage(message);
             }
         } else if (update.hasCallbackQuery()) {
             CallbackQuery callbackQuery = update.getCallbackQuery();
-            String callbackQueryData = callbackQuery.getData();
-            User user = new User();
-            user.setId(callbackQuery.getFrom().getId());
-            if (callbackQueryData.equals("add_host")) {
-                user.setState(User.State.SITE_ADDING);
-                controller.sendHostNameRequest(user, this);
-            }
+            processCallbackQuery(callbackQuery);
+        }
+    }
+
+    private void processMessage(Message message) {
+        String text = message.getText();
+        User user = new User();
+        user.setId(message.getChatId());
+        user.setUsername(message.getChat().getUserName());
+        switch (text) {
+            case "/start":
+                controller.startBot(user, this);
+                break;
+            case "Список сайтов":
+                controller.getAndSendHostsList(user, this);
+                break;
+            case "О боте":
+                controller.getAndSendAboutBotInfo(user, this);
+                break;
+        }
+    }
+
+    private void processCallbackQuery(CallbackQuery callbackQuery) {
+        String callbackQueryData = callbackQuery.getData();
+        User user = new User();
+        user.setId(callbackQuery.getFrom().getId());
+        if (callbackQueryData.equals("add_host")) {
+            user.setState(User.State.SITE_ADDING);
+            controller.sendHostNameRequest(user, this);
         }
     }
 
