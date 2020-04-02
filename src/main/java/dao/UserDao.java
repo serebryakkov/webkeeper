@@ -44,4 +44,17 @@ public class UserDao {
 
         return user;
     }
+
+    public void updateUserState(User user) {
+        String sql = "UPDATE users SET state = ? WHERE uid = ?";
+
+        try (Connection connection = DAOFactory.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, user.getState().toString());
+            pstmt.setLong(2, user.getId());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
