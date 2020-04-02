@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 public class HelpTextDao {
     public String getByCode(String code) {
+        System.out.println("Метод getByCode (HelpTextDao) вызван");
         String helpText = null;
         String sql = "SELECT text FROM help_texts WHERE code = ?";
 

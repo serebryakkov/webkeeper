@@ -35,6 +35,7 @@ public class HostDao {
     }
 
     public Map<Integer, String> getAllByUserId(long userId) {
+        System.out.println("Метод getAllByUserId (HostDao) вызван");
         Map<Integer, String> result = null;
         String sql = "SELECT id, url FROM hosts WHERE uid = ?";
 
