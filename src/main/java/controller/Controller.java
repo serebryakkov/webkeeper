@@ -5,10 +5,7 @@ import server.Bot;
 import service.HelpTextService;
 import service.HostService;
 import service.UserService;
-import view.AboutBotMessage;
-import view.HostNameRequestMessage;
-import view.HostsListMessage;
-import view.StartMessage;
+import view.*;
 
 import java.util.Map;
 
@@ -20,7 +17,8 @@ public class Controller {
     private StartMessage startMessage = new StartMessage();
     private HostsListMessage hostsListMessage = new HostsListMessage();
     private AboutBotMessage aboutBotMessage = new AboutBotMessage();
-    HostNameRequestMessage hostNameRequestMessage = new HostNameRequestMessage();
+    private HostNameRequestMessage hostNameRequestMessage = new HostNameRequestMessage();
+    private HostAddingCancelMessage hostAddingCancelMessage = new HostAddingCancelMessage();
 
     /**
      * Метод добавляет юзера в БД если его там нет
@@ -54,5 +52,12 @@ public class Controller {
         userService.updateUserState(user);
         String text = helpTextService.getByCode("enter_host_name");
         hostNameRequestMessage.sendMessage(user, text, bot);
+    }
+
+    public void cancelHostAdding(User user, Bot bot) {
+        userService.updateUserState(user);
+        String text = helpTextService.getByCode("site_adding_cancel");
+        hostAddingCancelMessage.sendMessage(user, text, bot);
+        getAndSendHostsList(user, bot);
     }
 }

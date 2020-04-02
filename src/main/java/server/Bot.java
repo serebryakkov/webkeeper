@@ -41,6 +41,9 @@ public class Bot extends TelegramLongPollingBot {
             case "О боте":
                 controller.getAndSendAboutBotInfo(user, this);
                 break;
+            case "Отмена":
+                user.setState(User.State.NULL);
+                controller.cancelHostAdding(user, this);
         }
     }
 

@@ -57,4 +57,25 @@ public class UserDao {
             e.printStackTrace();
         }
     }
+
+    public User.State getUserState(User user) {
+        String sql = "SELECT state FROM users WHERE uid = ?";
+        User.State userState = null;
+
+        try (Connection connection = DAOFactory.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setLong(1, user.getId());
+
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                userState = User.State.valueOf(rs.getString(1));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return userState;
+    }
 }
