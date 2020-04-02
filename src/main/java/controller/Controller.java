@@ -5,6 +5,7 @@ import server.Bot;
 import service.HelpTextService;
 import service.HostService;
 import service.UserService;
+import view.AboutBotMessage;
 import view.HostsListMessage;
 import view.StartMessage;
 
@@ -17,6 +18,7 @@ public class Controller {
 
     private StartMessage startMessage = new StartMessage();
     private HostsListMessage hostsListMessage = new HostsListMessage();
+    private AboutBotMessage aboutBotMessage = new AboutBotMessage();
 
     /**
      * Метод добавляет юзера в БД если его там нет
@@ -39,5 +41,10 @@ public class Controller {
         Map<Integer, String> hostsList = hostService.getAllByUserId(user);
         String text = helpTextService.getByCode("hosts_list");
         hostsListMessage.sendMessage(user, text, hostsList, bot);
+    }
+
+    public void getAndSendAboutBot(User user, Bot bot) {
+        String text = helpTextService.getByCode("about_bot");
+        aboutBotMessage.sendMessage(user, text, bot);
     }
 }

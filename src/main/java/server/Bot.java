@@ -28,6 +28,11 @@ public class Bot extends TelegramLongPollingBot {
                     user.setId(message.getChatId());
                     user.setUsername(message.getChat().getUserName());
                     controller.getAndSendHostsList(user, this);
+                } else if (text.equals("О боте")) {
+                    User user = new User();
+                    user.setId(message.getChatId());
+                    user.setUsername(message.getChat().getUserName());
+                    controller.getAndSendAboutBot(user, this);
                 }
             }
         } else if (update.hasCallbackQuery()) {
