@@ -13,6 +13,7 @@ import java.util.Map;
 
 public class HostsListMessage {
     public void sendMessage(User user, String text, Map<Integer, String> hostsList, Bot bot) {
+        System.out.println("Метод sendMessage (HostsListMessage) вызван");
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(user.getId());
         sendMessage.setText(text);
