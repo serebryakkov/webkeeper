@@ -11,4 +11,8 @@ public class UserService {
             userDao.add(user);
         }
     }
+
+    public void updateUserState(User user) {
+        userDao.updateUserState(user);
+    }
 }

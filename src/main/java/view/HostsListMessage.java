@@ -37,7 +37,7 @@ public class HostsListMessage {
             }
         }
         buttons = new ArrayList<>();
-        buttons.add(new InlineKeyboardButton().setText("Добавить сайт").setCallbackData("add_site"));
+        buttons.add(new InlineKeyboardButton().setText("Добавить сайт").setCallbackData("add_host"));
         inlineKeyboardButtons.add(buttons);
 
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
