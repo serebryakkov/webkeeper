@@ -1,5 +1,6 @@
 package controller;
 
+import entity.Host;
 import entity.User;
 import server.Bot;
 import service.HelpTextService;
@@ -17,6 +18,7 @@ public class Controller {
     private Message message = new Message();
     private HostsListMessage hostsListMessage = new HostsListMessage();
     private HostNameRequestMessage hostNameRequestMessage = new HostNameRequestMessage();
+    private HostInfoMessage hostInfoMessage = new HostInfoMessage();
 
     /**
      * Метод добавляет юзера в БД если его там нет
@@ -64,5 +66,10 @@ public class Controller {
         String text = helpTextService.getByCode("host_successfully_added");
         message.sendMessage(user, text, bot);
         getAndSendHostsList(user, bot);
+    }
+
+    public void getAndSendHostInfo(User user, String hostId, Bot bot) {
+        Host host = hostService.getById(Integer.parseInt(hostId));
+        hostInfoMessage.sendMessage(user, host, bot);
     }
 }
