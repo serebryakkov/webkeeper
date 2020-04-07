@@ -63,6 +63,8 @@ public class Controller {
 
     public void hostAddAndSendMessage(User user, String url, Bot bot) {
         hostService.add(user, url);
+        user.setState(User.State.NULL);
+        userService.updateUserState(user);
         String text = helpTextService.getByCode("host_successfully_added");
         message.sendMessage(user, text, bot);
         getAndSendHostsList(user, bot);
