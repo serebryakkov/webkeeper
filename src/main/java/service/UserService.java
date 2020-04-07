@@ -15,4 +15,8 @@ public class UserService {
     public void updateUserState(User user) {
         userDao.updateUserState(user);
     }
+
+    public User.State getUserState(User user) {
+        return userDao.getUserState(user);
+    }
 }

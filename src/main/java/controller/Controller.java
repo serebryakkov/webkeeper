@@ -14,11 +14,9 @@ public class Controller {
     private HelpTextService helpTextService = new HelpTextService();
     private HostService hostService = new HostService();
 
-    private StartMessage startMessage = new StartMessage();
+    private Message message = new Message();
     private HostsListMessage hostsListMessage = new HostsListMessage();
-    private AboutBotMessage aboutBotMessage = new AboutBotMessage();
     private HostNameRequestMessage hostNameRequestMessage = new HostNameRequestMessage();
-    private HostAddingCancelMessage hostAddingCancelMessage = new HostAddingCancelMessage();
 
     /**
      * Метод добавляет юзера в БД если его там нет
@@ -29,7 +27,7 @@ public class Controller {
     public void startBot(User user, Bot bot) {
         userService.add(user);
         String text = helpTextService.getByCode("welcome");
-        startMessage.sendMessage(user, text, bot);
+        message.sendMessage(user, text, bot);
     }
 
     /**
@@ -45,7 +43,7 @@ public class Controller {
 
     public void getAndSendAboutBotInfo(User user, Bot bot) {
         String text = helpTextService.getByCode("about_bot");
-        aboutBotMessage.sendMessage(user, text, bot);
+        message.sendMessage(user, text, bot);
     }
 
     public void sendHostNameRequest(User user, Bot bot) {
@@ -57,7 +55,14 @@ public class Controller {
     public void cancelHostAdding(User user, Bot bot) {
         userService.updateUserState(user);
         String text = helpTextService.getByCode("site_adding_cancel");
-        hostAddingCancelMessage.sendMessage(user, text, bot);
+        message.sendMessage(user, text, bot);
+        getAndSendHostsList(user, bot);
+    }
+
+    public void hostAddAndSendMessage(User user, String url, Bot bot) {
+        hostService.add(user, url);
+        String text = helpTextService.getByCode("host_successfully_added");
+        message.sendMessage(user, text, bot);
         getAndSendHostsList(user, bot);
     }
 }

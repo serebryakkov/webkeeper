@@ -9,9 +9,11 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
+import service.UserService;
 
 public class Bot extends TelegramLongPollingBot {
     private Controller controller = new Controller();
+    private UserService userService = new UserService();
 
     @Override
     public void onUpdateReceived(Update update) {
@@ -31,6 +33,7 @@ public class Bot extends TelegramLongPollingBot {
         User user = new User();
         user.setId(message.getChatId());
         user.setUsername(message.getChat().getUserName());
+
         switch (text) {
             case "/start":
                 controller.startBot(user, this);
@@ -44,6 +47,10 @@ public class Bot extends TelegramLongPollingBot {
             case "Отмена":
                 user.setState(User.State.NULL);
                 controller.cancelHostAdding(user, this);
+        }
+
+        if (userService.getUserState(user).equals(User.State.SITE_ADDING)) {
+            controller.hostAddAndSendMessage(user, text, this);
         }
     }
 

@@ -11,7 +11,7 @@ import server.Bot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StartMessage {
+public class Message {
     public void sendMessage(User user, String text, Bot bot) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(user.getId());

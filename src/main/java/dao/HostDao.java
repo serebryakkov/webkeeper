@@ -1,6 +1,7 @@
 package dao;
 
 import entity.Host;
+import entity.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,6 +11,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HostDao {
+    public void add(User user, String url) {
+        String sql = "INSERT INTO hosts (url, uid) VALUES (?, ?)";
+
+        try (Connection connection = DAOFactory.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, url);
+            pstmt.setLong(2, user.getId());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public Host getById(int id) {
         Host host = null;
         String sql = "SELECT id, url, available FROM hosts WHERE id = ?";
