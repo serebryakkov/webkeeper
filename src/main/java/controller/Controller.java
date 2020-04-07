@@ -77,7 +77,7 @@ public class Controller {
 
     public void deleteHostAndSendMessage(User user, String hostId, Bot bot) {
         hostService.remove(user, Integer.parseInt(hostId));
-        String text = helpTextService.getByCode("host_successfully_deleted'");
+        String text = helpTextService.getByCode("host_successfully_deleted");
         message.sendMessage(user, text, bot);
         getAndSendHostsList(user, bot);
     }
