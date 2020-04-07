@@ -68,4 +68,16 @@ public class HostDao {
 
         return result;
     }
+
+    public void remove(User user, int id) {
+        String sql = "DELETE FROM hosts WHERE id = ?";
+
+        try (Connection connection = DAOFactory.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

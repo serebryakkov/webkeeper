@@ -20,4 +20,8 @@ public class HostService {
     public Map<Integer, String> getAllByUserId(User user) {
         return hostDao.getAllByUserId(user.getId());
     }
+
+    public void remove(User user, int id) {
+        hostDao.remove(user, id);
+    }
 }
