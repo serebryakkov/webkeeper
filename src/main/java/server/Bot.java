@@ -31,7 +31,7 @@ public class Bot extends TelegramLongPollingBot {
     private void processMessage(Message message) {
         String text = message.getText();
         User user = new User();
-        user.setId(message.getChatId());
+        user.setUid(message.getChatId());
         user.setUsername(message.getChat().getUserName());
 
         switch (text) {
@@ -47,17 +47,17 @@ public class Bot extends TelegramLongPollingBot {
             case "Отмена":
                 user.setState(User.State.NULL);
                 controller.cancelHostAdding(user, this);
-        }
-
-        if (userService.getUserState(user).equals(User.State.SITE_ADDING)) {
-            controller.hostAddAndSendMessage(user, text, this);
+            default:
+                if (userService.getUserState(user).equals(User.State.SITE_ADDING))
+                    controller.hostAddAndSendMessage(user, text, this);
+                break;
         }
     }
 
     private void processCallbackQuery(CallbackQuery callbackQuery) {
         String callbackQueryData = callbackQuery.getData();
         User user = new User();
-        user.setId(callbackQuery.getFrom().getId());
+        user.setUid(callbackQuery.getFrom().getId());
         if (callbackQueryData.equals("add_host")) {
             user.setState(User.State.SITE_ADDING);
             controller.sendHostNameRequest(user, this);

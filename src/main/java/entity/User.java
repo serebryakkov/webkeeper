@@ -1,15 +1,18 @@
 package entity;
 
+import java.util.List;
+
 public class User {
     private long uid;
     private String username;
     private State state;
+    private List<Host> hosts;
 
     public long getId() {
         return uid;
     }
 
-    public void setId(long id) {
+    public void setUid(long id) {
         this.uid = id;
     }
 
@@ -27,6 +30,14 @@ public class User {
 
     public void setState(State state) {
         this.state = state;
+    }
+
+    public List<Host> getHosts() {
+        return hosts;
+    }
+
+    public void setHosts(List<Host> hosts) {
+        this.hosts = hosts;
     }
 
     public enum State {

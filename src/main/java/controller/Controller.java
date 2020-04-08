@@ -6,9 +6,9 @@ import server.Bot;
 import service.HelpTextService;
 import service.HostService;
 import service.UserService;
-import view.*;
+import ui.*;
 
-import java.util.Map;
+import java.util.List;
 
 public class Controller {
     private UserService userService = new UserService();
@@ -38,9 +38,10 @@ public class Controller {
      * @param bot Объект типа Bot для вызова метода execute при отправке сообщения.
      */
     public void getAndSendHostsList(User user, Bot bot) {
-        Map<Integer, String> hostsList = hostService.getAllByUserId(user);
+        List<Host> hosts = hostService.getAllByUserId(user);
+        user.setHosts(hosts);
         String text = helpTextService.getByCode("hosts_list");
-        hostsListMessage.sendMessage(user, text, hostsList, bot);
+        hostsListMessage.sendMessage(user, text, bot);
     }
 
     public void getAndSendAboutBotInfo(User user, Bot bot) {

@@ -1,5 +1,6 @@
-package view;
+package ui;
 
+import entity.Host;
 import entity.User;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -9,14 +10,14 @@ import server.Bot;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-public class HostsListMessage {
-    public void sendMessage(User user, String text, Map<Integer, String> hostsList, Bot bot) {
+public class HostInfoMessage {
+    public void sendMessage(User user, Host host, Bot bot) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(user.getId());
+        String text = host.getUrl() + "\n" + (host.isAvailable() ? "Доступен" : "Недоступен");
         sendMessage.setText(text);
-        setInlineButtons(sendMessage, hostsList);
+        setInlineButtons(sendMessage, host);
 
         try {
             bot.execute(sendMessage);
@@ -25,19 +26,13 @@ public class HostsListMessage {
         }
     }
 
-    public void setInlineButtons(SendMessage sendMessage, Map<Integer, String> hostsList) {
+    public void setInlineButtons(SendMessage sendMessage, Host host) {
         List<List<InlineKeyboardButton>> inlineKeyboardButtons = new ArrayList<>();
         List<InlineKeyboardButton> buttons;
-        if (hostsList.size() > 0) {
-            for (Map.Entry<Integer, String> pair : hostsList.entrySet()) {
-                buttons = new ArrayList<>();
-                buttons.add(new InlineKeyboardButton().setText(pair.getValue()).
-                        setCallbackData("site_" + pair.getKey()));
-                inlineKeyboardButtons.add(buttons);
-            }
-        }
+
         buttons = new ArrayList<>();
-        buttons.add(new InlineKeyboardButton().setText("Добавить сайт").setCallbackData("add_host"));
+        buttons.add(new InlineKeyboardButton().setText("Удалить сайт")
+                .setCallbackData("delete_host_" + host.getId()));
         inlineKeyboardButtons.add(buttons);
 
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();

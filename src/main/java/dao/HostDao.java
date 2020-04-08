@@ -7,7 +7,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class HostDao {
@@ -48,18 +50,22 @@ public class HostDao {
         return host;
     }
 
-    public Map<Integer, String> getAllByUserId(long userId) {
-        Map<Integer, String> result = new HashMap<>();
+    public List<Host> getAllByUserId(User user) {
+        List<Host> result = new ArrayList<>();
+        Host host;
         String sql = "SELECT id, url FROM hosts WHERE uid = ?";
 
         try (Connection connection = DAOFactory.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setLong(1, userId);
+            pstmt.setLong(1, user.getId());
 
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                result.put(rs.getInt(1), rs.getString(2));
+                host = new Host();
+                host.setId(rs.getInt(1));
+                host.setUrl(rs.getString(2));
+                result.add(host);
             }
 
         } catch (SQLException e) {

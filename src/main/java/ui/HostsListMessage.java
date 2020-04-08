@@ -1,4 +1,4 @@
-package view;
+package ui;
 
 import entity.Host;
 import entity.User;
@@ -11,13 +11,12 @@ import server.Bot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HostInfoMessage {
-    public void sendMessage(User user, Host host, Bot bot) {
+public class HostsListMessage {
+    public void sendMessage(User user, String text, Bot bot) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(user.getId());
-        String text = host.getUrl() + "\n" + (host.isAvailable() ? "Доступен" : "Недоступен");
         sendMessage.setText(text);
-        setInlineButtons(sendMessage, host);
+        setInlineButtons(sendMessage, user.getHosts());
 
         try {
             bot.execute(sendMessage);
@@ -26,13 +25,19 @@ public class HostInfoMessage {
         }
     }
 
-    public void setInlineButtons(SendMessage sendMessage, Host host) {
+    public void setInlineButtons(SendMessage sendMessage, List<Host> hosts) {
         List<List<InlineKeyboardButton>> inlineKeyboardButtons = new ArrayList<>();
         List<InlineKeyboardButton> buttons;
-
+        if (hosts.size() > 0) {
+            for (Host host : hosts) {
+                buttons = new ArrayList<>();
+                buttons.add(new InlineKeyboardButton().setText(host.getUrl()).
+                        setCallbackData("site_" + host.getId()));
+                inlineKeyboardButtons.add(buttons);
+            }
+        }
         buttons = new ArrayList<>();
-        buttons.add(new InlineKeyboardButton().setText("Удалить сайт")
-                .setCallbackData("delete_host_" + host.getId()));
+        buttons.add(new InlineKeyboardButton().setText("Добавить сайт").setCallbackData("add_host"));
         inlineKeyboardButtons.add(buttons);
 
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();

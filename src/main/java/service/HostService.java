@@ -4,7 +4,7 @@ import dao.HostDao;
 import entity.Host;
 import entity.User;
 
-import java.util.Map;
+import java.util.List;
 
 public class HostService {
     private HostDao hostDao = new HostDao();
@@ -17,8 +17,8 @@ public class HostService {
         return hostDao.getById(id);
     }
 
-    public Map<Integer, String> getAllByUserId(User user) {
-        return hostDao.getAllByUserId(user.getId());
+    public List<Host> getAllByUserId(User user) {
+        return hostDao.getAllByUserId(user);
     }
 
     public void remove(User user, int id) {
