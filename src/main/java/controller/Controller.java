@@ -1,20 +1,15 @@
 package controller;
 
+import entity.HelpText;
 import entity.Host;
+import entity.Monitor;
 import entity.User;
 import server.Bot;
-import service.HelpTextService;
-import service.HostService;
-import service.UserService;
 import ui.*;
 
 import java.util.List;
 
 public class Controller {
-    private UserService userService = new UserService();
-    private HelpTextService helpTextService = new HelpTextService();
-    private HostService hostService = new HostService();
-
     private Message message = new Message();
     private HostsListMessage hostsListMessage = new HostsListMessage();
     private HostNameRequestMessage hostNameRequestMessage = new HostNameRequestMessage();
@@ -27,8 +22,8 @@ public class Controller {
      * @param bot Объект типа Bot для вызова метода execute при отправке сообщения.
      */
     public void startBot(User user, Bot bot) {
-        userService.add(user);
-        String text = helpTextService.getByCode("welcome");
+        User.add(user);
+        String text = HelpText.getByCode("welcome");
         message.sendMessage(user, text, bot);
     }
 
@@ -38,47 +33,51 @@ public class Controller {
      * @param bot Объект типа Bot для вызова метода execute при отправке сообщения.
      */
     public void getAndSendHostsList(User user, Bot bot) {
-        List<Host> hosts = hostService.getAllByUserId(user);
+        List<Host> hosts = Host.getAllByUserId(user);
         user.setHosts(hosts);
-        String text = helpTextService.getByCode("hosts_list");
+        String text = HelpText.getByCode("hosts_list");
         hostsListMessage.sendMessage(user, text, bot);
     }
 
     public void getAndSendAboutBotInfo(User user, Bot bot) {
-        String text = helpTextService.getByCode("about_bot");
+        String text = HelpText.getByCode("about_bot");
         message.sendMessage(user, text, bot);
     }
 
     public void sendHostNameRequest(User user, Bot bot) {
-        userService.updateUserState(user);
-        String text = helpTextService.getByCode("enter_host_name");
+        User.updateUserState(user);
+        String text = HelpText.getByCode("enter_host_name");
         hostNameRequestMessage.sendMessage(user, text, bot);
     }
 
     public void cancelHostAdding(User user, Bot bot) {
-        userService.updateUserState(user);
-        String text = helpTextService.getByCode("site_adding_cancel");
+        User.updateUserState(user);
+        String text = HelpText.getByCode("site_adding_cancel");
         message.sendMessage(user, text, bot);
         getAndSendHostsList(user, bot);
     }
 
     public void hostAddAndSendMessage(User user, String url, Bot bot) {
-        hostService.add(user, url);
+        Host host = new Host();
+        host.setUrl(url);
+        host.setUid(user.getId());
+        Host.add(host);
+        new Monitor(host, user, bot);
         user.setState(User.State.NULL);
-        userService.updateUserState(user);
-        String text = helpTextService.getByCode("host_successfully_added");
+        User.updateUserState(user);
+        String text = HelpText.getByCode("host_successfully_added");
         message.sendMessage(user, text, bot);
         getAndSendHostsList(user, bot);
     }
 
     public void getAndSendHostInfo(User user, String hostId, Bot bot) {
-        Host host = hostService.getById(Integer.parseInt(hostId));
+        Host host = Host.getById(Integer.parseInt(hostId));
         hostInfoMessage.sendMessage(user, host, bot);
     }
 
     public void deleteHostAndSendMessage(User user, String hostId, Bot bot) {
-        hostService.remove(user, Integer.parseInt(hostId));
-        String text = helpTextService.getByCode("host_successfully_deleted");
+        Host.remove(user, Integer.parseInt(hostId));
+        String text = HelpText.getByCode("host_successfully_deleted");
         message.sendMessage(user, text, bot);
         getAndSendHostsList(user, bot);
     }

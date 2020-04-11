@@ -1,8 +1,12 @@
 package entity;
 
+import dao.UserDao;
+
 import java.util.List;
 
 public class User {
+    private static UserDao userDao;
+
     private long uid;
     private String username;
     private State state;
@@ -38,6 +42,24 @@ public class User {
 
     public void setHosts(List<Host> hosts) {
         this.hosts = hosts;
+    }
+
+    public static void add(User user) {
+        userDao = new UserDao();
+        if (userDao.getById(user.getId()) == null) {
+            userDao.add(user);
+        }
+        userDao = null;
+    }
+
+    public static State getUserState(User user) {
+        return new UserDao().getUserState(user);
+    }
+
+    public static void updateUserState(User user) {
+        userDao = new UserDao();
+        userDao.updateUserState(user);
+        userDao = null;
     }
 
     public enum State {

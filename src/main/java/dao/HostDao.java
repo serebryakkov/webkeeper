@@ -8,18 +8,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class HostDao {
-    public void add(User user, String url) {
+    public void add(Host host) {
         String sql = "INSERT INTO hosts (url, uid) VALUES (?, ?)";
 
         try (Connection connection = DAOFactory.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setString(1, url);
-            pstmt.setLong(2, user.getId());
+            pstmt.setString(1, host.getUrl());
+            pstmt.setLong(2, host.getUid());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -50,6 +48,29 @@ public class HostDao {
         return host;
     }
 
+    public List<Host> getAll() {
+        List<Host> allHosts = new ArrayList<>();
+        Host host;
+        String sql = "SELECT id, url, available FROM hosts";
+
+        try (Connection connection = DAOFactory.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                host = new Host();
+                host.setId(rs.getInt(1));
+                host.setUrl(rs.getString(2));
+                host.setAvailable(rs.getBoolean(3));
+                allHosts.add(host);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return allHosts;
+    }
+
     public List<Host> getAllByUserId(User user) {
         List<Host> result = new ArrayList<>();
         Host host;
@@ -73,6 +94,19 @@ public class HostDao {
         }
 
         return result;
+    }
+
+    public void updateAvailable(Host host) {
+        String sql = "UPDATE hosts SET available = ? WHERE id = ?";
+
+        try (Connection connection = DAOFactory.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setBoolean(1, true);
+            pstmt.setInt(2, host.getId());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void remove(User user, int id) {

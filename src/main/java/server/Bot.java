@@ -9,11 +9,9 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
-import service.UserService;
 
 public class Bot extends TelegramLongPollingBot {
     private Controller controller = new Controller();
-    private UserService userService = new UserService();
 
     @Override
     public void onUpdateReceived(Update update) {
@@ -48,7 +46,7 @@ public class Bot extends TelegramLongPollingBot {
                 user.setState(User.State.NULL);
                 controller.cancelHostAdding(user, this);
             default:
-                if (userService.getUserState(user).equals(User.State.SITE_ADDING))
+                if (User.getUserState(user).equals(User.State.SITE_ADDING))
                     controller.hostAddAndSendMessage(user, text, this);
                 break;
         }
