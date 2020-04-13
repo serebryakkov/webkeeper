@@ -101,7 +101,7 @@ public class HostDao {
 
         try (Connection connection = DAOFactory.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setBoolean(1, true);
+            pstmt.setBoolean(1, host.isAvailable());
             pstmt.setInt(2, host.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
