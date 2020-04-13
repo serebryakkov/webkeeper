@@ -1,6 +1,7 @@
 package server;
 
 import controller.Controller;
+import entity.Monitor;
 import entity.User;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -11,6 +12,11 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
 public class Bot extends TelegramLongPollingBot {
+
+    {
+        Monitor.setBot(this);
+    }
+
     private Controller controller = new Controller();
 
     @Override

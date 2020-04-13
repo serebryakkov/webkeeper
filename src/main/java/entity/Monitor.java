@@ -12,47 +12,53 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class Monitor extends Thread {
-    private static List<Monitor> monitors = new ArrayList<>();
+    private static final List<Monitor> monitors = new ArrayList<>();
+    private static Bot bot;
 
     static {
         List<Host> hosts = Host.getAll();
         if (hosts.size() > 0) {
             for (Host host : hosts) {
-                new Monitor(host);
+                User user = new User();
+                user.setUid(host.getUid());
+                monitors.add(new Monitor(host, user));
             }
         }
     }
 
     private Host host;
     private User user;
-    private Bot bot;
 
-    public Monitor(Host host) {
+    public Monitor(Host host, User user) {
         this.host = host;
+        this.user = user;
         monitors.add(this);
         this.start();
     }
 
-    public Monitor(Host host, User user, Bot bot) {
-        this.host = host;
-        this.user = user;
-        this.bot = bot;
-        monitors.add(this);
-        this.start();
+    public static void setBot(Bot bot) {
+        bot = bot;
+    }
+
+    public static void stopAndRemoveMonitor() {
+       //TODO реализовать метод остановки нити и ее удаление из списка monitors
     }
 
     @Override
     public void run() {
         URL url = null;
-        try {
-            url = new URL(host.getUrl());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+        HttpURLConnection urlConnection;
 
         while (!isInterrupted()) {
             try {
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                url = new URL(host.getUrl());
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+
+
+            try {
+                urlConnection = (HttpURLConnection) url.openConnection();
                 int responseCode = urlConnection.getResponseCode();
 
                 if (responseCode == 200) {
@@ -64,8 +70,8 @@ public class Monitor extends Thread {
                     }
                 } else if (responseCode == 301 || responseCode == 302) {
                     url = new URL(urlConnection.getHeaderField("Location"));
-                    HttpURLConnection newConnection = (HttpURLConnection) url.openConnection();
-                    int newResponseCode = newConnection.getResponseCode();
+                    urlConnection = (HttpURLConnection) url.openConnection();
+                    int newResponseCode = urlConnection.getResponseCode();
                     if (newResponseCode == 200) {
                         if (!host.isAvailable()) {
                             host.setAvailable(true);
@@ -75,7 +81,6 @@ public class Monitor extends Thread {
                         }
                     }
                 }
-
             } catch (IOException e) {
                 if (host.isAvailable()) {
                     host.setAvailable(false);

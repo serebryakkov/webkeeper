@@ -62,7 +62,7 @@ public class Controller {
         host.setUrl(url);
         host.setUid(user.getId());
         Host.add(host);
-        new Monitor(host, user, bot);
+        new Monitor(host, user);
         user.setState(User.State.NULL);
         User.updateUserState(user);
         String text = HelpText.getByCode("host_successfully_added");

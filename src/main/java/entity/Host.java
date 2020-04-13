@@ -42,6 +42,8 @@ public class Host {
         this.uid = uid;
     }
 
+
+    //DAO методы
     public static void add(Host host) {
         new HostDao().add(host);
     }
