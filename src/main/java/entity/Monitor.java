@@ -36,8 +36,8 @@ public class Monitor extends Thread {
         this.start();
     }
 
-    public static void setBot(Bot bot) {
-        bot = bot;
+    public static void setBot(Bot workBot) {
+        bot = workBot;
     }
 
     public static void stopAndRemoveMonitor() {
