@@ -18,7 +18,7 @@ public class Monitor extends Thread {
         List<Host> hosts = Host.getAll();
         if (hosts.size() > 0) {
             for (Host host : hosts) {
-                new Monitor(host).start();
+                new Monitor(host);
             }
         }
     }
