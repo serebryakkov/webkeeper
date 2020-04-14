@@ -77,6 +77,7 @@ public class Controller {
 
     public void deleteHostAndSendMessage(User user, String hostId, Bot bot) {
         Host.remove(user, Integer.parseInt(hostId));
+        Monitor.stopAndRemoveMonitor(Host.getById(Integer.parseInt(hostId)));
         String text = HelpText.getByCode("host_successfully_deleted");
         message.sendMessage(user, text, bot);
         getAndSendHostsList(user, bot);

@@ -14,6 +14,7 @@ import java.util.List;
 public class HostsListMessage {
     public void sendMessage(User user, String text, Bot bot) {
         SendMessage sendMessage = new SendMessage();
+        sendMessage.disableWebPagePreview();
         sendMessage.setChatId(user.getId());
         sendMessage.setText(text);
         setInlineButtons(sendMessage, user.getHosts());

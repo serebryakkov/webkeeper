@@ -14,6 +14,7 @@ import java.util.List;
 public class HostInfoMessage {
     public void sendMessage(User user, Host host, Bot bot) {
         SendMessage sendMessage = new SendMessage();
+        sendMessage.disableWebPagePreview();
         sendMessage.setChatId(user.getId());
         String text = host.getUrl() + "\n" + (host.isAvailable() ? "Доступен" : "Недоступен");
         sendMessage.setText(text);

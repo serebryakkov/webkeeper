@@ -5,7 +5,6 @@ import ui.Message;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,60 +39,52 @@ public class Monitor extends Thread {
         bot = workBot;
     }
 
-    public static void stopAndRemoveMonitor() {
-       //TODO реализовать метод остановки нити и ее удаление из списка monitors
+    private void checkHost(String hostUrl) {
+        try {
+            URL url = new URL(hostUrl);
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setConnectTimeout(40000);
+            int responseCode = urlConnection.getResponseCode();
+
+            if (responseCode == 200) {
+                if (!host.isAvailable()) {
+                    host.setAvailable(true);
+                    Host.updateAvailable(host);
+                    String text = host.getUrl() + "\n" + HelpText.getByCode("host_available");
+                    new Message().sendMessage(user, text, bot);
+                }
+            } else if (responseCode == 301 || responseCode == 302) {
+                String newUrl = urlConnection.getHeaderField("Location");
+                checkHost(newUrl);
+            }
+        } catch (IOException e) {
+            if (host.isAvailable()) {
+                host.setAvailable(false);
+                Host.updateAvailable(host);
+                String text = host.getUrl() + "\n" + HelpText.getByCode("host_not_available");
+                new Message().sendMessage(user, text, bot);
+            }
+        }
     }
 
     @Override
     public void run() {
-        URL url = null;
-        HttpURLConnection urlConnection;
-
         while (!isInterrupted()) {
-            try {
-                url = new URL(host.getUrl());
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-
-
-            try {
-                urlConnection = (HttpURLConnection) url.openConnection();
-                int responseCode = urlConnection.getResponseCode();
-
-                if (responseCode == 200) {
-                    if (!host.isAvailable()) {
-                        host.setAvailable(true);
-                        Host.updateAvailable(host);
-                        String text = host.getUrl() + "\n" + HelpText.getByCode("host_available");
-                        new Message().sendMessage(user, text, bot);
-                    }
-                } else if (responseCode == 301 || responseCode == 302) {
-                    url = new URL(urlConnection.getHeaderField("Location"));
-                    urlConnection = (HttpURLConnection) url.openConnection();
-                    int newResponseCode = urlConnection.getResponseCode();
-                    if (newResponseCode == 200) {
-                        if (!host.isAvailable()) {
-                            host.setAvailable(true);
-                            Host.updateAvailable(host);
-                            String text = host.getUrl() + "\n" + HelpText.getByCode("host_available");
-                            new Message().sendMessage(user, text, bot);
-                        }
-                    }
-                }
-            } catch (IOException e) {
-                if (host.isAvailable()) {
-                    host.setAvailable(false);
-                    Host.updateAvailable(host);
-                    String text = host.getUrl() + "\n" + HelpText.getByCode("host_not_available");
-                    new Message().sendMessage(user, text, bot);
-                }
-            }
+            checkHost(host.getUrl());
 
             try {
                 TimeUnit.MINUTES.sleep(30);
             } catch (InterruptedException e) {
                 e.printStackTrace();
+            }
+        }
+    }
+
+    public static void stopAndRemoveMonitor(Host host) {
+        for (Monitor monitor : monitors) {
+            if (monitor.host.equals(host)) {
+                monitor.interrupt();
+                monitors.remove(monitor);
             }
         }
     }
