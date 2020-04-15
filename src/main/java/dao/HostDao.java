@@ -4,7 +4,6 @@ import entity.Host;
 import entity.User;
 
 import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,12 +95,11 @@ public class HostDao {
 
     public void updateAvailable(Host host) {
         String sql = "UPDATE hosts SET available = ?, last_time_check = ? WHERE url = ? AND uid = ?";
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         try (Connection connection = DAOFactory.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setBoolean(1, host.isAvailable());
-            pstmt.setString(2, dateFormat.format(host.getLastTimeCheck()));
+            pstmt.setTimestamp(2, new Timestamp(host.getLastTimeCheck().getTime()));
             pstmt.setString(3, host.getUrl());
             pstmt.setLong(4, host.getUid());
             pstmt.executeUpdate();
