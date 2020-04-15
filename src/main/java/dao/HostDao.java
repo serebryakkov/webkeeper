@@ -97,12 +97,13 @@ public class HostDao {
     }
 
     public void updateAvailable(Host host) {
-        String sql = "UPDATE hosts SET available = ? WHERE id = ?";
+        String sql = "UPDATE hosts SET available = ? WHERE url = ? AND uid = ?";
 
         try (Connection connection = DAOFactory.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setString(1, (host.isAvailable()) ? "true" : "false");
-            pstmt.setInt(2, host.getId());
+            pstmt.setBoolean(1, host.isAvailable());
+            pstmt.setString(2, host.getUrl());
+            pstmt.setLong(3, host.getUid());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
