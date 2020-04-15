@@ -2,6 +2,7 @@ package entity;
 
 import dao.HostDao;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -10,6 +11,7 @@ public class Host {
     private String url;
     private boolean available;
     private long uid;
+    private Date lastTimeCheck;
 
     public int getId() {
         return id;
@@ -41,6 +43,14 @@ public class Host {
 
     public void setUid(long uid) {
         this.uid = uid;
+    }
+
+    public Date getLastTimeCheck() {
+        return lastTimeCheck;
+    }
+
+    public void setLastTimeCheck(Date lastTimeCheck) {
+        this.lastTimeCheck = lastTimeCheck;
     }
 
 
