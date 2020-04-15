@@ -6,7 +6,7 @@ import ui.Message;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -50,7 +50,7 @@ public class Monitor extends Thread {
             if (responseCode == 200) {
                 if (!host.isAvailable()) {
                     host.setAvailable(true);
-                    host.setLastTimeCheck(new Date(System.currentTimeMillis()));
+                    host.setLastTimeCheck(new Date());
                     Host.updateAvailable(host);
                     String text = host.getUrl() + "\n" + HelpText.getByCode("host_available");
                     new Message().sendMessage(user, text, bot);
@@ -62,6 +62,7 @@ public class Monitor extends Thread {
         } catch (IOException e) {
             if (host.isAvailable()) {
                 host.setAvailable(false);
+                host.setLastTimeCheck(new Date());
                 Host.updateAvailable(host);
                 String text = host.getUrl() + "\n" + HelpText.getByCode("host_not_available");
                 new Message().sendMessage(user, text, bot);
