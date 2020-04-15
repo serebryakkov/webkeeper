@@ -97,7 +97,7 @@ public class HostDao {
     }
 
     public void updateAvailable(Host host) {
-        String sql = "UPDATE hosts SET available = ? last_time_check = ? WHERE url = ? AND uid = ?";
+        String sql = "UPDATE hosts SET available = ?, last_time_check = ? WHERE url = ? AND uid = ?";
 
         try (Connection connection = DAOFactory.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
