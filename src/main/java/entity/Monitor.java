@@ -49,12 +49,12 @@ public class Monitor extends Thread {
 
             if (responseCode == 200) {
                 if (!host.isAvailable()) {
-                    host.setAvailable(true);
-                    host.setLastTimeCheck(new Date());
-                    Host.updateAvailable(host);
                     String text = host.getUrl() + "\n" + HelpText.getByCode("host_available");
                     new Message().sendMessage(user, text, bot);
                 }
+                host.setAvailable(true);
+                host.setLastTimeCheck(new Date());
+                Host.updateAvailable(host);
             } else if (responseCode == 301 || responseCode == 302) {
                 String newUrl = urlConnection.getHeaderField("Location");
                 checkHost(newUrl);
