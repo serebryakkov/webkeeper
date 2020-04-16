@@ -1,6 +1,7 @@
 package entity;
 
 import dao.HostDao;
+import org.apache.commons.validator.routines.UrlValidator;
 
 import java.util.Date;
 import java.util.List;
@@ -53,6 +54,25 @@ public class Host {
         this.lastTimeCheck = lastTimeCheck;
     }
 
+    public static boolean validateUrl(Host host) {
+        if (!host.url.startsWith("http://") && !host.url.startsWith("https://"))
+            host.url = "http://" + host.url;
+        return new UrlValidator().isValid(host.url);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Host host = (Host) o;
+        return uid == host.uid &&
+                url.equals(host.url);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(url, uid);
+    }
 
     //DAO методы
     public static void add(Host host) {
@@ -77,19 +97,5 @@ public class Host {
 
     public static void remove(User user, int id) {
         new HostDao().remove(user, id);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Host host = (Host) o;
-        return uid == host.uid &&
-                url.equals(host.url);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(url, uid);
     }
 }

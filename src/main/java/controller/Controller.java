@@ -61,13 +61,18 @@ public class Controller {
         Host host = new Host();
         host.setUrl(url);
         host.setUid(user.getId());
-        Host.add(host);
-        new Monitor(host, user);
-        user.setState(User.State.NULL);
-        User.updateUserState(user);
-        String text = HelpText.getByCode("host_successfully_added");
-        message.sendMessage(user, text, bot);
-        getAndSendHostsList(user, bot);
+        if (Host.validateUrl(host)) {
+            Host.add(host);
+            new Monitor(host, user);
+            user.setState(User.State.NULL);
+            User.updateUserState(user);
+            String text = HelpText.getByCode("host_successfully_added");
+            message.sendMessage(user, text, bot);
+            getAndSendHostsList(user, bot);
+        } else {
+            String text = HelpText.getByCode("invalid_url");
+            new Message().sendMessage(user, text, bot);
+        }
     }
 
     public void getAndSendHostInfo(User user, String hostId, Bot bot) {
