@@ -48,7 +48,7 @@ public class HostDao {
     public List<Host> getAll() {
         List<Host> allHosts = new ArrayList<>();
         Host host;
-        String sql = "SELECT id, url, available FROM hosts";
+        String sql = "SELECT id, url, available, uid FROM hosts";
 
         try (Connection connection = DAOFactory.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -59,6 +59,7 @@ public class HostDao {
                 host.setId(rs.getInt(1));
                 host.setUrl(rs.getString(2));
                 host.setAvailable(rs.getBoolean(3));
+                host.setUid(rs.getLong(4));
                 allHosts.add(host);
             }
         } catch (SQLException e) {
