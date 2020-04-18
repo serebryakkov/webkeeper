@@ -16,7 +16,6 @@ public class Monitor extends Thread {
     private static Bot bot;
 
     static {
-        System.out.println("Monitor загружен");
         List<Host> hosts = Host.getAll();
         if (hosts.size() > 0) {
             for (Host host : hosts) {
