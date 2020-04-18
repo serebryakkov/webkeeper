@@ -16,7 +16,8 @@ public class HostInfoMessage {
         SendMessage sendMessage = new SendMessage();
         sendMessage.disableWebPagePreview();
         sendMessage.setChatId(user.getId());
-        String text = host.getUrl() + "\n" + (host.isAvailable() ? "Доступен" : "Недоступен");
+        String text = host.getUrl() + "\n" + (host.isAvailable() ? "Доступен" : "Недоступен") +
+                "\n" + "Последняя проверка: " + host.getLastTimeCheck();
         sendMessage.setText(text);
         setInlineButtons(sendMessage, host);
 

@@ -23,7 +23,7 @@ public class HostDao {
 
     public Host getById(int id) {
         Host host = null;
-        String sql = "SELECT id, url, available FROM hosts WHERE id = ?";
+        String sql = "SELECT id, url, available, uid, last_time_check FROM hosts WHERE id = ?";
 
         try (Connection connection = DAOFactory.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -36,6 +36,8 @@ public class HostDao {
                 host.setId(rs.getInt(1));
                 host.setUrl(rs.getString(2));
                 host.setAvailable(rs.getBoolean(3));
+                host.setUid(rs.getLong(4));
+                host.setLastTimeCheck(new Date(rs.getTimestamp(5).getTime()));
             }
 
         } catch (SQLException e) {
