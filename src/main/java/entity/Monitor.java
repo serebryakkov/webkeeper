@@ -21,7 +21,7 @@ public class Monitor extends Thread {
             for (Host host : hosts) {
                 User user = new User();
                 user.setUid(host.getUid());
-                monitors.add(new Monitor(host, user));
+                new Monitor(host, user);
             }
         }
     }
