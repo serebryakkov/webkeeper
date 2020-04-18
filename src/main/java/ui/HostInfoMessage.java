@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import server.Bot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,8 +17,9 @@ public class HostInfoMessage {
         SendMessage sendMessage = new SendMessage();
         sendMessage.disableWebPagePreview();
         sendMessage.setChatId(user.getId());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
         String text = host.getUrl() + "\n" + (host.isAvailable() ? "Доступен" : "Недоступен") +
-                "\n" + "Последняя проверка: " + host.getLastTimeCheck();
+                "\n" + "Последняя проверка: " + dateFormat.format(host.getLastTimeCheck());
         sendMessage.setText(text);
         setInlineButtons(sendMessage, host);
 
