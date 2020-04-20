@@ -52,7 +52,7 @@ public class Monitor extends Thread {
             } else if (responseCode == 301 || responseCode == 302) {
                 String newUrl = urlConnection.getHeaderField("Location");
                 checkHost(newUrl);
-            } //TODO почитать про 500-е коды и написать их обработку.
+            }
         } catch (IOException e) {
             if (host.isAvailable()) {
                 host.setAvailable(false);
