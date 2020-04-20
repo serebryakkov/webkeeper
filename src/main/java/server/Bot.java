@@ -1,7 +1,6 @@
 package server;
 
 import controller.Controller;
-import entity.Monitor;
 import entity.User;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -14,10 +13,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 public class Bot extends TelegramLongPollingBot {
 
     {
-        Monitor.setBot(this);
+        ui.Message.setBot(this);
     }
 
-    private Controller controller = new Controller();
+    private final Controller controller = new Controller();
 
     @Override
     public void onUpdateReceived(Update update) {
@@ -40,20 +39,20 @@ public class Bot extends TelegramLongPollingBot {
 
         switch (text) {
             case "/start":
-                controller.startBot(user, this);
+                controller.startBot(user);
                 break;
             case "Список сайтов":
-                controller.getAndSendHostsList(user, this);
+                controller.getAndSendHostsList(user);
                 break;
             case "О боте":
-                controller.getAndSendAboutBotInfo(user, this);
+                controller.getAndSendAboutBotInfo(user);
                 break;
             case "Отмена":
                 user.setState(User.State.NULL);
-                controller.cancelHostAdding(user, this);
+                controller.cancelHostAdding(user);
             default:
                 if (User.getUserState(user).equals(User.State.SITE_ADDING))
-                    controller.hostAddAndSendMessage(user, text, this);
+                    controller.hostAddAndSendMessage(user, text);
                 break;
         }
     }
@@ -62,15 +61,16 @@ public class Bot extends TelegramLongPollingBot {
         String callbackQueryData = callbackQuery.getData();
         User user = new User();
         user.setUid(callbackQuery.getFrom().getId());
+
         if (callbackQueryData.equals("add_host")) {
             user.setState(User.State.SITE_ADDING);
-            controller.sendHostNameRequest(user, this);
+            controller.sendHostNameRequest(user);
         } else if (callbackQueryData.startsWith("site_")) {
             String hostId = callbackQueryData.substring(callbackQueryData.indexOf("_") + 1);
-            controller.getAndSendHostInfo(user, hostId, this);
+            controller.getAndSendHostInfo(user, hostId);
         } else if (callbackQueryData.startsWith("delete_host_")) {
             String hostId = callbackQueryData.substring(callbackQueryData.lastIndexOf("_") + 1);
-            controller.deleteHostAndSendMessage(user, hostId, this);
+            controller.deleteHostAndSendMessage(user, hostId);
         }
     }
 

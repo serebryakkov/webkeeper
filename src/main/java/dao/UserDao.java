@@ -9,13 +9,12 @@ import java.sql.SQLException;
 
 public class UserDao {
     public void add(User user) {
-        String sql = "INSERT INTO users (uid, username, state) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO users (uid, username) VALUES (?, ?)";
 
         try (Connection connection = DAOFactory.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setLong(1, user.getId());
             pstmt.setString(2, user.getUsername());
-            pstmt.setString(3, User.State.NULL.toString());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

@@ -12,7 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Message {
-    public void sendMessage(User user, String text, Bot bot) {
+    protected static Bot bot;
+
+    public static void setBot(Bot workBot) {
+        bot = workBot;
+    }
+
+    public void sendMessage(User user, String text) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.disableWebPagePreview();
         sendMessage.setChatId(user.getId());

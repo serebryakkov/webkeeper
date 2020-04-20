@@ -44,6 +44,7 @@ public class User {
         this.hosts = hosts;
     }
 
+    // Метод добавляет пользователя в БД.
     public static void add(User user) {
         userDao = new UserDao();
         if (userDao.getById(user.getId()) == null) {

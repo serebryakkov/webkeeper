@@ -1,6 +1,5 @@
 package entity;
 
-import server.Bot;
 import ui.Message;
 
 import java.io.IOException;
@@ -13,7 +12,6 @@ import java.util.concurrent.TimeUnit;
 
 public class Monitor extends Thread {
     private static final List<Monitor> monitors = new ArrayList<>();
-    private static Bot bot;
 
     static {
         List<Host> hosts = Host.getAll();
@@ -26,18 +24,14 @@ public class Monitor extends Thread {
         }
     }
 
-    private Host host;
-    private User user;
+    private final Host host;
+    private final User user;
 
     public Monitor(Host host, User user) {
         this.host = host;
         this.user = user;
         monitors.add(this);
         this.start();
-    }
-
-    public static void setBot(Bot workBot) {
-        bot = workBot;
     }
 
     private void checkHost(String hostUrl) {
@@ -50,7 +44,7 @@ public class Monitor extends Thread {
             if (responseCode == 200) {
                 if (!host.isAvailable()) {
                     String text = host.getUrl() + "\n" + HelpText.getByCode("host_available");
-                    new Message().sendMessage(user, text, bot);
+                    new Message().sendMessage(user, text);
                 }
                 host.setAvailable(true);
                 host.setLastTimeCheck(new Date());
@@ -65,7 +59,7 @@ public class Monitor extends Thread {
                 host.setLastTimeCheck(new Date());
                 Host.updateAvailable(host);
                 String text = host.getUrl() + "\n" + HelpText.getByCode("host_not_available");
-                new Message().sendMessage(user, text, bot);
+                new Message().sendMessage(user, text);
             }
         }
     }

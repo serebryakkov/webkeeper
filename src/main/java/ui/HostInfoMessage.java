@@ -6,14 +6,13 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import server.Bot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HostInfoMessage {
-    public void sendMessage(User user, Host host, Bot bot) {
+public class HostInfoMessage extends Message {
+    public void sendMessage(User user, Host host) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.disableWebPagePreview();
         sendMessage.setChatId(user.getId());
