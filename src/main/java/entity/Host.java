@@ -95,7 +95,7 @@ public class Host {
         new HostDao().updateAvailable(host);
     }
 
-    public static void remove(User user, int id) {
-        new HostDao().remove(user, id);
+    public static void remove(Host host) {
+        new HostDao().remove(host);
     }
 }

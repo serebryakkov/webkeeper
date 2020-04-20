@@ -57,6 +57,7 @@ public class User {
         return new UserDao().getUserState(user);
     }
 
+    // Метод обновляет состояние пользователя в БД.
     public static void updateUserState(User user) {
         userDao = new UserDao();
         userDao.updateUserState(user);

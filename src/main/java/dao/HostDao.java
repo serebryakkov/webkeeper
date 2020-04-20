@@ -72,8 +72,8 @@ public class HostDao {
     }
 
     public List<Host> getAllByUserId(User user) {
-        List<Host> result = new ArrayList<>();
         Host host;
+        List<Host> result = new ArrayList<>();
         String sql = "SELECT id, url FROM hosts WHERE uid = ?";
 
         try (Connection connection = DAOFactory.getConnection();
@@ -111,12 +111,12 @@ public class HostDao {
         }
     }
 
-    public void remove(User user, int id) {
+    public void remove(Host host) {
         String sql = "DELETE FROM hosts WHERE id = ?";
 
         try (Connection connection = DAOFactory.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setInt(1, id);
+            pstmt.setInt(1, host.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

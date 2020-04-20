@@ -48,7 +48,6 @@ public class Bot extends TelegramLongPollingBot {
                 controller.getAndSendAboutBotInfo(user);
                 break;
             case "Отмена":
-                user.setState(User.State.NULL);
                 controller.cancelHostAdding(user);
             default:
                 if (User.getUserState(user).equals(User.State.SITE_ADDING))
@@ -63,7 +62,6 @@ public class Bot extends TelegramLongPollingBot {
         user.setUid(callbackQuery.getFrom().getId());
 
         if (callbackQueryData.equals("add_host")) {
-            user.setState(User.State.SITE_ADDING);
             controller.sendHostNameRequest(user);
         } else if (callbackQueryData.startsWith("site_")) {
             String hostId = callbackQueryData.substring(callbackQueryData.indexOf("_") + 1);
