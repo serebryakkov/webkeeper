@@ -27,6 +27,9 @@ public class Host {
     }
 
     public void setUrl(String url) {
+        if (!url.startsWith("http://") && !url.startsWith("https://"))
+            this.url = "http://" + url;
+
         this.url = url;
     }
 
@@ -54,9 +57,12 @@ public class Host {
         this.lastTimeCheck = lastTimeCheck;
     }
 
+    // TODO реализовать метод для проверки на наличие.
+    public static boolean exists(Host host) {
+        return true;
+    }
+
     public static boolean validateUrl(Host host) {
-        if (!host.url.startsWith("http://") && !host.url.startsWith("https://"))
-            host.url = "http://" + host.url;
         return new UrlValidator().isValid(host.url);
     }
 
@@ -74,7 +80,6 @@ public class Host {
         return Objects.hash(url, uid);
     }
 
-    //DAO методы
     public static void add(Host host) {
         new HostDao().add(host);
     }

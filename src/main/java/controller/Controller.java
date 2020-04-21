@@ -47,7 +47,6 @@ public class Controller {
     }
 
     public void hostAddAndSendMessage(User user, String url) {
-        // TODO реализовать проверку на существование такого хоста в списке юзера.
         Host host = new Host();
         host.setUrl(url);
         host.setUid(user.getId());

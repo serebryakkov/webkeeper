@@ -70,7 +70,7 @@ public class Monitor extends Thread {
             checkHost(host.getUrl());
 
             try {
-                TimeUnit.MINUTES.sleep(30);
+                TimeUnit.MINUTES.sleep(25);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
