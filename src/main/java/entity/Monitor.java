@@ -15,7 +15,6 @@ public class Monitor extends Thread {
 
     static {
         List<Host> hosts = Host.getAll();
-        System.out.println("Размер списка хостов для мониторинга: " + hosts.size());
         if (hosts.size() > 0) {
             for (Host host : hosts) {
                 User user = new User();
@@ -67,16 +66,16 @@ public class Monitor extends Thread {
 
     @Override
     public void run() {
-        System.out.println("Монитор для хоста: " + host.getUrl() + " запущен.");
         while (!isInterrupted()) {
             checkHost(host.getUrl());
 
             try {
-                TimeUnit.MINUTES.sleep(25);
+                TimeUnit.MINUTES.sleep(30);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+        System.out.println("Монитор для хоста " + host.getUrl() + " остановлен.");
     }
 
     public static void stopAndRemoveMonitor(Host host) {
