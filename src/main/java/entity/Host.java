@@ -27,9 +27,6 @@ public class Host {
     }
 
     public void setUrl(String url) {
-        if (!url.startsWith("http://") && !url.startsWith("https://"))
-            this.url = "http://" + url;
-
         this.url = url;
     }
 
@@ -59,6 +56,8 @@ public class Host {
 
     // TODO реализовать метод для проверки на наличие.
     public static boolean exists(Host host) {
+//        if (!url.startsWith("http://") && !url.startsWith("https://"))
+//            this.url = "http://" + url;
         return true;
     }
 
