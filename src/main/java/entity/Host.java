@@ -56,12 +56,12 @@ public class Host {
 
     // TODO реализовать метод для проверки на наличие.
     public static boolean exists(Host host) {
-//        if (!url.startsWith("http://") && !url.startsWith("https://"))
-//            this.url = "http://" + url;
         return true;
     }
 
     public static boolean validateUrl(Host host) {
+        if (!host.url.startsWith("http://") && !host.url.startsWith("https://"))
+          host.url = "http://" + host.getUrl();
         return new UrlValidator().isValid(host.url);
     }
 
