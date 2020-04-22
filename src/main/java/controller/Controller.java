@@ -51,13 +51,18 @@ public class Controller {
         host.setUrl(url);
         host.setUid(user.getId());
         if (Host.validateUrl(host)) {
-            Host.add(host);
-            new Monitor(host, user);
-            user.setState(User.State.NULL);
-            User.updateUserState(user);
-            String text = HelpText.getByCode("host_successfully_added");
-            new Message().sendMessage(user, text);
-            getAndSendHostsList(user);
+            if (!Host.exists(host, user)) {
+                Host.add(host);
+                new Monitor(host, user);
+                user.setState(User.State.NULL);
+                User.updateUserState(user);
+                String text = HelpText.getByCode("host_successfully_added");
+                new Message().sendMessage(user, text);
+                getAndSendHostsList(user);
+            } else {
+                String text = HelpText.getByCode("host_exists");
+                new HostNameRequestMessage().sendMessage(user, text);
+            }
         } else {
             String text = HelpText.getByCode("invalid_url");
             new HostNameRequestMessage().sendMessage(user, text);

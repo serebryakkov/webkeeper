@@ -54,14 +54,19 @@ public class Host {
         this.lastTimeCheck = lastTimeCheck;
     }
 
-    // TODO реализовать метод для проверки на наличие.
-    public static boolean exists(Host host) {
-        return true;
+    // Метод проверяет URL на наличие в списке пользователя.
+    public static boolean exists(Host host, User user) {
+        List<Host> hosts = Host.getAllByUserId(user);
+        return hosts.contains(host);
     }
 
+    // Метод проверяет URL на валидность.
     public static boolean validateUrl(Host host) {
         if (!host.url.startsWith("http://") && !host.url.startsWith("https://"))
-          host.url = "http://" + host.getUrl();
+            host.url = "http://" + host.getUrl();
+        else if (host.url.startsWith("https://"))
+            host.url = host.url.replace("https://", "http://");
+
         return new UrlValidator().isValid(host.url);
     }
 

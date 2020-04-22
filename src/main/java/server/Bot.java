@@ -14,6 +14,11 @@ public class Bot extends TelegramLongPollingBot {
 
     {
         ui.Message.setBot(this);
+        try {
+            Class.forName("Monitor");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private final Controller controller = new Controller();
