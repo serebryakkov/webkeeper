@@ -74,7 +74,7 @@ public class HostDao {
     public List<Host> getAllByUserId(User user) {
         Host host;
         List<Host> result = new ArrayList<>();
-        String sql = "SELECT id, url FROM hosts WHERE uid = ?";
+        String sql = "SELECT id, url, uid FROM hosts WHERE uid = ?";
 
         try (Connection connection = DAOFactory.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -86,6 +86,7 @@ public class HostDao {
                 host = new Host();
                 host.setId(rs.getInt(1));
                 host.setUrl(rs.getString(2));
+                host.setUid(rs.getLong(3));
                 result.add(host);
             }
 

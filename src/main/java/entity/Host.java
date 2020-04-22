@@ -3,10 +3,7 @@ package entity;
 import dao.HostDao;
 import org.apache.commons.validator.routines.UrlValidator;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Host {
     private int id;
@@ -62,13 +59,13 @@ public class Host {
     }
 
     // Метод проверяет URL на валидность.
-    public static boolean validateUrl(Host host) {
-        if (!host.url.startsWith("http://") && !host.url.startsWith("https://"))
-            host.url = "http://" + host.getUrl();
-        else if (host.url.startsWith("https://"))
-            host.url = host.url.replace("https://", "http://");
+    public static boolean validateUrl(String url) {
+        if (!url.startsWith("http://") && !url.startsWith("https://"))
+            url = "http://" + url;
+        else if (url.startsWith("https://"))
+            url = url.replace("https://", "http://");
 
-        return new UrlValidator().isValid(host.url);
+        return new UrlValidator().isValid(url);
     }
 
     @Override

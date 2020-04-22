@@ -6,7 +6,9 @@ import entity.Monitor;
 import entity.User;
 import ui.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Controller {
     // Метод добавляет пользователя в БД, если его там нет.
@@ -47,10 +49,10 @@ public class Controller {
     }
 
     public void hostAddAndSendMessage(User user, String url) {
-        Host host = new Host();
-        host.setUrl(url);
-        host.setUid(user.getId());
-        if (Host.validateUrl(host)) {
+        if (Host.validateUrl(url)) {
+            Host host = new Host();
+            host.setUrl(url);
+            host.setUid(user.getId());
             if (!Host.exists(host, user)) {
                 Host.add(host);
                 new Monitor(host, user);
