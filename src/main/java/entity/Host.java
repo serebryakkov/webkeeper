@@ -59,13 +59,13 @@ public class Host {
     }
 
     // Метод проверяет URL на валидность.
-    public static boolean validateUrl(String url) {
-        if (!url.startsWith("http://") && !url.startsWith("https://"))
-            url = "http://" + url;
-        else if (url.startsWith("https://"))
-            url = url.replace("https://", "http://");
+    public static boolean validateUrl(Host host) {
+        if (!host.url.startsWith("http://") && !host.url.startsWith("https://"))
+            host.url = "http://" + host.url;
+        else if (host.url.startsWith("https://"))
+            host.url = host.url.replace("https://", "http://");
 
-        return new UrlValidator().isValid(url);
+        return new UrlValidator().isValid(host.url);
     }
 
     @Override

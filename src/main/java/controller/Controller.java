@@ -49,10 +49,10 @@ public class Controller {
     }
 
     public void hostAddAndSendMessage(User user, String url) {
-        if (Host.validateUrl(url)) {
-            Host host = new Host();
-            host.setUrl(url);
-            host.setUid(user.getId());
+        Host host = new Host();
+        host.setUrl(url);
+        host.setUid(user.getId());
+        if (Host.validateUrl(host)) {
             if (!Host.exists(host, user)) {
                 Host.add(host);
                 new Monitor(host, user);
