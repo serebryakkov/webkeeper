@@ -52,9 +52,6 @@ public class Controller {
         host.setUid(user.getId());
         if (Host.validateUrl(host)) {
             if (!Host.exists(host, user)) {
-                String text = HelpText.getByCode("host_exists");
-                new HostNameRequestMessage().sendMessage(user, text);
-            } else {
                 Host.add(host);
                 new Monitor(host, user);
                 user.setState(User.State.NULL);
@@ -62,6 +59,9 @@ public class Controller {
                 String text = HelpText.getByCode("host_successfully_added");
                 new Message().sendMessage(user, text);
                 getAndSendHostsList(user);
+            } else {
+                String text = HelpText.getByCode("host_exists");
+                new HostNameRequestMessage().sendMessage(user, text);
             }
         } else {
             String text = HelpText.getByCode("invalid_url");
