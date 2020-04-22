@@ -3,6 +3,7 @@ package entity;
 import dao.HostDao;
 import org.apache.commons.validator.routines.UrlValidator;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
