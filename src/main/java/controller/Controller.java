@@ -51,7 +51,7 @@ public class Controller {
         host.setUrl(url);
         host.setUid(user.getId());
         if (Host.validateUrl(host)) {
-            if (Host.exists(host, user)) {
+            if (!Host.exists(host, user)) {
                 String text = HelpText.getByCode("host_exists");
                 new HostNameRequestMessage().sendMessage(user, text);
             } else {
