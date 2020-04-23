@@ -6,12 +6,11 @@ import entity.Monitor;
 import entity.User;
 import ui.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Controller {
-    // Метод добавляет пользователя в БД, если его там нет.
+    // Метод добавляет пользователя в БД, если его там нет
+    // и отправляет ему стартовое сообщение.
     public void startBot(User user) {
         User.add(user);
         String text = HelpText.getByCode("welcome");
