@@ -52,6 +52,12 @@ public class Monitor extends Thread {
             } else if (responseCode == 301 || responseCode == 302) {
                 String newUrl = urlConnection.getHeaderField("Location");
                 checkHost(newUrl);
+            } else {
+                host.setAvailable(false);
+                host.setLastTimeCheck(new Date());
+                Host.updateAvailable(host);
+                String text = host.getUrl() + "\n" + HelpText.getByCode("host_not_available");
+                new Message().sendMessage(user, text);
             }
         } catch (IOException e) {
             if (host.isAvailable()) {
