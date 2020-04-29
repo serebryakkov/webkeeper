@@ -13,7 +13,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 public class Bot extends TelegramLongPollingBot {
 
     {
-        ui.Message.setBot(this);
+        entity.Message.setBot(this);
         try {
             Class.forName("entity.Monitor");
         } catch (ClassNotFoundException e) {

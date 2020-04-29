@@ -1,10 +1,6 @@
 package controller;
 
-import entity.HelpText;
-import entity.Host;
-import entity.Monitor;
-import entity.User;
-import ui.*;
+import entity.*;
 
 import java.util.List;
 
@@ -13,28 +9,24 @@ public class Controller {
     // и отправляет ему стартовое сообщение.
     public void startBot(User user) {
         User.add(user);
-        String text = HelpText.getByCode("welcome");
-        new Message().sendMessage(user, text);
+        new Message(Message.Code.WELCOME, user).sendMessage();
     }
 
     // Метод отправляет пользователю сообщение со списком его сайтов.
     public void getAndSendHostsList(User user) {
         List<Host> hosts = Host.getAllByUserId(user);
         user.setHosts(hosts);
-        String text = HelpText.getByCode("hosts_list");
-        new HostsListMessage().sendMessage(user, text);
+        new Message(Message.Code.HOSTS_LIST, user).sendMessage();
     }
 
     public void getAndSendAboutBotInfo(User user) {
-        String text = HelpText.getByCode("about_bot");
-        new Message().sendMessage(user, text);
+        new Message(Message.Code.ABOUT_BOT, user).sendMessage();
     }
 
     public void sendHostNameRequest(User user) {
         user.setState(User.State.SITE_ADDING);
         User.updateUserState(user);
-        String text = HelpText.getByCode("enter_host_name");
-        new HostNameRequestMessage().sendMessage(user, text);
+        new Message(Message.Code.ENTER_HOST_NAME, user).sendMessage();
     }
 
     // Метод обновляет значение свойства state у пользователя
@@ -42,8 +34,7 @@ public class Controller {
     public void cancelHostAdding(User user) {
         user.setState(User.State.NULL);
         User.updateUserState(user);
-        String text = HelpText.getByCode("site_adding_cancel");
-        new Message().sendMessage(user, text);
+        new Message(Message.Code.SITE_ADDING_CANCEL, user).sendMessage();
         getAndSendHostsList(user);
     }
 
@@ -57,23 +48,20 @@ public class Controller {
                 new Monitor(host, user);
                 user.setState(User.State.NULL);
                 User.updateUserState(user);
-                String text = HelpText.getByCode("host_successfully_added");
-                new Message().sendMessage(user, text);
+                new Message(Message.Code.HOST_SUCCESSFULLY_ADDED, user).sendMessage();
                 getAndSendHostsList(user);
             } else {
-                String text = HelpText.getByCode("host_exists");
-                new HostNameRequestMessage().sendMessage(user, text);
+                new Message(Message.Code.HOST_EXISTS, user).sendMessage();
             }
         } else {
-            String text = HelpText.getByCode("invalid_url");
-            new HostNameRequestMessage().sendMessage(user, text);
+            new Message(Message.Code.INVALID_URL, user).sendMessage();
         }
     }
 
     // Метод отправляет пользователю сообщение с информацией о хосте.
     public void getAndSendHostInfo(User user, String hostId) {
         Host host = Host.getById(Integer.parseInt(hostId));
-        new HostInfoMessage().sendMessage(user, host);
+        new Message(Message.Code.HOST_INFO, user, host).sendMessage();
     }
 
     // Метод удаляет хост из списка пользователя,
@@ -83,8 +71,7 @@ public class Controller {
         Host host = Host.getById(Integer.parseInt(hostId));
         Host.remove(host);
         Monitor.stopAndRemoveMonitor(host);
-        String text = HelpText.getByCode("host_successfully_deleted");
-        new Message().sendMessage(user, text);
+        new Message(Message.Code.HOST_SUCCESSFULLY_DELETED, user).sendMessage();
         getAndSendHostsList(user);
     }
 }

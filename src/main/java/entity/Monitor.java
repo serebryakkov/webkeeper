@@ -1,7 +1,5 @@
 package entity;
 
-import ui.Message;
-
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -42,31 +40,23 @@ public class Monitor extends Thread {
             int responseCode = urlConnection.getResponseCode();
 
             if (responseCode == 200) {
-                if (!host.isAvailable()) {
-                    String text = host.getUrl() + "\n" + HelpText.getByCode("host_available");
-                    new Message().sendMessage(user, text);
-                }
-                host.setAvailable(true);
                 host.setLastTimeCheck(new Date());
+                if (!host.isAvailable()) {
+                    host.setAvailable(true);
+                    new Message(Message.Code.HOST_INFO, user, host).sendMessage();
+                }
                 Host.updateAvailable(host);
             } else if (responseCode == 301 || responseCode == 302) {
                 String newUrl = urlConnection.getHeaderField("Location");
                 checkHost(newUrl);
-            } else {
-                host.setAvailable(false);
-                host.setLastTimeCheck(new Date());
-                Host.updateAvailable(host);
-                String text = host.getUrl() + "\n" + HelpText.getByCode("host_not_available");
-                new Message().sendMessage(user, text);
             }
         } catch (IOException e) {
+            host.setLastTimeCheck(new Date());
             if (host.isAvailable()) {
                 host.setAvailable(false);
-                host.setLastTimeCheck(new Date());
-                Host.updateAvailable(host);
-                String text = host.getUrl() + "\n" + HelpText.getByCode("host_not_available");
-                new Message().sendMessage(user, text);
+                new Message(Message.Code.HOST_INFO, user, host).sendMessage();
             }
+            Host.updateAvailable(host);
         }
     }
 
@@ -81,7 +71,6 @@ public class Monitor extends Thread {
                 e.printStackTrace();
             }
         }
-        System.out.println("Монитор для хоста " + host.getUrl() + " остановлен.");
     }
 
     public static void stopAndRemoveMonitor(Host host) {

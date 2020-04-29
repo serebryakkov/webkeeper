@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class HelpTextDao {
+public class MessageDao {
     public String getByCode(String code) {
         String helpText = null;
         String sql = "SELECT text FROM help_texts WHERE code = ?";

@@ -2,7 +2,12 @@ package dao;
 
 import entity.Host;
 import entity.User;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -123,4 +128,12 @@ public class HostDao {
             e.printStackTrace();
         }
     }
+
+//    public static void main(String[] args) throws IOException {
+//        Document doc = Jsoup.connect("http://insafe.cloud").get();
+//        Elements listHead = doc.select("meta[name~=hostkeeper\\d+]");
+//
+//        for (Element element : listHead)
+//            System.out.println(element);
+//    }
 }
