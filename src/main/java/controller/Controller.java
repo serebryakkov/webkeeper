@@ -46,14 +46,13 @@ public class Controller {
         if (Host.urlIsValid(host)) {
             if (!Host.exists(host, user)) {
                 User.State userState = User.State.ADD_META_TAG;
+                userState.setStateName("ADD_META_TAG_");
                 System.out.println("stateName1: " + userState.getStateName());
                 userState.setStateName(userState.getStateName() + host.getUrl());
-                user.setState(userState);
                 System.out.println("stateName2: " + userState.getStateName());
+                user.setState(userState);
                 User.updateUserState(user);
                 new Message(Message.Code.ADD_META_TAG, user, host).sendMessage();
-                userState.setStateName("ADD_META_TAG_");
-                System.out.println("stateName3: " + userState.getStateName());
             } else {
                 new Message(Message.Code.HOST_EXISTS, user).sendMessage();
             }
