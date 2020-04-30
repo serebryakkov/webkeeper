@@ -52,7 +52,7 @@ public class Bot extends TelegramLongPollingBot {
             case "О боте":
                 controller.getAndSendAboutBotInfo(user);
                 break;
-            case "Проверить":
+            case "Подтвердить":
                 user.setState(User.getUserState(user));
                 if (user.getState().equals(User.State.ADD_META_TAG))
                     controller.checkMetaTag(user);
