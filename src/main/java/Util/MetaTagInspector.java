@@ -12,10 +12,10 @@ public class MetaTagInspector {
         Document doc = null;
         try {
             doc = Jsoup.connect(url).get();
-            Elements listHead = doc.select("meta[name~=hostkeeper\\d+]");
+            Elements listHead = doc.select("meta[name~=hostkeeper-?\\d+]");
 
             for (Element element : listHead) {
-                if (element.toString().matches("<meta name=\"hostkeeper\\d+\">"))
+                if (element.toString().matches("<meta name=\"hostkeeper-?\\d+\">"))
                     return true;
             }
         } catch (IOException e) {
