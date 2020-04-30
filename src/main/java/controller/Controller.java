@@ -46,7 +46,6 @@ public class Controller {
             if (!Host.exists(host, user)) {
                 User.State userState = User.State.ADD_META_TAG;
                 userState.setStateName(userState.getStateName() + host.getUrl());
-                System.out.println("userState: " + userState.getStateName());
                 user.setState(userState);
                 User.updateUserState(user);
                 new Message(Message.Code.ADD_META_TAG, user, host).sendMessage();

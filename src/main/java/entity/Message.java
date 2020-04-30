@@ -149,6 +149,9 @@ public class Message {
             keyboardFirstRow.add(new KeyboardButton("Подтвердить"));
             KeyboardRow keyboardSecondRow = new KeyboardRow();
             keyboardSecondRow.add(new KeyboardButton("Отмена"));
+
+            keyboardRowList.add(keyboardFirstRow);
+            keyboardRowList.add(keyboardSecondRow);
         }
 
         replyKeyboardMarkup.setKeyboard(keyboardRowList);
