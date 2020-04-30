@@ -59,7 +59,7 @@ public class UserDao {
 
     public User.State getUserState(User user) {
         String sql = "SELECT state FROM users WHERE uid = ?";
-        User.State userState = null;
+        User.State state = null;
 
         try (Connection connection = DAOFactory.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -68,13 +68,19 @@ public class UserDao {
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                userState = User.State.valueOf(rs.getString(1));
+                String userState = rs.getString(1);
+                if (userState.startsWith("ADD_META_TAG")) {
+                    state = User.State.ADD_META_TAG;
+                    state.setStateName(userState);
+                } else {
+                    state = User.State.valueOf(userState);
+                }
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return userState;
+        return state;
     }
 }
