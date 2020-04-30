@@ -82,7 +82,8 @@ public class Message {
         else if (code == Code.ENTER_HOST_NAME
                 || code == Code.HOST_EXISTS
                 || code == Code.INVALID_URL
-                || code == Code.ADD_META_TAG)
+                || code == Code.ADD_META_TAG
+                || code == Code.META_TAG_NOT_FOUND)
             return createCheckAndCancelButtons();
         else if (code == Code.HOST_INFO) {
             return createDeleteHostInlineButton();
@@ -145,7 +146,8 @@ public class Message {
             keyboardFirstRow.add(new KeyboardButton("Отмена"));
 
             keyboardRowList.add(keyboardFirstRow);
-        } else if (code == Code.ADD_META_TAG) {
+        } else if (code == Code.ADD_META_TAG
+                || code == Code.META_TAG_NOT_FOUND) {
             KeyboardRow keyboardFirstRow = new KeyboardRow();
             keyboardFirstRow.add(new KeyboardButton("Подтвердить"));
             KeyboardRow keyboardSecondRow = new KeyboardRow();
@@ -190,7 +192,8 @@ public class Message {
         HOST_AVAILABLE("host_available"),
         HOST_NOT_AVAILABLE("host_not_available"),
         HOST_INFO("host_info"),
-        ADD_META_TAG("add_meta_tag");
+        ADD_META_TAG("add_meta_tag"),
+        META_TAG_NOT_FOUND("meta_tag_not_found");
 
         private final String code;
 

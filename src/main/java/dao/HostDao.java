@@ -128,12 +128,4 @@ public class HostDao {
             e.printStackTrace();
         }
     }
-
-//    public static void main(String[] args) throws IOException {
-//        Document doc = Jsoup.connect("http://insafe.cloud").get();
-//        Elements listHead = doc.select("meta[name~=hostkeeper\\d+]");
-//
-//        for (Element element : listHead)
-//            System.out.println(element);
-//    }
 }

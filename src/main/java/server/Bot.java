@@ -52,11 +52,16 @@ public class Bot extends TelegramLongPollingBot {
             case "О боте":
                 controller.getAndSendAboutBotInfo(user);
                 break;
+            case "Проверить":
+                user.setState(User.getUserState(user));
+                if (user.getState().equals(User.State.ADD_META_TAG))
+                    controller.checkMetaTag(user);
+                break;
             case "Отмена":
                 controller.cancelHostAdding(user);
             default:
-                System.out.println("Bot до вызова User.getUserState(user)");
-                if (User.getUserState(user) == User.State.SITE_ADDING)
+                // TODO переделать, т. к. default вызывается всегда. Т. е. лишняя проверка.
+                if (User.getUserState(user).equals(User.State.SITE_ADDING))
                     controller.hostAddAndSendMessage(user, text);
                 break;
         }

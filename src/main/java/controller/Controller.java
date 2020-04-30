@@ -1,5 +1,6 @@
 package controller;
 
+import Util.MetaTagInspector;
 import entity.*;
 
 import java.util.List;
@@ -49,17 +50,29 @@ public class Controller {
                 user.setState(userState);
                 User.updateUserState(user);
                 new Message(Message.Code.ADD_META_TAG, user, host).sendMessage();
-//                Host.add(host);
-//                new Monitor(host, user);
-//                user.setState(User.State.NULL);
-//                User.updateUserState(user);
-//                new Message(Message.Code.HOST_SUCCESSFULLY_ADDED, user).sendMessage();
-//                getAndSendHostsList(user);
             } else {
                 new Message(Message.Code.HOST_EXISTS, user).sendMessage();
             }
         } else {
             new Message(Message.Code.INVALID_URL, user).sendMessage();
+        }
+    }
+
+    public void checkMetaTag(User user) {
+        String userState = user.getState().getStateName();
+        String url = userState.substring(userState.lastIndexOf("_") + 1);
+        if (new MetaTagInspector().checkMetaTag(url)) {
+            Host host = new Host();
+            host.setUrl(url);
+            host.setUid(user.getId());
+            Host.add(host);
+            new Monitor(host, user);
+            user.setState(User.State.NULL);
+            User.updateUserState(user);
+            new Message(Message.Code.HOST_SUCCESSFULLY_ADDED, user).sendMessage();
+            getAndSendHostsList(user);
+        } else {
+            new Message(Message.Code.META_TAG_NOT_FOUND, user).sendMessage();
         }
     }
 
