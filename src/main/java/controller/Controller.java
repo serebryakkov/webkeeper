@@ -48,7 +48,7 @@ public class Controller {
                 User.State userState = User.State.ADD_META_TAG;
                 userState.setStateName(userState.getStateName() + host.getUrl());
                 user.setState(userState);
-                System.out.println(userState.getStateName());
+                System.out.println("hostAddAndSendMessage: " + userState.getStateName());
                 User.updateUserState(user);
                 new Message(Message.Code.ADD_META_TAG, user, host).sendMessage();
             } else {
