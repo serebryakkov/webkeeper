@@ -35,6 +35,7 @@ public class Message {
         this.host = host;
         this.text = getText();
     }
+
     public static void setBot(Bot workBot) {
         bot = workBot;
     }
@@ -60,6 +61,8 @@ public class Message {
             SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
             text = host.getUrl() + "\n" + "Статус проверки: " + (host.isAvailable() ? "Доступен" : "Недоступен") +
                     "\n" + "Последняя проверка: " + dateFormat.format(host.getLastTimeCheck());
+        } else if (code == Code.ADD_META_TAG) {
+            text = new MessageDao().getByCode(code.code) + "\n" + "<meta name='hostkeeper'" + host.hashCode() + " />";
         } else {
             text = new MessageDao().getByCode(code.code);
         }
@@ -79,7 +82,7 @@ public class Message {
         else if (code == Code.ENTER_HOST_NAME
                 || code == Code.HOST_EXISTS
                 || code == Code.INVALID_URL)
-            return createCancelMainButton();
+            return createCheckAndCancelButtons();
         else if (code == Code.HOST_INFO) {
             return createDeleteHostInlineButton();
         }
@@ -126,17 +129,27 @@ public class Message {
         return inlineKeyboardMarkup;
     }
 
-    private ReplyKeyboardMarkup createCancelMainButton() {
+    private ReplyKeyboardMarkup createCheckAndCancelButtons() {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         replyKeyboardMarkup.setSelective(true);
         replyKeyboardMarkup.setResizeKeyboard(true);
         replyKeyboardMarkup.setOneTimeKeyboard(false);
 
         List<KeyboardRow> keyboardRowList = new ArrayList<>();
-        KeyboardRow keyboardFirstRow = new KeyboardRow();
-        keyboardFirstRow.add(new KeyboardButton("Отмена"));
 
-        keyboardRowList.add(keyboardFirstRow);
+        if (code == Code.ENTER_HOST_NAME
+                || code == Code.HOST_EXISTS
+                || code == Code.INVALID_URL) {
+            KeyboardRow keyboardFirstRow = new KeyboardRow();
+            keyboardFirstRow.add(new KeyboardButton("Отмена"));
+
+            keyboardRowList.add(keyboardFirstRow);
+        } else if (code == Code.ADD_META_TAG) {
+            KeyboardRow keyboardFirstRow = new KeyboardRow();
+            keyboardFirstRow.add(new KeyboardButton("Подтвердить"));
+            KeyboardRow keyboardSecondRow = new KeyboardRow();
+            keyboardSecondRow.add(new KeyboardButton("Отмена"));
+        }
 
         replyKeyboardMarkup.setKeyboard(keyboardRowList);
         return replyKeyboardMarkup;
@@ -172,7 +185,8 @@ public class Message {
         INVALID_URL("invalid_url"),
         HOST_AVAILABLE("host_available"),
         HOST_NOT_AVAILABLE("host_not_available"),
-        HOST_INFO("host_info");
+        HOST_INFO("host_info"),
+        ADD_META_TAG("add_meta_tag");
 
         private final String code;
 

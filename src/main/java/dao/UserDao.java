@@ -49,7 +49,7 @@ public class UserDao {
 
         try (Connection connection = DAOFactory.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setString(1, user.getState().toString());
+            pstmt.setString(1, user.getState().getStateName());
             pstmt.setLong(2, user.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {

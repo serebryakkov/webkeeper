@@ -44,12 +44,16 @@ public class Controller {
         host.setUid(user.getId());
         if (Host.validateUrl(host)) {
             if (!Host.exists(host, user)) {
-                Host.add(host);
-                new Monitor(host, user);
-                user.setState(User.State.NULL);
+                User.State userState = User.State.ADD_META_TAG;
+                userState.setStateName(userState.getStateName() + host.getUrl());
                 User.updateUserState(user);
-                new Message(Message.Code.HOST_SUCCESSFULLY_ADDED, user).sendMessage();
-                getAndSendHostsList(user);
+                new Message(Message.Code.ADD_META_TAG, user, host).sendMessage();
+//                Host.add(host);
+//                new Monitor(host, user);
+//                user.setState(User.State.NULL);
+//                User.updateUserState(user);
+//                new Message(Message.Code.HOST_SUCCESSFULLY_ADDED, user).sendMessage();
+//                getAndSendHostsList(user);
             } else {
                 new Message(Message.Code.HOST_EXISTS, user).sendMessage();
             }
