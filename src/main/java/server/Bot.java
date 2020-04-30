@@ -55,7 +55,7 @@ public class Bot extends TelegramLongPollingBot {
             case "Отмена":
                 controller.cancelHostAdding(user);
             default:
-                if (User.getUserState(user).equals(User.State.SITE_ADDING))
+                if (User.getUserState(user) == User.State.SITE_ADDING)
                     controller.hostAddAndSendMessage(user, text);
                 break;
         }

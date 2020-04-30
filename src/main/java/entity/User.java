@@ -67,7 +67,7 @@ public class User {
     public enum State {
         NULL("NULL"),
         SITE_ADDING("SITE_ADDING"),
-        ADD_META_TAG("ADD_META_TAG");
+        ADD_META_TAG("ADD_META_TAG_");
 
         State(String stateName) {
             this.stateName = stateName;
