@@ -81,7 +81,8 @@ public class Message {
             return createHostsListInlineButtons(user.getHosts());
         else if (code == Code.ENTER_HOST_NAME
                 || code == Code.HOST_EXISTS
-                || code == Code.INVALID_URL)
+                || code == Code.INVALID_URL
+                || code == Code.ADD_META_TAG)
             return createCheckAndCancelButtons();
         else if (code == Code.HOST_INFO) {
             return createDeleteHostInlineButton();
