@@ -42,10 +42,11 @@ public class Controller {
         Host host = new Host();
         host.setUrl(url);
         host.setUid(user.getId());
-        if (Host.validateUrl(host)) {
+        if (Host.urlIsValid(host)) {
             if (!Host.exists(host, user)) {
                 User.State userState = User.State.ADD_META_TAG;
                 userState.setStateName(userState.getStateName() + host.getUrl());
+                System.out.println("userState: " + userState.getStateName());
                 user.setState(userState);
                 User.updateUserState(user);
                 new Message(Message.Code.ADD_META_TAG, user, host).sendMessage();
