@@ -11,6 +11,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
 public class Bot extends TelegramLongPollingBot {
+    private final Controller controller = new Controller();
 
     {
         entity.Message.setBot(this);
@@ -20,8 +21,6 @@ public class Bot extends TelegramLongPollingBot {
             e.printStackTrace();
         }
     }
-
-    private final Controller controller = new Controller();
 
     @Override
     public void onUpdateReceived(Update update) {
@@ -59,8 +58,8 @@ public class Bot extends TelegramLongPollingBot {
                 break;
             case "Отмена":
                 controller.cancelHostAdding(user);
+                break;
             default:
-                // TODO переделать, т. к. default вызывается всегда. Т. е. лишняя проверка.
                 if (User.getUserState(user).equals(User.State.SITE_ADDING))
                     controller.hostAddAndSendMessage(user, text);
                 break;

@@ -21,12 +21,13 @@ public class Message {
     private final Code code;
     private final String text;
     private final User user;
-    private Host host;
+    private final Host host;
 
     public Message(Code code, User user) {
         this.code = code;
         this.user = user;
         this.text = getText();
+        this.host = null;
     }
 
     public Message(Code code, User user, Host host) {
@@ -60,12 +61,15 @@ public class Message {
 
         if (code == Code.HOST_INFO) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
-            text = host.getUrl() + "\n" + "Статус проверки: " + (host.isAvailable() ? "Доступен" : "Недоступен") +
-                    "\n" + "Последняя проверка: " + dateFormat.format(host.getLastTimeCheck());
+            String textTemplate = "%s\nСтатус проверки: %s\nПоследняя проверка: %s";
+            String textAvailable = (host.isAvailable() ? "Доступен" : "Недоступен");
+            String textLastTimeCheck = dateFormat.format(host.getLastTimeCheck());
+
+            text = String.format(textTemplate, host.getUrl(), textAvailable, textLastTimeCheck);
         } else if (code == Code.ADD_META_TAG) {
-            text = new MessageDao().getByCode(code.code) + "\n" + "`<meta name=\"hostkeeper" + host.hashCode() + "\" />`";
+            text = String.format(getByCode(code.code), host.hashCode());
         } else {
-            text = new MessageDao().getByCode(code.code);
+            text = getByCode(code.code);
         }
 
         return text;
