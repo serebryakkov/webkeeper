@@ -1,5 +1,7 @@
 package entity;
 
+import Util.MetaTagInspector;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -38,8 +40,9 @@ public class Monitor extends Thread {
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setConnectTimeout(40000);
             int responseCode = urlConnection.getResponseCode();
+            MetaTagInspector metaTagInspector = new MetaTagInspector();
 
-            if (responseCode == 200) {
+            if (responseCode == 200 && metaTagInspector.checkMetaTag(hostUrl)) {
                 host.setLastTimeCheck(new Date());
                 if (!host.isAvailable()) {
                     host.setAvailable(true);
@@ -49,6 +52,13 @@ public class Monitor extends Thread {
             } else if (responseCode == 301 || responseCode == 302) {
                 String newUrl = urlConnection.getHeaderField("Location");
                 checkHost(newUrl);
+            } else {
+                host.setLastTimeCheck(new Date());
+                if (host.isAvailable()) {
+                    host.setAvailable(false);
+                    new Message(Message.Code.HOST_INFO, user, host).sendMessage();
+                }
+                Host.updateAvailable(host);
             }
         } catch (IOException e) {
             host.setLastTimeCheck(new Date());
