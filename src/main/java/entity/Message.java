@@ -62,7 +62,7 @@ public class Message {
             text = host.getUrl() + "\n" + "Статус проверки: " + (host.isAvailable() ? "Доступен" : "Недоступен") +
                     "\n" + "Последняя проверка: " + dateFormat.format(host.getLastTimeCheck());
         } else if (code == Code.ADD_META_TAG) {
-            text = new MessageDao().getByCode(code.code) + "\n" + "<code><meta name=\"hostkeeper" + host.hashCode() + "\" /></code>";
+            text = new MessageDao().getByCode(code.code) + "\n" + "`<meta name=\"hostkeeper" + host.hashCode() + "\" />`";
         } else {
             text = new MessageDao().getByCode(code.code);
         }
