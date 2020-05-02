@@ -54,14 +54,14 @@ public class Bot extends TelegramLongPollingBot {
             case "Подтвердить":
                 user.setState(User.getUserState(user));
                 if (user.getState().equals(User.State.ADD_META_TAG))
-                    controller.checkMetaTag(user);
+                    controller.checkMetaTagAndAddHost(user);
                 break;
             case "Отмена":
                 controller.cancelHostAdding(user);
                 break;
             default:
                 if (User.getUserState(user).equals(User.State.SITE_ADDING))
-                    controller.hostAddAndSendMessage(user, text);
+                    controller.checkUrlAndSendMetaTag(user, text);
                 break;
         }
     }

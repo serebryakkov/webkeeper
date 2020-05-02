@@ -61,11 +61,11 @@ public class Message {
 
         if (code == Code.HOST_INFO) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
-            String textTemplate = "%s\nСтатус проверки: %s\nПоследняя проверка: %s";
             String textAvailable = (host.isAvailable() ? "Доступен" : "Недоступен");
             String textLastTimeCheck = dateFormat.format(host.getLastTimeCheck());
 
-            text = String.format(textTemplate, host.getUrl(), textAvailable, textLastTimeCheck);
+            text = String.format(getByCode(code.code), host.getUrl(),
+                    textAvailable, textLastTimeCheck);
         } else if (code == Code.ADD_META_TAG) {
             text = String.format(getByCode(code.code), host.hashCode());
         } else {
@@ -194,8 +194,6 @@ public class Message {
         HOST_SUCCESSFULLY_DELETED("host_successfully_deleted"),
         HOST_EXISTS("host_exists"),
         INVALID_URL("invalid_url"),
-        HOST_AVAILABLE("host_available"),
-        HOST_NOT_AVAILABLE("host_not_available"),
         HOST_INFO("host_info"),
         ADD_META_TAG("add_meta_tag"),
         META_TAG_NOT_FOUND("meta_tag_not_found");

@@ -61,6 +61,10 @@ public class Host {
     // Метод проверяет URL на валидность.
     public static boolean urlIsValid(Host host) {
         host.url = host.url.toLowerCase();
+
+        if (host.url.endsWith("/"))
+            host.url = host.url.substring(0, host.url.lastIndexOf("/"));
+
         if (!host.url.startsWith("http://") && !host.url.startsWith("https://"))
             host.url = "http://" + host.url;
         else if (host.url.startsWith("https://"))

@@ -20,10 +20,13 @@ public class Controller {
         new Message(Message.Code.HOSTS_LIST, user).sendMessage();
     }
 
+    // Метод отправляет пользователю сообщение с информацией о боте.
     public void getAndSendAboutBotInfo(User user) {
         new Message(Message.Code.ABOUT_BOT, user).sendMessage();
     }
 
+    // Метод отправляет пользователю сообщение
+    // с просьбой ввести адрес сайта и кнопкой для отмены.
     public void sendHostNameRequest(User user) {
         user.setState(User.State.SITE_ADDING);
         User.updateUserState(user);
@@ -39,7 +42,11 @@ public class Controller {
         getAndSendHostsList(user);
     }
 
-    public void hostAddAndSendMessage(User user, String url) {
+    // Метод проверяет введенный пользователем URL на валидность,
+    // на существование в списке пользователя и если все ок,
+    // то отправляет пользователю сообщение с метатегом
+    // который нужно установить на сайт.
+    public void checkUrlAndSendMetaTag(User user, String url) {
         Host host = new Host();
         host.setUrl(url);
         host.setUid(user.getId());
@@ -59,7 +66,7 @@ public class Controller {
         }
     }
 
-    public void checkMetaTag(User user) {
+    public void checkMetaTagAndAddHost(User user) {
         String userState = user.getState().getStateName();
         String url = userState.substring(userState.lastIndexOf("_") + 1);
         if (new MetaTagInspector().checkMetaTag(url)) {
