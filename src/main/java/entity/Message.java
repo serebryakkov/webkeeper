@@ -121,7 +121,7 @@ public class Message {
         if (hosts.size() > 0) {
             for (Host host : hosts) {
                 buttons = new ArrayList<>();
-                buttons.add(new InlineKeyboardButton().setText(host.getUrl()).
+                buttons.add(new InlineKeyboardButton().setText(host.getUrl().substring(7)).
                         setCallbackData("site_" + host.getId()));
                 inlineKeyboardButtons.add(buttons);
             }

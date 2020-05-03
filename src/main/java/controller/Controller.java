@@ -1,6 +1,6 @@
 package controller;
 
-import Util.MetaTagInspector;
+import util.MetaTagInspector;
 import entity.*;
 
 import java.util.List;
@@ -68,7 +68,7 @@ public class Controller {
 
     public void checkMetaTagAndAddHost(User user) {
         String userState = user.getState().getStateName();
-        String url = userState.substring(userState.lastIndexOf("_") + 1);
+        String url = userState.substring(13);
         if (new MetaTagInspector().checkMetaTag(url)) {
             Host host = new Host();
             host.setUrl(url);

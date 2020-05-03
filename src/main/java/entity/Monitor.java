@@ -1,6 +1,6 @@
 package entity;
 
-import Util.MetaTagInspector;
+import util.MetaTagInspector;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -15,7 +15,7 @@ public class Monitor extends Thread {
 
     static {
         List<Host> hosts = Host.getAll();
-        if (hosts.size() > 0) {
+        if (!hosts.isEmpty()) {
             for (Host host : hosts) {
                 User user = new User();
                 user.setUid(host.getUid());
