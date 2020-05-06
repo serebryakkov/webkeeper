@@ -49,7 +49,7 @@ public class Controller {
     public void checkUrlAndSendMetaTag(User user, String url) {
         Host host = new Host();
         host.setUrl(url);
-        host.setUid(user.getId());
+        host.setUid(user.getUid());
         if (Host.urlIsValid(host)) {
             if (!Host.exists(host, user)) {
                 User.State userState = User.State.ADD_META_TAG;
@@ -72,7 +72,7 @@ public class Controller {
         if (new MetaTagInspector().checkMetaTag(url)) {
             Host host = new Host();
             host.setUrl(url);
-            host.setUid(user.getId());
+            host.setUid(user.getUid());
             Host.add(host);
             new Monitor(host, user);
             user.setState(User.State.NULL);

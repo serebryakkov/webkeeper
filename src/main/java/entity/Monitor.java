@@ -61,6 +61,7 @@ public class Monitor extends Thread {
                 Host.updateAvailable(host);
             }
         } catch (IOException e) {
+            System.out.println("Ошибка соединения.");
             host.setLastTimeCheck(new Date());
             if (host.isAvailable()) {
                 host.setAvailable(false);

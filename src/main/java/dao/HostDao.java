@@ -2,12 +2,7 @@ package dao;
 
 import entity.Host;
 import entity.User;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +78,7 @@ public class HostDao {
 
         try (Connection connection = DAOFactory.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setLong(1, user.getId());
+            pstmt.setLong(1, user.getUid());
 
             ResultSet rs = pstmt.executeQuery();
 

@@ -5,19 +5,17 @@ import dao.UserDao;
 import java.util.List;
 
 public class User {
-    private static UserDao userDao;
-
     private long uid;
     private String username;
     private State state;
     private List<Host> hosts;
 
-    public long getId() {
+    public long getUid() {
         return uid;
     }
 
-    public void setUid(long id) {
-        this.uid = id;
+    public void setUid(long uid) {
+        this.uid = uid;
     }
 
     public String getUsername() {
@@ -46,11 +44,10 @@ public class User {
 
     // Метод добавляет пользователя в БД.
     public static void add(User user) {
-        userDao = new UserDao();
-        if (userDao.getById(user.getId()) == null) {
+        UserDao userDao = new UserDao();
+        if (userDao.getById(user.getUid()) == null) {
             userDao.add(user);
         }
-        userDao = null;
     }
 
     public static State getUserState(User user) {
@@ -59,9 +56,7 @@ public class User {
 
     // Метод обновляет состояние (state) пользователя в БД.
     public static void updateUserState(User user) {
-        userDao = new UserDao();
-        userDao.updateUserState(user);
-        userDao = null;
+        new UserDao().updateUserState(user);
     }
 
     public enum State {

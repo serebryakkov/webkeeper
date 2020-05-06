@@ -45,7 +45,7 @@ public class Message {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
         sendMessage.disableWebPagePreview();
-        sendMessage.setChatId(user.getId());
+        sendMessage.setChatId(user.getUid());
         sendMessage.setText(text);
         sendMessage.setReplyMarkup(createButtons());
 

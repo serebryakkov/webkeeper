@@ -13,7 +13,7 @@ public class UserDao {
 
         try (Connection connection = DAOFactory.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setLong(1, user.getId());
+            pstmt.setLong(1, user.getUid());
             pstmt.setString(2, user.getUsername());
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -50,7 +50,7 @@ public class UserDao {
         try (Connection connection = DAOFactory.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, user.getState().getStateName());
-            pstmt.setLong(2, user.getId());
+            pstmt.setLong(2, user.getUid());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -63,7 +63,7 @@ public class UserDao {
 
         try (Connection connection = DAOFactory.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setLong(1, user.getId());
+            pstmt.setLong(1, user.getUid());
 
             ResultSet rs = pstmt.executeQuery();
 
