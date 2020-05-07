@@ -4,6 +4,7 @@ import util.MetaTagInspector;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
 import java.util.ArrayList;
@@ -60,8 +61,16 @@ public class Monitor extends Thread {
                 }
                 Host.updateAvailable(host);
             }
+        } catch (MalformedURLException e) {
+            System.out.println("Исключение: " + e.getMessage());
+            host.setLastTimeCheck(new Date());
+            if (host.isAvailable()) {
+                host.setAvailable(false);
+                new Message(Message.Code.HOST_INFO, user, host).sendMessage();
+            }
+            Host.updateAvailable(host);
         } catch (IOException e) {
-            System.out.println("Ошибка соединения.");
+            System.out.println("Исключение: " + e.getMessage());
             host.setLastTimeCheck(new Date());
             if (host.isAvailable()) {
                 host.setAvailable(false);
