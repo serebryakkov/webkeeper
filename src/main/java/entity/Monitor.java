@@ -8,6 +8,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -85,9 +86,11 @@ public class Monitor extends Thread {
     }
 
     public static void stopAndRemoveMonitor(Host host) {
-        for (Monitor monitor : monitors) {
+        Iterator<Monitor> iterator = monitors.iterator();
+        while (iterator.hasNext()) {
+            Monitor monitor = iterator.next();
             if (monitor.host.equals(host)) {
-                monitors.remove(monitor);
+                iterator.remove();
                 monitor.interrupt();
             }
         }
