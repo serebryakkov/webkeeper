@@ -79,7 +79,7 @@ public class Monitor extends Thread {
             try {
                 TimeUnit.MINUTES.sleep(30);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                System.out.println("Мониторинг ресурса " + host.getUrl() + " остановлен.");
             }
         }
     }
