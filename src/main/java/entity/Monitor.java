@@ -87,8 +87,8 @@ public class Monitor extends Thread {
     public static void stopAndRemoveMonitor(Host host) {
         for (Monitor monitor : monitors) {
             if (monitor.host.equals(host)) {
-                monitor.interrupt();
                 monitors.remove(monitor);
+                monitor.interrupt();
             }
         }
     }
