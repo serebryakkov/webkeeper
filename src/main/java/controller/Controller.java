@@ -96,6 +96,7 @@ public class Controller {
     public void deleteHostAndSendMessage(User user, String hostId) {
         Host host = Host.getById(Integer.parseInt(hostId));
         Host.remove(host);
+        System.out.println("0");
         Monitor.stopAndRemoveMonitor(host);
         System.out.println("1");
         new Message(Message.Code.HOST_SUCCESSFULLY_DELETED, user).sendMessage();
