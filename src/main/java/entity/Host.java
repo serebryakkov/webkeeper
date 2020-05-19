@@ -3,6 +3,8 @@ package entity;
 import dao.HostDao;
 import org.apache.commons.validator.routines.UrlValidator;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.*;
 
 public class Host {

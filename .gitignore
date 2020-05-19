@@ -1,3 +1,6 @@
 /.idea
 /target
 /src/main/resources
+/bin/
+.classpath
+.project
