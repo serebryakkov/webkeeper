@@ -4,7 +4,6 @@ import util.MetaTagInspector;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class Monitor extends Thread {
-    private static final List<Monitor> monitors = new ArrayList<>();
+    private static final List<Monitor> MONITORS = new ArrayList<>();
 
     static {
         List<Host> hosts = Host.getAll();
@@ -32,7 +31,7 @@ public class Monitor extends Thread {
     public Monitor(Host host, User user) {
         this.host = host;
         this.user = user;
-        monitors.add(this);
+        MONITORS.add(this);
         this.start();
     }
 
@@ -42,6 +41,7 @@ public class Monitor extends Thread {
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setConnectTimeout(40000);
             int responseCode = urlConnection.getResponseCode();
+
             MetaTagInspector metaTagInspector = new MetaTagInspector();
 
             if (responseCode == 200 && metaTagInspector.checkMetaTag(hostUrl)) {
@@ -86,7 +86,7 @@ public class Monitor extends Thread {
     }
 
     public static void stopAndRemoveMonitor(Host host) {
-        Iterator<Monitor> iterator = monitors.iterator();
+        Iterator<Monitor> iterator = MONITORS.iterator();
         while (iterator.hasNext()) {
             Monitor monitor = iterator.next();
             if (monitor.host.equals(host)) {

@@ -6,6 +6,7 @@ import entity.*;
 import java.util.List;
 
 public class Controller {
+    private final IMonitor monitor = new IMonitorImpl();
     // Метод добавляет пользователя в БД, если его там нет.
     // А также отправляет ему стартовое сообщение.
     public void startBot(User user) {
@@ -74,7 +75,8 @@ public class Controller {
             host.setUrl(url);
             host.setUid(user.getUid());
             Host.add(host);
-            new Monitor(host, user);
+            monitor.startMonitor(host, user);
+//            new Monitor(host, user);
             user.setState(User.State.NULL);
             User.updateUserState(user);
             new Message(Message.Code.HOST_SUCCESSFULLY_ADDED, user).sendMessage();
@@ -96,11 +98,9 @@ public class Controller {
     public void deleteHostAndSendMessage(User user, String hostId) {
         Host host = Host.getById(Integer.parseInt(hostId));
         Host.remove(host);
-        System.out.println("0");
-        Monitor.stopAndRemoveMonitor(host);
-        System.out.println("1");
+        monitor.stopMonitor(host);
+//        Monitor.stopAndRemoveMonitor(host);
         new Message(Message.Code.HOST_SUCCESSFULLY_DELETED, user).sendMessage();
-        System.out.println("2");
         getAndSendHostsList(user);
     }
 }
