@@ -15,11 +15,6 @@ public class Bot extends TelegramLongPollingBot {
 
     {
         entity.Message.setBot(this);
-        try {
-            Class.forName("entity.Monitor");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -58,6 +53,9 @@ public class Bot extends TelegramLongPollingBot {
                 break;
             case "Отмена":
                 controller.cancelHostAdding(user);
+                break;
+            case "/get_active_streams":
+                System.out.println(Thread.getAllStackTraces().keySet().size());
                 break;
             default:
                 if (User.getUserState(user).equals(User.State.SITE_ADDING))

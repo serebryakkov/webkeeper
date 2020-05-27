@@ -14,7 +14,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-public class IMonitorImpl implements IMonitor {
+public class ScheduledExecutorServiceMonitor implements IMonitor {
     private static final List<MonitorTask> tasksList = new ArrayList<>();
     private static final ScheduledExecutorService executorService =
             Executors.newScheduledThreadPool(2);
@@ -22,7 +22,7 @@ public class IMonitorImpl implements IMonitor {
     static {
         List<Host> hosts = Host.getAll();
         if (!hosts.isEmpty()) {
-            IMonitorImpl monitor = new IMonitorImpl();
+            ScheduledExecutorServiceMonitor monitor = new ScheduledExecutorServiceMonitor();
             for (Host host : hosts) {
                 User user = new User();
                 user.setUid(host.getUid());
@@ -48,6 +48,7 @@ public class IMonitorImpl implements IMonitor {
             MonitorTask task = iterator.next();
             if (task.host.equals(host)) {
                 iterator.remove();
+                System.out.println("Мониторинг ресурса " + task.host.getUrl() + " прекращен");
                 task.getFuture().cancel(true);
             }
         }
