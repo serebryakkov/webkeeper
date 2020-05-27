@@ -55,7 +55,8 @@ public class Bot extends TelegramLongPollingBot {
                 controller.cancelHostAdding(user);
                 break;
             case "/get_active_streams":
-                System.out.println(Thread.getAllStackTraces().keySet().size());
+                for (Thread t : Thread.getAllStackTraces().keySet())
+                    System.out.println(t.getName());
                 break;
             default:
                 if (User.getUserState(user).equals(User.State.SITE_ADDING))
