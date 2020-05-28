@@ -10,7 +10,7 @@ public class IDAOFactoryImpl implements IDAOFactory {
     private static DataSource rawDs;
     private static DataSource ds;
 
-    {
+    static {
         try {
             rawDs = DataSources.unpooledDataSource(
                     System.getenv("DB_URL"),
