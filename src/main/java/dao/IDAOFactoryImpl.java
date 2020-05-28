@@ -13,10 +13,11 @@ public class IDAOFactoryImpl implements IDAOFactory {
 
     private IDAOFactoryImpl() {
         pool = new BasicDataSource();
-        pool.setDriverClassName("org.postgresql.Driver");
         pool.setUrl(System.getenv("DB_URL"));
         pool.setUsername(System.getenv("DB_USER"));
         pool.setPassword(System.getenv("DB_PASSWORD"));
+        pool.setMinIdle(1);
+        pool.setMaxIdle(18);
         pool.setInitialSize(1);
     }
 
