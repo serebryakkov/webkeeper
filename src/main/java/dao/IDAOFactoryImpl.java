@@ -12,13 +12,13 @@ public class IDAOFactoryImpl implements IDAOFactory {
     private final BasicDataSource pool;
 
     private IDAOFactoryImpl() {
-        pool = new BasicDataSource();
-        pool.setUrl(System.getenv("DB_URL"));
-        pool.setUsername(System.getenv("DB_USER"));
-        pool.setPassword(System.getenv("DB_PASSWORD"));
-        pool.setMinIdle(1);
-        pool.setMaxIdle(18);
-        pool.setInitialSize(1);
+        BasicDataSource bs = new BasicDataSource();
+        bs.setUrl(System.getenv("DB_URL"));
+        bs.setUsername(System.getenv("DB_USER"));
+        bs.setPassword(System.getenv("DB_PASSWORD"));
+        bs.setMinIdle(1);
+        bs.setMaxIdle(18);
+        pool = bs;
     }
 
     public static IDAOFactoryImpl getInstance() {
