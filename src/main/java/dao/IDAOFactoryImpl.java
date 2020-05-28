@@ -13,6 +13,7 @@ public class IDAOFactoryImpl implements IDAOFactory {
         try {
             pool.setMinPoolSize(1);
             pool.setMaxPoolSize(18);
+            pool.setInitialPoolSize(18);
             pool.setDriverClass("org.postgresql.Driver");
             pool.setUser(System.getenv("DB_USER"));
             pool.setPassword(System.getenv("DB_PASSWORD"));
