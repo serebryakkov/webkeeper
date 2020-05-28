@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class IDAOFactoryImpl implements IDAOFactory {
 
-    private PGPoolingDataSource pool;
+    private static PGPoolingDataSource pool;
 
     public IDAOFactoryImpl() {
         pool = new PGPoolingDataSource();

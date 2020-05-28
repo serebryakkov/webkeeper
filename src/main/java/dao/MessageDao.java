@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class MessageDao {
-    private IDAOFactory daoFactory = new IDAOFactoryImpl();
+    private final IDAOFactory daoFactory = new IDAOFactoryImpl();
 
     public String getByCode(String code) {
         String helpText = null;
