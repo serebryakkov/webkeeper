@@ -12,6 +12,8 @@ public class IDAOFactoryImpl implements IDAOFactory {
         pool.setJdbcUrl(System.getenv("DB_URL"));
         pool.setUser(System.getenv("DB_USER"));
         pool.setPassword(System.getenv("DB_PASSWORD"));
+        pool.setMinPoolSize(1);
+        pool.setMaxPoolSize(18);
     }
 
     @Override
