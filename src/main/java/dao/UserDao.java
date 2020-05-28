@@ -8,10 +8,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDao {
+    private IDAOFactory daoFactory = new IDAOFactoryImpl();
+
     public void add(User user) {
         String sql = "INSERT INTO users (uid, username) VALUES (?, ?)";
 
-        try (Connection connection = DAOFactory.getConnection();
+        try (Connection connection = daoFactory.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setLong(1, user.getUid());
             pstmt.setString(2, user.getUsername());
@@ -25,7 +27,7 @@ public class UserDao {
         User user = null;
         String sql = "SELECT username, state FROM users WHERE uid = ?";
 
-        try (Connection connection = DAOFactory.getConnection();
+        try (Connection connection = daoFactory.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setLong(1, userId);
 
@@ -47,7 +49,7 @@ public class UserDao {
     public void updateUserState(User user) {
         String sql = "UPDATE users SET state = ? WHERE uid = ?";
 
-        try (Connection connection = DAOFactory.getConnection();
+        try (Connection connection = daoFactory.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, user.getState().getStateName());
             pstmt.setLong(2, user.getUid());
@@ -61,7 +63,7 @@ public class UserDao {
         String sql = "SELECT state FROM users WHERE uid = ?";
         User.State state = null;
 
-        try (Connection connection = DAOFactory.getConnection();
+        try (Connection connection = daoFactory.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setLong(1, user.getUid());
 

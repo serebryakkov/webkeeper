@@ -15,18 +15,18 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class ScheduledExecutorServiceMonitor implements IMonitor {
+
     private static final List<MonitorTask> tasksList = new ArrayList<>();
     private static final ScheduledExecutorService executorService =
             Executors.newScheduledThreadPool(2);
 
-    static {
+    {
         List<Host> hosts = Host.getAll();
         if (!hosts.isEmpty()) {
-            ScheduledExecutorServiceMonitor monitor = new ScheduledExecutorServiceMonitor();
             for (Host host : hosts) {
                 User user = new User();
                 user.setUid(host.getUid());
-                monitor.startMonitor(host, user);
+                startMonitor(host, user);
             }
         }
     }
