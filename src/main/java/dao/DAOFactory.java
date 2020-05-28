@@ -1,8 +1,5 @@
 package dao;
 
-import com.mchange.v2.c3p0.DataSources;
-
-import javax.sql.DataSource;
 import java.sql.*;
 
 public class DAOFactory {
