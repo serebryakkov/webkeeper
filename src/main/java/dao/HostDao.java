@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HostDao {
-    private IDAOFactory daoFactory = new IDAOFactoryImpl();
+    private final IDAOFactory daoFactory = IDAOFactoryImpl.getInstance();
 
     public void add(Host host) {
         String sql = "INSERT INTO hosts (url, uid) VALUES (?, ?)";

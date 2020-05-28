@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDao {
-    private IDAOFactory daoFactory = new IDAOFactoryImpl();
+    private final IDAOFactory daoFactory = IDAOFactoryImpl.getInstance();
 
     public void add(User user) {
         String sql = "INSERT INTO users (uid, username) VALUES (?, ?)";
