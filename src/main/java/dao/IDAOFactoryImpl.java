@@ -11,15 +11,15 @@ public class IDAOFactoryImpl implements IDAOFactory {
 
     static {
         try {
+            pool.setMinPoolSize(1);
+            pool.setMaxPoolSize(18);
             pool.setDriverClass("org.postgresql.Driver");
         } catch (PropertyVetoException e) {
             e.printStackTrace();
         }
-        pool.setJdbcUrl(System.getenv("DB_URL"));
         pool.setUser(System.getenv("DB_USER"));
         pool.setPassword(System.getenv("DB_PASSWORD"));
-        pool.setMinPoolSize(1);
-        pool.setMaxPoolSize(18);
+        pool.setJdbcUrl(System.getenv("DB_URL"));
     }
 
     @Override
