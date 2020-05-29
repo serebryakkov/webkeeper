@@ -5,6 +5,7 @@ import org.apache.commons.dbcp2.*;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.concurrent.TimeUnit;
 
 public class IDAOFactoryImpl implements IDAOFactory {
 
@@ -19,6 +20,7 @@ public class IDAOFactoryImpl implements IDAOFactory {
         dataSource.setPassword(System.getenv("DB_PASSWORD"));
         dataSource.setMaxIdle(18);
         dataSource.setInitialSize(1);
+        dataSource.setMaxConnLifetimeMillis(TimeUnit.MINUTES.toMillis(1));
 
         ds = dataSource;
     }
