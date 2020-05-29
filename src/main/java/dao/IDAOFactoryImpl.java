@@ -1,24 +1,32 @@
 package dao;
 
-import org.apache.commons.dbcp2.BasicDataSource;
-import org.postgresql.ds.PGPoolingDataSource;
+import org.apache.commons.dbcp2.*;
+import org.apache.commons.pool2.ObjectPool;
+import org.apache.commons.pool2.impl.GenericObjectPool;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
 public class IDAOFactoryImpl implements IDAOFactory {
 
     private static IDAOFactoryImpl daoFactory;
-    private final BasicDataSource pool;
+    private DataSource ds;
 
     private IDAOFactoryImpl() {
-        BasicDataSource bs = new BasicDataSource();
-        bs.setUrl(System.getenv("DB_URL"));
-        bs.setUsername(System.getenv("DB_USER"));
-        bs.setPassword(System.getenv("DB_PASSWORD"));
-        bs.setMinIdle(1);
-        bs.setMaxIdle(18);
-        pool = bs;
+        DriverManagerConnectionFactory connectionFactory =
+                new DriverManagerConnectionFactory(System.getenv("DB_URL"),
+                        System.getenv("DB_USER"),
+                        System.getenv("DB_PASSWORD")
+                );
+
+        PoolableConnectionFactory poolableConnectionFactory =
+                new PoolableConnectionFactory(connectionFactory, null);
+
+        ObjectPool<PoolableConnection> connectionPool =
+                new GenericObjectPool<>(poolableConnectionFactory);
+
+        ds = new PoolingDataSource<>(connectionPool);
     }
 
     public static IDAOFactoryImpl getInstance() {
@@ -30,6 +38,6 @@ public class IDAOFactoryImpl implements IDAOFactory {
 
     @Override
     public Connection getConnection() throws SQLException {
-        return pool.getConnection();
+        return ds.getConnection();
     }
 }
