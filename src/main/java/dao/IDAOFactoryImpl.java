@@ -15,24 +15,33 @@ public class IDAOFactoryImpl implements IDAOFactory {
     private final DataSource ds;
 
     private IDAOFactoryImpl() {
-        DriverManagerConnectionFactory connectionFactory =
-                new DriverManagerConnectionFactory(
-                        System.getenv("DB_URL"),
-                        System.getenv("DB_USER"),
-                        System.getenv("DB_PASSWORD")
-                );
+        BasicDataSource dataSource = new BasicDataSource();
+        dataSource.setDriverClassName("org.postgresql.Driver");
+        dataSource.setUrl(System.getenv("DB_URL"));
+        dataSource.setUsername(System.getenv("DB_USER"));
+        dataSource.setPassword(System.getenv("DB_PASSWORD"));
+        dataSource.setMaxIdle(18);
 
-        PoolableConnectionFactory poolableConnectionFactory =
-                new PoolableConnectionFactory(
-                        connectionFactory,
-                        null);
+        ds = dataSource;
 
-        poolableConnectionFactory.setMaxConnLifetimeMillis(TimeUnit.MINUTES.toMillis(1));
-
-        ObjectPool<PoolableConnection> connectionPool =
-                new GenericObjectPool<>(poolableConnectionFactory);
-
-        ds = new PoolingDataSource<>(connectionPool);
+//        DriverManagerConnectionFactory connectionFactory =
+//                new DriverManagerConnectionFactory(
+//                        System.getenv("DB_URL"),
+//                        System.getenv("DB_USER"),
+//                        System.getenv("DB_PASSWORD")
+//                );
+//
+//        PoolableConnectionFactory poolableConnectionFactory =
+//                new PoolableConnectionFactory(
+//                        connectionFactory,
+//                        null);
+//
+//        poolableConnectionFactory.setMaxConnLifetimeMillis(TimeUnit.MINUTES.toMillis(1));
+//
+//        ObjectPool<PoolableConnection> connectionPool =
+//                new GenericObjectPool<>(poolableConnectionFactory);
+//
+//        dataSource = new PoolingDataSource<>(connectionPool);
     }
 
     public static IDAOFactoryImpl getInstance() {
