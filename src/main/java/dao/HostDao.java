@@ -8,16 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HostDao {
-    private final IDAOFactory daoFactory = IDAOFactoryImpl.getInstance();
 
     public void add(Host host) {
         String sql = "INSERT INTO hosts (url, uid) VALUES (?, ?)";
 
-        try (Connection connection = daoFactory.getConnection();
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setString(1, host.getUrl());
-            pstmt.setLong(2, host.getUid());
-            pstmt.executeUpdate();
+        try (Connection connection = DAOFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, host.getUrl());
+            statement.setLong(2, host.getUid());
+            statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -27,11 +26,11 @@ public class HostDao {
         Host host = null;
         String sql = "SELECT id, url, available, uid, last_time_check FROM hosts WHERE id = ?";
 
-        try (Connection connection = daoFactory.getConnection();
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setInt(1, id);
+        try (Connection connection = DAOFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, id);
 
-            ResultSet rs = pstmt.executeQuery();
+            ResultSet rs = statement.executeQuery();
 
             if (rs.next()) {
                 host = new Host();
@@ -54,7 +53,7 @@ public class HostDao {
         Host host;
         String sql = "SELECT id, url, available, uid FROM hosts";
 
-        try (Connection connection = daoFactory.getConnection();
+        try (Connection connection = DAOFactory.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
             ResultSet rs = pstmt.executeQuery();
 
@@ -78,7 +77,7 @@ public class HostDao {
         List<Host> result = new ArrayList<>();
         Host host;
 
-        try (Connection connection = daoFactory.getConnection();
+        try (Connection connection = DAOFactory.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setLong(1, user.getUid());
 
@@ -102,7 +101,7 @@ public class HostDao {
     public void updateAvailable(Host host) {
         String sql = "UPDATE hosts SET available = ?, last_time_check = ? WHERE url = ? AND uid = ?";
 
-        try (Connection connection = daoFactory.getConnection();
+        try (Connection connection = DAOFactory.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setBoolean(1, host.isAvailable());
             pstmt.setTimestamp(2, new Timestamp(host.getLastTimeCheck().getTime()));
@@ -117,7 +116,7 @@ public class HostDao {
     public void remove(Host host) {
         String sql = "DELETE FROM hosts WHERE id = ?";
 
-        try (Connection connection = daoFactory.getConnection();
+        try (Connection connection = DAOFactory.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, host.getId());
             pstmt.executeUpdate();

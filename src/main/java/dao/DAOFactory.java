@@ -1,20 +1,32 @@
 package dao;
 
-import java.sql.*;
+import org.apache.commons.dbcp2.*;
+
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.concurrent.TimeUnit;
 
 public class DAOFactory {
+    private static final DataSource dataSource;
 
-    public static Connection getConnection() {
-        String db_url = System.getenv("DB_URL");
-        String db_user = System.getenv("DB_USER");
-        String db_password = System.getenv("DB_PASSWORD");
+    static {
+        BasicDataSource ds = new BasicDataSource();
+        ds.setDriverClassName("org.postgresql.Driver");
+        ds.setUrl(System.getenv("DB_URL"));
+        ds.setUsername(System.getenv("DB_USER"));
+        ds.setPassword(System.getenv("DB_PASSWORD"));
+        ds.setMaxIdle(18);
+        ds.setInitialSize(5);
+        ds.setMinIdle(0);
+        ds.setMaxConnLifetimeMillis(TimeUnit.MINUTES.toMillis(1));
 
-        Connection connection = null;
-        try {
-            connection = DriverManager.getConnection(db_url, db_user, db_password);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return connection;
+        dataSource = ds;
+    }
+
+    private DAOFactory() {}
+
+    public static Connection getConnection() throws SQLException {
+        return dataSource.getConnection();
     }
 }

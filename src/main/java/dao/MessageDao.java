@@ -6,13 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class MessageDao {
-    private final IDAOFactory daoFactory = IDAOFactoryImpl.getInstance();
 
     public String getByCode(String code) {
         String helpText = null;
         String sql = "SELECT text FROM help_texts WHERE code = ?";
 
-        try (Connection connection = daoFactory.getConnection();
+        try (Connection connection = DAOFactory.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, code);
 

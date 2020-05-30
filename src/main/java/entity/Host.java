@@ -10,6 +10,8 @@ import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
 public class Host {
+    private static final HostDao hostDao = new HostDao();
+
     private int id;
     private String url;
     private boolean available;
@@ -96,22 +98,22 @@ public class Host {
     }
 
     public static Host getById(int id) {
-        return new HostDao().getById(id);
+        return hostDao.getById(id);
     }
 
     public static List<Host> getAll() {
-        return new HostDao().getAll();
+        return hostDao.getAll();
     }
 
     public static List<Host> getAllByUserId(User user) {
-        return new HostDao().getAllByUserId(user);
+        return hostDao.getAllByUserId(user);
     }
 
     public static void updateAvailable(Host host) {
-        new HostDao().updateAvailable(host);
+        hostDao.updateAvailable(host);
     }
 
     public static void remove(Host host) {
-        new HostDao().remove(host);
+        hostDao.remove(host);
     }
 }
