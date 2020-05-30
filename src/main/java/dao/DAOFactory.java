@@ -16,10 +16,8 @@ public final class DAOFactory {
         ds.setUsername(System.getenv("DB_USER"));
         ds.setPassword(System.getenv("DB_PASSWORD"));
         ds.setMaxIdle(18);
-        ds.setInitialSize(5);
+        ds.setInitialSize(2);
         ds.setMinIdle(0);
-        ds.setMaxConnLifetimeMillis(60000);
-        ds.setTimeBetweenEvictionRunsMillis(6000);
 
         dataSource = ds;
     }
