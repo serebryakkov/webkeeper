@@ -5,9 +5,8 @@ import org.apache.commons.dbcp2.*;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.concurrent.TimeUnit;
 
-public class DAOFactory {
+public final class DAOFactory {
     private static final DataSource dataSource;
 
     static {
@@ -19,7 +18,7 @@ public class DAOFactory {
         ds.setMaxIdle(18);
         ds.setInitialSize(5);
         ds.setMinIdle(0);
-        ds.setMaxConnLifetimeMillis(TimeUnit.MINUTES.toMillis(1));
+        ds.setMaxConnLifetimeMillis(60000);
 
         dataSource = ds;
     }
