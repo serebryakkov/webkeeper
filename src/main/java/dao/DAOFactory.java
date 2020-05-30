@@ -18,6 +18,8 @@ public final class DAOFactory {
         ds.setMaxIdle(18);
         ds.setInitialSize(2);
         ds.setMinIdle(0);
+        ds.setMinEvictableIdleTimeMillis(60000);
+        ds.setTimeBetweenEvictionRunsMillis(10000);
 
         dataSource = ds;
     }
