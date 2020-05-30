@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Message {
+    private static final MessageDao messageDao = new MessageDao();
+
     private static Bot bot;
 
     private final Code code;
@@ -57,19 +59,19 @@ public class Message {
     }
 
     private String getText() {
-        String text = null;
+        String text;
 
         if (code == Code.HOST_INFO) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
             String textAvailable = (host.isAvailable() ? "Доступен" : "Недоступен");
             String textLastTimeCheck = dateFormat.format(host.getLastTimeCheck());
 
-            text = String.format(getByCode(code.code), host.getUrl(),
+            text = String.format(getHelpTextByCode(code.code), host.getUrl(),
                     textAvailable, textLastTimeCheck);
         } else if (code == Code.ADD_META_TAG) {
-            text = String.format(getByCode(code.code), host.hashCode());
+            text = String.format(getHelpTextByCode(code.code), host.hashCode());
         } else {
-            text = getByCode(code.code);
+            text = getHelpTextByCode(code.code);
         }
 
         return text;
@@ -180,8 +182,8 @@ public class Message {
         return inlineKeyboardMarkup;
     }
 
-    public static String getByCode(String code) {
-        return new MessageDao().getByCode(code);
+    public static String getHelpTextByCode(String code) {
+        return messageDao.getByCode(code);
     }
 
     public enum Code {

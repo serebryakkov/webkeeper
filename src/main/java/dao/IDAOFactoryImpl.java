@@ -20,6 +20,7 @@ public class IDAOFactoryImpl implements IDAOFactory {
         dataSource.setPassword(System.getenv("DB_PASSWORD"));
         dataSource.setMaxIdle(18);
         dataSource.setInitialSize(1);
+        dataSource.setMinIdle(0);
         dataSource.setMaxConnLifetimeMillis(TimeUnit.MINUTES.toMillis(1));
 
         ds = dataSource;
