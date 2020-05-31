@@ -102,7 +102,7 @@ public class Bot extends TelegramLongPollingBot {
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
 
         try {
-            telegramBotsApi.registerBot(context.getBean(Bot.class));
+            telegramBotsApi.registerBot((Bot) context.getBean("bot"));
         } catch (TelegramApiRequestException e) {
             e.printStackTrace();
         }
