@@ -3,6 +3,7 @@ package bot.hostkeeper.server;
 import bot.hostkeeper.config.SpringConfig;
 import bot.hostkeeper.controller.Controller;
 import bot.hostkeeper.entity.User;
+import com.google.inject.ImplementedBy;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
 @Component
+@ImplementedBy(org.telegram.telegrambots.meta.generics.BotSession.class)
 public class Bot extends TelegramLongPollingBot {
     private final Controller controller = new Controller();
 
@@ -102,7 +104,7 @@ public class Bot extends TelegramLongPollingBot {
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
 
         try {
-            telegramBotsApi.registerBot((Bot) context.getBean("bot"));
+            telegramBotsApi.registerBot(context.getBean(Bot.class));
         } catch (TelegramApiRequestException e) {
             e.printStackTrace();
         }
