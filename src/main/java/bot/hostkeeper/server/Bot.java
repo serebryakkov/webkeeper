@@ -19,10 +19,6 @@ import javax.annotation.PostConstruct;
 @Component
 public class Bot extends TelegramLongPollingBot {
 
-    static {
-        ApiContextInitializer.init();
-    }
-
     @PostConstruct
     public void registerBot() {
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
@@ -114,6 +110,7 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     public static void main(String[] args) {
+        ApiContextInitializer.init();
         AnnotationConfigApplicationContext context =
                 new AnnotationConfigApplicationContext(SpringConfig.class);
     }
