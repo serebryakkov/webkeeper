@@ -8,8 +8,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SpringConfig {
 
-    @Bean
-    public Bot getBot() {
-        return new Bot();
-    }
+//    @Bean
+//    public Bot getBot() {
+//        return new Bot();
+//    }
 }
