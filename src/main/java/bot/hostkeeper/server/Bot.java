@@ -113,8 +113,8 @@ public class Bot extends TelegramLongPollingBot {
         return System.getenv("BOT_TOKEN");
     }
 
-//    public static void main(String[] args) {
-//        AnnotationConfigApplicationContext context =
-//                new AnnotationConfigApplicationContext(SpringConfig.class);
-//    }
+    public static void main(String[] args) {
+        AnnotationConfigApplicationContext context =
+                new AnnotationConfigApplicationContext(SpringConfig.class);
+    }
 }
