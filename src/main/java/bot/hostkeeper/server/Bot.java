@@ -15,8 +15,6 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
-@Component
-@ImplementedBy(org.telegram.telegrambots.meta.generics.BotSession.class)
 public class Bot extends TelegramLongPollingBot {
     private final Controller controller = new Controller();
 
