@@ -1,7 +1,7 @@
-package dao;
+package bot.hostkeeper.dao;
 
-import entity.Host;
-import entity.User;
+import bot.hostkeeper.entity.Host;
+import bot.hostkeeper.entity.User;
 
 import java.sql.*;
 import java.util.ArrayList;

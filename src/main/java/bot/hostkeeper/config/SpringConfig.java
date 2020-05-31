@@ -1,9 +1,9 @@
-package config;
+package bot.hostkeeper.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan("server")
+@ComponentScan("bot/hostkeeper/")
 public class SpringConfig {
 }

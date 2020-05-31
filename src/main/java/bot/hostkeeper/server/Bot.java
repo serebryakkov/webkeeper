@@ -1,10 +1,8 @@
-package server;
+package bot.hostkeeper.server;
 
-import config.SpringConfig;
-import controller.Controller;
-import entity.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import bot.hostkeeper.config.SpringConfig;
+import bot.hostkeeper.controller.Controller;
+import bot.hostkeeper.entity.User;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;

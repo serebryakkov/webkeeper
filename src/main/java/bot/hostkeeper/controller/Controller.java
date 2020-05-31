@@ -1,7 +1,7 @@
-package controller;
+package bot.hostkeeper.controller;
 
-import util.MetaTagInspector;
-import entity.*;
+import bot.hostkeeper.util.MetaTagInspector;
+import bot.hostkeeper.entity.*;
 
 import java.util.List;
 

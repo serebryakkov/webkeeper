@@ -1,6 +1,6 @@
-package dao;
+package bot.hostkeeper.dao;
 
-import entity.User;
+import bot.hostkeeper.entity.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -1,4 +1,4 @@
-package util;
+package bot.hostkeeper.util;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

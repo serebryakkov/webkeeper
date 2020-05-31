@@ -1,13 +1,9 @@
-package entity;
+package bot.hostkeeper.entity;
 
-import dao.HostDao;
+import bot.hostkeeper.dao.HostDao;
 import org.apache.commons.validator.routines.UrlValidator;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.*;
-import java.util.function.BiPredicate;
-import java.util.function.Predicate;
 
 public class Host {
     private static final HostDao hostDao = new HostDao();

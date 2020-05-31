@@ -1,6 +1,6 @@
-package entity;
+package bot.hostkeeper.entity;
 
-import util.MetaTagInspector;
+import bot.hostkeeper.util.MetaTagInspector;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;

@@ -18,7 +18,7 @@
                     <assembleDirectory>target</assembleDirectory>
                     <programs>
                         <program>
-                            <mainClass>server.Bot</mainClass>
+                            <mainClass>bot.hostkeeper.server.Bot</mainClass>
                             <name>workerBot</name>
                         </program>
                     </programs>

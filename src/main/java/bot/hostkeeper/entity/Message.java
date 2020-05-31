@@ -1,6 +1,6 @@
-package entity;
+package bot.hostkeeper.entity;
 
-import dao.MessageDao;
+import bot.hostkeeper.dao.MessageDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -10,7 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import server.Bot;
+import bot.hostkeeper.server.Bot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

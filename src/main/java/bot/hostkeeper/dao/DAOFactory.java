@@ -1,4 +1,4 @@
-package dao;
+package bot.hostkeeper.dao;
 
 import org.apache.commons.dbcp2.*;
 

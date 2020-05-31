@@ -1,6 +1,6 @@
-package entity;
+package bot.hostkeeper.entity;
 
-import dao.UserDao;
+import bot.hostkeeper.dao.UserDao;
 
 import java.util.List;
 
