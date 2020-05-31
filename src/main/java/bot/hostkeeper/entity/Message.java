@@ -43,6 +43,7 @@ public class Message {
 
     @Autowired
     public static void setBot(Bot workBot) {
+        System.out.println("Метод setBot вызван");
         bot = workBot;
     }
 
