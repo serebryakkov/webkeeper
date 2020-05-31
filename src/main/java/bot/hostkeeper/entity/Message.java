@@ -2,6 +2,7 @@ package bot.hostkeeper.entity;
 
 import bot.hostkeeper.dao.MessageDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
@@ -20,6 +21,7 @@ public class Message {
     private static final MessageDao messageDao = new MessageDao();
 
     @Autowired
+    @Qualifier("bot.hostkeeper.server.Bot")
     private static Bot bot;
 
     private final Code code;
