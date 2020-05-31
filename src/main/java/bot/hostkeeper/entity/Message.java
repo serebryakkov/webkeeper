@@ -20,8 +20,6 @@ import java.util.List;
 public class Message {
     private static final MessageDao messageDao = new MessageDao();
 
-    @Autowired
-    @Qualifier("bot.hostkeeper.server.Bot")
     private static Bot bot;
 
     private final Code code;
@@ -43,9 +41,10 @@ public class Message {
         this.text = getText();
     }
 
-//    public static void setBot(Bot workBot) {
-//        bot = workBot;
-//    }
+    @Autowired
+    public static void setBot(Bot workBot) {
+        bot = workBot;
+    }
 
     public void sendMessage() {
         System.out.println("Вызван метод 'sendMessage'");
