@@ -6,7 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan("bot/hostkeeper")
+@ComponentScan("bot.hostkeeper")
 public class SpringConfig {
 
 //    @Bean
