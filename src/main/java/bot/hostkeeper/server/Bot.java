@@ -3,8 +3,6 @@ package bot.hostkeeper.server;
 import bot.hostkeeper.config.SpringConfig;
 import bot.hostkeeper.controller.Controller;
 import bot.hostkeeper.entity.User;
-import com.google.inject.ImplementedBy;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
@@ -16,10 +14,23 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
+import javax.annotation.PostConstruct;
+
+@Component
 public class Bot extends TelegramLongPollingBot {
 
     static {
         ApiContextInitializer.init();
+    }
+
+    @PostConstruct
+    public void registerBot() {
+        TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
+        try {
+            telegramBotsApi.registerBot(this);
+        } catch (TelegramApiRequestException e) {
+            e.printStackTrace();
+        }
     }
 
     private final Controller controller = new Controller();
@@ -102,15 +113,8 @@ public class Bot extends TelegramLongPollingBot {
         return System.getenv("BOT_TOKEN");
     }
 
-    public static void main(String[] args) {
-        AnnotationConfigApplicationContext context =
-                new AnnotationConfigApplicationContext(SpringConfig.class);
-        TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
-
-        try {
-            telegramBotsApi.registerBot(context.getBean("bot", Bot.class));
-        } catch (TelegramApiRequestException e) {
-            e.printStackTrace();
-        }
-    }
+//    public static void main(String[] args) {
+//        AnnotationConfigApplicationContext context =
+//                new AnnotationConfigApplicationContext(SpringConfig.class);
+//    }
 }
