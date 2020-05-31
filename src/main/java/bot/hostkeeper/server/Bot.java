@@ -60,6 +60,7 @@ public class Bot extends TelegramLongPollingBot {
                 controller.startBot(user);
                 break;
             case "Список сайтов":
+                System.out.println("Вызвана команда 'Список сайтов'");
                 controller.getAndSendHostsList(user);
                 break;
             case "О боте":
