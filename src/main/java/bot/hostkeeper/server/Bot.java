@@ -25,6 +25,7 @@ public class Bot extends TelegramLongPollingBot {
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
         try {
             telegramBotsApi.registerBot(this);
+            System.out.println("Бот создан и зарегистрирован");
         } catch (TelegramApiRequestException e) {
             e.printStackTrace();
         }
