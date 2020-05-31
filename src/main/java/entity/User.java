@@ -5,6 +5,8 @@ import dao.UserDao;
 import java.util.List;
 
 public class User {
+    private static final UserDao userDao = new UserDao();
+
     private long uid;
     private String username;
     private State state;
@@ -44,19 +46,18 @@ public class User {
 
     // Метод добавляет пользователя в БД.
     public static void add(User user) {
-        UserDao userDao = new UserDao();
         if (userDao.getById(user.getUid()) == null) {
             userDao.add(user);
         }
     }
 
     public static State getUserState(User user) {
-        return new UserDao().getUserState(user);
+        return userDao.getUserState(user);
     }
 
     // Метод обновляет состояние (state) пользователя в БД.
     public static void updateUserState(User user) {
-        new UserDao().updateUserState(user);
+        userDao.updateUserState(user);
     }
 
     public enum State {

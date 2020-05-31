@@ -1,6 +1,7 @@
 package entity;
 
 import dao.MessageDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
@@ -18,6 +19,7 @@ import java.util.List;
 public class Message {
     private static final MessageDao messageDao = new MessageDao();
 
+    @Autowired
     private static Bot bot;
 
     private final Code code;
@@ -39,9 +41,9 @@ public class Message {
         this.text = getText();
     }
 
-    public static void setBot(Bot workBot) {
-        bot = workBot;
-    }
+//    public static void setBot(Bot workBot) {
+//        bot = workBot;
+//    }
 
     public void sendMessage() {
         SendMessage sendMessage = new SendMessage();

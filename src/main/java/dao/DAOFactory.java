@@ -18,7 +18,9 @@ public final class DAOFactory {
         ds.setMaxIdle(18);
         ds.setInitialSize(2);
         ds.setMinIdle(0);
+        // Время, через которое пул выкинет холостые соединения.
         ds.setMinEvictableIdleTimeMillis(60000);
+        // Время через которое будут проверяться соединения.
         ds.setTimeBetweenEvictionRunsMillis(10000);
 
         dataSource = ds;

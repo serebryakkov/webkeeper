@@ -54,7 +54,7 @@ public class ScheduledExecutorServiceMonitor implements IMonitor {
         }
     }
 
-    private class MonitorTask implements Runnable {
+    private static class MonitorTask implements Runnable {
         private final Host host;
         private final User user;
         private ScheduledFuture<?> future;
