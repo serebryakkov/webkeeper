@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan("bot.hostkeeper")
 public class SpringConfig {
 
-//    @Bean
-//    public Bot getBot() {
-//        return new Bot();
-//    }
+    @Bean
+    public Bot getBot() {
+        return new Bot();
+    }
 }
