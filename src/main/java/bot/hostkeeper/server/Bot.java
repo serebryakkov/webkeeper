@@ -21,6 +21,7 @@ public class Bot extends TelegramLongPollingBot {
 
     @PostConstruct
     public void registerBot() {
+        System.out.println("PostConstruct method called");
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
         try {
             telegramBotsApi.registerBot(this);
