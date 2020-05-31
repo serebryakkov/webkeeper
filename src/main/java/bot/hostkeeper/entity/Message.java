@@ -48,6 +48,7 @@ public class Message {
 //    }
 
     public void sendMessage() {
+        System.out.println("Вызван метод 'sendMessage'");
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
         sendMessage.disableWebPagePreview();

@@ -18,6 +18,7 @@ public class Controller {
     public void getAndSendHostsList(User user) {
         List<Host> hosts = Host.getAllByUserId(user);
         user.setHosts(hosts);
+        System.out.println("Вызван метод 'getAndSendHostsList'");
         new Message(Message.Code.HOSTS_LIST, user).sendMessage();
     }
 
