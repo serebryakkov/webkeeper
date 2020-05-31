@@ -97,8 +97,8 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     public static void main(String[] args) {
-        ApiContextInitializer.init();
         ApplicationContext context = new AnnotationConfigApplicationContext(SpringConfig.class);
+        ApiContextInitializer.init();
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
 
         try {
