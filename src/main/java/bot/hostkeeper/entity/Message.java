@@ -21,11 +21,12 @@ import java.util.List;
 public class Message {
     private static final MessageDao messageDao = new MessageDao();
 
+    private static Bot bot;
+
     private final Code code;
     private final String text;
     private final User user;
     private final Host host;
-    private Bot bot;
 
     public Message(Code code, User user) {
         this.code = code;
@@ -41,14 +42,11 @@ public class Message {
         this.text = getText();
     }
 
-    @Autowired
-    public void setBot(Bot workBot) {
-        System.out.println("Метод setBot вызван");
+    public static void setBot(Bot workBot) {
         bot = workBot;
     }
 
     public void sendMessage() {
-        System.out.println("Вызван метод 'sendMessage'");
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
         sendMessage.disableWebPagePreview();
@@ -57,6 +55,7 @@ public class Message {
         sendMessage.setReplyMarkup(createButtons());
 
         try {
+            System.out.println("Вызван метод 'sendMessage'");
             bot.execute(sendMessage);
         } catch (TelegramApiException e) {
             e.printStackTrace();

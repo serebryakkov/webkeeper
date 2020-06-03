@@ -3,7 +3,6 @@ package bot.hostkeeper.server;
 import bot.hostkeeper.config.SpringConfig;
 import bot.hostkeeper.controller.Controller;
 import bot.hostkeeper.entity.User;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.ApiContextInitializer;
@@ -21,11 +20,9 @@ public class Bot extends TelegramLongPollingBot {
 
     @PostConstruct
     public void registerBot() {
-        System.out.println("PostConstruct method called");
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
         try {
             telegramBotsApi.registerBot(this);
-            System.out.println("Бот создан и зарегистрирован");
         } catch (TelegramApiRequestException e) {
             e.printStackTrace();
         }
@@ -33,9 +30,9 @@ public class Bot extends TelegramLongPollingBot {
 
     private final Controller controller = new Controller();
 
-//    {
-//        entity.Message.setBot(this);
-//    }
+    {
+        bot.hostkeeper.entity.Message.setBot(this);
+    }
 
     @Override
     public void onUpdateReceived(Update update) {
