@@ -18,16 +18,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
 public class Message {
     private static final MessageDao messageDao = new MessageDao();
-
-    private static Bot bot;
 
     private final Code code;
     private final String text;
     private final User user;
     private final Host host;
+    private Bot bot;
 
     public Message(Code code, User user) {
         this.code = code;
@@ -44,7 +42,7 @@ public class Message {
     }
 
     @Autowired
-    public static void setBot(Bot workBot) {
+    public void setBot(Bot workBot) {
         System.out.println("Метод setBot вызван");
         bot = workBot;
     }
