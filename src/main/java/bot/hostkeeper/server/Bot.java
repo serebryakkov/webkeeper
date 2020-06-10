@@ -1,10 +1,8 @@
 package bot.hostkeeper.server;
 
-import bot.hostkeeper.config.SpringConfig;
 import bot.hostkeeper.controller.Controller;
 import bot.hostkeeper.entity.User;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
@@ -13,20 +11,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
-import javax.annotation.PostConstruct;
-
-@Component
 public class Bot extends TelegramLongPollingBot {
-
-    @PostConstruct
-    public void registerBot() {
-        TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
-        try {
-            telegramBotsApi.registerBot(this);
-        } catch (TelegramApiRequestException e) {
-            e.printStackTrace();
-        }
-    }
 
     private final Controller controller = new Controller();
 
@@ -58,7 +43,6 @@ public class Bot extends TelegramLongPollingBot {
                 controller.startBot(user);
                 break;
             case "Список сайтов":
-                System.out.println("Вызвана команда 'Список сайтов'");
                 controller.getAndSendHostsList(user);
                 break;
             case "О боте":
@@ -111,7 +95,13 @@ public class Bot extends TelegramLongPollingBot {
 
     public static void main(String[] args) {
         ApiContextInitializer.init();
-        AnnotationConfigApplicationContext context =
-                new AnnotationConfigApplicationContext(SpringConfig.class);
+
+        TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
+
+        try {
+            telegramBotsApi.registerBot(new Bot());
+        } catch (TelegramApiRequestException e) {
+            e.printStackTrace();
+        }
     }
 }

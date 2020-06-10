@@ -55,7 +55,6 @@ public class Message {
         sendMessage.setReplyMarkup(createButtons());
 
         try {
-            System.out.println("Вызван метод 'sendMessage'");
             bot.execute(sendMessage);
         } catch (TelegramApiException e) {
             e.printStackTrace();
