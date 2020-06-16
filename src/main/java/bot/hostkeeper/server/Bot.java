@@ -2,7 +2,6 @@ package bot.hostkeeper.server;
 
 import bot.hostkeeper.controller.Controller;
 import bot.hostkeeper.entity.User;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
