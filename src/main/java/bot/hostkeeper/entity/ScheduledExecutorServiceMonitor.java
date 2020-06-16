@@ -14,7 +14,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-public class ScheduledExecutorServiceMonitor implements IMonitor {
+public class ScheduledExecutorServiceMonitor implements Monitor {
 
     private static final List<MonitorTask> tasksList = new ArrayList<>();
     private static final ScheduledExecutorService executorService =

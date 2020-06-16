@@ -6,7 +6,7 @@ import bot.hostkeeper.entity.*;
 import java.util.List;
 
 public class Controller {
-    private final IMonitor monitor = new ScheduledExecutorServiceMonitor();
+    private final Monitor monitor = new ScheduledExecutorServiceMonitor();
     // Метод добавляет пользователя в БД, если его там нет.
     // А также отправляет ему стартовое сообщение.
     public void startBot(User user) {
