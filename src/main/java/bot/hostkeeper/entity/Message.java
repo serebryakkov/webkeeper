@@ -1,6 +1,7 @@
 package bot.hostkeeper.entity;
 
 import bot.hostkeeper.dao.MessageDao;
+import bot.hostkeeper.util.KeyboardCreator;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
@@ -39,6 +40,18 @@ public class Message {
         this.text = getText();
     }
 
+    public Code getCode() {
+        return code;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Host getHost() {
+        return host;
+    }
+
     public static void setBot(Bot workBot) {
         bot = workBot;
     }
@@ -49,7 +62,8 @@ public class Message {
         sendMessage.disableWebPagePreview();
         sendMessage.setChatId(user.getUid());
         sendMessage.setText(text);
-        sendMessage.setReplyMarkup(createButtons());
+//        sendMessage.setReplyMarkup(createButtons());
+        sendMessage.setReplyMarkup(KeyboardCreator.getReplyKeyboard(this));
 
         try {
             bot.execute(sendMessage);
@@ -118,6 +132,7 @@ public class Message {
     }
 
     private InlineKeyboardMarkup createHostsListInlineButtons(List<Host> hosts) {
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> inlineKeyboardButtons = new ArrayList<>();
         List<InlineKeyboardButton> buttons;
         if (hosts.size() > 0) {
@@ -132,7 +147,6 @@ public class Message {
         buttons.add(new InlineKeyboardButton().setText("Добавить сайт").setCallbackData("add_host"));
         inlineKeyboardButtons.add(buttons);
 
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         inlineKeyboardMarkup.setKeyboard(inlineKeyboardButtons);
 
         return inlineKeyboardMarkup;
@@ -187,23 +201,29 @@ public class Message {
     }
 
     public enum Code {
-        WELCOME("welcome"),
-        ABOUT_BOT("about_bot"),
-        HOSTS_LIST("hosts_list"),
-        ENTER_HOST_NAME("enter_host_name"),
-        SITE_ADDING_CANCEL("site_adding_cancel"),
-        HOST_SUCCESSFULLY_ADDED("host_successfully_added"),
-        HOST_SUCCESSFULLY_DELETED("host_successfully_deleted"),
-        HOST_EXISTS("host_exists"),
-        INVALID_URL("invalid_url"),
-        HOST_INFO("host_info"),
-        ADD_META_TAG("add_meta_tag"),
-        META_TAG_NOT_FOUND("meta_tag_not_found");
+        WELCOME("welcome", "replyKeyboardMarkup"),
+        ABOUT_BOT("about_bot", "replyKeyboardMarkup"),
+        HOSTS_LIST("hosts_list", "inlineKeyboardMarkup"),
+        ENTER_HOST_NAME("enter_host_name", "replyKeyboardMarkup"),
+        SITE_ADDING_CANCEL("site_adding_cancel", "replyKeyboardMarkup"),
+        HOST_SUCCESSFULLY_ADDED("host_successfully_added", "replyKeyboardMarkup"),
+        HOST_SUCCESSFULLY_DELETED("host_successfully_deleted", "replyKeyboardMarkup"),
+        HOST_EXISTS("host_exists", "replyKeyboardMarkup"),
+        INVALID_URL("invalid_url", "replyKeyboardMarkup"),
+        HOST_INFO("host_info", "inlineKeyboardMarkup"),
+        ADD_META_TAG("add_meta_tag", "replyKeyboardMarkup"),
+        META_TAG_NOT_FOUND("meta_tag_not_found", "replyKeyboardMarkup");
 
         private final String code;
+        private final String keyboardMode;
 
-        Code(String code) {
+        Code(String code, String keyboardMode) {
             this.code = code;
+            this.keyboardMode = keyboardMode;
+        }
+
+        public String getKeyboardMode() {
+            return keyboardMode;
         }
     }
 }

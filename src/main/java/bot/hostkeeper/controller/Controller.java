@@ -1,5 +1,6 @@
 package bot.hostkeeper.controller;
 
+import bot.hostkeeper.entity.interfaces.Monitor;
 import bot.hostkeeper.util.MetaTagInspector;
 import bot.hostkeeper.entity.*;
 

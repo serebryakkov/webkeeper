@@ -1,5 +1,6 @@
 package bot.hostkeeper.entity;
 
+import bot.hostkeeper.entity.interfaces.Monitor;
 import bot.hostkeeper.util.MetaTagInspector;
 
 import java.io.IOException;

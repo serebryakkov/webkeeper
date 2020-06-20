@@ -1,0 +1,127 @@
+package bot.hostkeeper.util;
+
+import bot.hostkeeper.entity.Host;
+import bot.hostkeeper.entity.Message;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class KeyboardCreator {
+
+    public static ReplyKeyboard getReplyKeyboard(Message message) {
+        if (message.getCode().getKeyboardMode().equals("replyKeyboardMarkup"))
+            return getReplyKeyboardMarkup(message);
+        else if (message.getCode().getKeyboardMode().equals("inlineKeyboardMarkup"))
+            return getInlineKeyboardMarkup(message);
+
+        return null;
+    }
+
+    private static ReplyKeyboardMarkup getReplyKeyboardMarkup(Message message) {
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+        replyKeyboardMarkup.setSelective(true);
+        replyKeyboardMarkup.setResizeKeyboard(true);
+        replyKeyboardMarkup.setOneTimeKeyboard(false);
+
+        if (message.getCode() == Message.Code.WELCOME
+            || message.getCode() == Message.Code.ABOUT_BOT
+            || message.getCode() == Message.Code.SITE_ADDING_CANCEL
+            || message.getCode() == Message.Code.HOST_SUCCESSFULLY_ADDED
+            || message.getCode() == Message.Code.HOST_SUCCESSFULLY_DELETED)
+            replyKeyboardMarkup.setKeyboard(getAboutBotAndSitesListButtons());
+        else if (message.getCode() == Message.Code.ADD_META_TAG)
+            replyKeyboardMarkup.setKeyboard(getCheckAndCancelButtons());
+        else if (message.getCode() == Message.Code.ENTER_HOST_NAME
+                    || message.getCode() == Message.Code.HOST_EXISTS
+                    || message.getCode() == Message.Code.INVALID_URL)
+            replyKeyboardMarkup.setKeyboard(getCancelButton());
+
+        return replyKeyboardMarkup;
+    }
+
+    private static List<KeyboardRow> getAboutBotAndSitesListButtons() {
+        List<KeyboardRow> keyboardRowList = new ArrayList<>();
+
+        KeyboardRow keyboardFirstRow = new KeyboardRow();
+        keyboardFirstRow.add(new KeyboardButton("Список сайтов"));
+        keyboardFirstRow.add(new KeyboardButton("О боте"));
+
+        keyboardRowList.add(keyboardFirstRow);
+
+        return keyboardRowList;
+    }
+
+    private static List<KeyboardRow> getCheckAndCancelButtons() {
+        List<KeyboardRow> keyboardRowList = new ArrayList<>();
+
+        KeyboardRow keyboardFirstRow = new KeyboardRow();
+        keyboardFirstRow.add(new KeyboardButton("Подтвердить"));
+        KeyboardRow keyboardSecondRow = new KeyboardRow();
+        keyboardSecondRow.add(new KeyboardButton("Отмена"));
+
+        keyboardRowList.add(keyboardFirstRow);
+        keyboardRowList.add(keyboardSecondRow);
+
+        return keyboardRowList;
+    }
+
+    private static List<KeyboardRow> getCancelButton() {
+        List<KeyboardRow> keyboardRowList = new ArrayList<>();
+
+        KeyboardRow keyboardFirstRow = new KeyboardRow();
+        keyboardFirstRow.add(new KeyboardButton("Отмена"));
+
+        keyboardRowList.add(keyboardFirstRow);
+
+        return keyboardRowList;
+    }
+
+    private static InlineKeyboardMarkup getInlineKeyboardMarkup(Message message) {
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+
+        if (message.getCode() == Message.Code.HOSTS_LIST)
+            inlineKeyboardMarkup.setKeyboard(getHostsListInlineButtons(message));
+        else if (message.getCode() == Message.Code.HOST_INFO)
+            inlineKeyboardMarkup.setKeyboard(getDeleteButton(message));
+
+        return inlineKeyboardMarkup;
+    }
+
+    private static List<List<InlineKeyboardButton>> getHostsListInlineButtons(Message message) {
+        List<List<InlineKeyboardButton>> inlineKeyboardButtons = new ArrayList<>();
+        List<InlineKeyboardButton> buttons;
+        List<Host> hosts = message.getUser().getHosts();
+
+        if (hosts.size() > 0) {
+            for (Host host : hosts) {
+                buttons = new ArrayList<>();
+                buttons.add(new InlineKeyboardButton().setText(host.getUrl().substring(7)).
+                        setCallbackData("site_" + host.getId()));
+                inlineKeyboardButtons.add(buttons);
+            }
+        }
+        buttons = new ArrayList<>();
+        buttons.add(new InlineKeyboardButton().setText("Добавить сайт").setCallbackData("add_host"));
+        inlineKeyboardButtons.add(buttons);
+
+        return inlineKeyboardButtons;
+    }
+
+    private static List<List<InlineKeyboardButton>> getDeleteButton(Message message) {
+        List<List<InlineKeyboardButton>> inlineKeyboardButtons = new ArrayList<>();
+        List<InlineKeyboardButton> buttons;
+
+        buttons = new ArrayList<>();
+        buttons.add(new InlineKeyboardButton().setText("Удалить сайт")
+                .setCallbackData("delete_host_" + message.getHost().getId()));
+        inlineKeyboardButtons.add(buttons);
+
+        return inlineKeyboardButtons;
+    }
+}
