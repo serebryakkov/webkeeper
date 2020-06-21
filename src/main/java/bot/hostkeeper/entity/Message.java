@@ -3,18 +3,10 @@ package bot.hostkeeper.entity;
 import bot.hostkeeper.dao.MessageDao;
 import bot.hostkeeper.util.KeyboardCreator;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import bot.hostkeeper.server.Bot;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Message {
     private static final MessageDao messageDao = new MessageDao();
@@ -62,7 +54,6 @@ public class Message {
         sendMessage.disableWebPagePreview();
         sendMessage.setChatId(user.getUid());
         sendMessage.setText(text);
-//        sendMessage.setReplyMarkup(createButtons());
         sendMessage.setReplyMarkup(KeyboardCreator.getReplyKeyboard(this));
 
         try {
@@ -89,111 +80,6 @@ public class Message {
         }
 
         return text;
-    }
-
-    private ReplyKeyboard createButtons() {
-        if (code == Code.WELCOME
-                || code == Code.ABOUT_BOT
-                || code == Code.SITE_ADDING_CANCEL
-                || code == Code.HOST_SUCCESSFULLY_ADDED
-                || code == Code.HOST_SUCCESSFULLY_DELETED)
-            return createMainButtons();
-        else if (code == Code.HOSTS_LIST)
-            return createHostsListInlineButtons(user.getHosts());
-        else if (code == Code.ENTER_HOST_NAME
-                || code == Code.HOST_EXISTS
-                || code == Code.INVALID_URL
-                || code == Code.ADD_META_TAG
-                || code == Code.META_TAG_NOT_FOUND)
-            return createCheckAndCancelButtons();
-        else if (code == Code.HOST_INFO) {
-            return createDeleteHostInlineButton();
-        }
-        return null;
-    }
-
-    private ReplyKeyboardMarkup createMainButtons() {
-        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        replyKeyboardMarkup.setSelective(true);
-        replyKeyboardMarkup.setResizeKeyboard(true);
-        replyKeyboardMarkup.setOneTimeKeyboard(false);
-
-        List<KeyboardRow> keyboardRowList = new ArrayList<>();
-
-        KeyboardRow keyboardFirstRow = new KeyboardRow();
-        keyboardFirstRow.add(new KeyboardButton("Список сайтов"));
-        keyboardFirstRow.add(new KeyboardButton("О боте"));
-
-        keyboardRowList.add(keyboardFirstRow);
-
-        replyKeyboardMarkup.setKeyboard(keyboardRowList);
-
-        return replyKeyboardMarkup;
-    }
-
-    private InlineKeyboardMarkup createHostsListInlineButtons(List<Host> hosts) {
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        List<List<InlineKeyboardButton>> inlineKeyboardButtons = new ArrayList<>();
-        List<InlineKeyboardButton> buttons;
-        if (hosts.size() > 0) {
-            for (Host host : hosts) {
-                buttons = new ArrayList<>();
-                buttons.add(new InlineKeyboardButton().setText(host.getUrl().substring(7)).
-                        setCallbackData("site_" + host.getId()));
-                inlineKeyboardButtons.add(buttons);
-            }
-        }
-        buttons = new ArrayList<>();
-        buttons.add(new InlineKeyboardButton().setText("Добавить сайт").setCallbackData("add_host"));
-        inlineKeyboardButtons.add(buttons);
-
-        inlineKeyboardMarkup.setKeyboard(inlineKeyboardButtons);
-
-        return inlineKeyboardMarkup;
-    }
-
-    private ReplyKeyboardMarkup createCheckAndCancelButtons() {
-        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        replyKeyboardMarkup.setSelective(true);
-        replyKeyboardMarkup.setResizeKeyboard(true);
-        replyKeyboardMarkup.setOneTimeKeyboard(false);
-
-        List<KeyboardRow> keyboardRowList = new ArrayList<>();
-
-        if (code == Code.ENTER_HOST_NAME
-                || code == Code.HOST_EXISTS
-                || code == Code.INVALID_URL) {
-            KeyboardRow keyboardFirstRow = new KeyboardRow();
-            keyboardFirstRow.add(new KeyboardButton("Отмена"));
-
-            keyboardRowList.add(keyboardFirstRow);
-        } else if (code == Code.ADD_META_TAG
-                || code == Code.META_TAG_NOT_FOUND) {
-            KeyboardRow keyboardFirstRow = new KeyboardRow();
-            keyboardFirstRow.add(new KeyboardButton("Подтвердить"));
-            KeyboardRow keyboardSecondRow = new KeyboardRow();
-            keyboardSecondRow.add(new KeyboardButton("Отмена"));
-
-            keyboardRowList.add(keyboardFirstRow);
-            keyboardRowList.add(keyboardSecondRow);
-        }
-
-        replyKeyboardMarkup.setKeyboard(keyboardRowList);
-        return replyKeyboardMarkup;
-    }
-
-    private InlineKeyboardMarkup createDeleteHostInlineButton() {
-        List<List<InlineKeyboardButton>> inlineKeyboardButtons = new ArrayList<>();
-        List<InlineKeyboardButton> buttons;
-
-        buttons = new ArrayList<>();
-        buttons.add(new InlineKeyboardButton().setText("Удалить сайт")
-                .setCallbackData("delete_host_" + host.getId()));
-        inlineKeyboardButtons.add(buttons);
-
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        inlineKeyboardMarkup.setKeyboard(inlineKeyboardButtons);
-        return inlineKeyboardMarkup;
     }
 
     public static String getHelpTextByCode(String code) {

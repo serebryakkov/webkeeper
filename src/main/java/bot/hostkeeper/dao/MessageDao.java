@@ -26,4 +26,23 @@ public class MessageDao {
 
         return helpText;
     }
+
+    public String getCommandTextByCode(String code) {
+        String sql = "SELECT title FROM commands WHERE code = ?";
+        String commandText = null;
+
+        try (Connection connection = DAOFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, code);
+
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                commandText = rs.getString("title");
+            }
+        } catch (SQLException e) {
+
+        }
+
+        return commandText;
+    }
 }
