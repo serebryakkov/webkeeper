@@ -1,6 +1,6 @@
 package bot.hostkeeper.util;
 
-import bot.hostkeeper.dao.MessageDao;
+import bot.hostkeeper.dao.CommandDao;
 import bot.hostkeeper.entity.Host;
 import bot.hostkeeper.entity.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -15,7 +15,7 @@ import java.util.List;
 
 public class KeyboardCreator {
 
-    private static final MessageDao messageDao = new MessageDao();
+    private static final CommandDao commandDao = new CommandDao();
 
     public static ReplyKeyboard getReplyKeyboard(Message message) {
         if (message.getCode().getKeyboardMode().equals("replyKeyboardMarkup"))
@@ -110,7 +110,8 @@ public class KeyboardCreator {
             }
         }
         buttons = new ArrayList<>();
-        buttons.add(new InlineKeyboardButton().setText("Добавить сайт").setCallbackData("add_host"));
+        buttons.add(new InlineKeyboardButton().setText(commandDao.getCommandTextByCode("add_host"))
+                .setCallbackData("add_host"));
         inlineKeyboardButtons.add(buttons);
 
         return inlineKeyboardButtons;
@@ -121,7 +122,7 @@ public class KeyboardCreator {
         List<InlineKeyboardButton> buttons;
 
         buttons = new ArrayList<>();
-        buttons.add(new InlineKeyboardButton().setText(messageDao.getCommandTextByCode("delete_host"))
+        buttons.add(new InlineKeyboardButton().setText(commandDao.getCommandTextByCode("delete_host"))
                 .setCallbackData("delete_host_" + message.getHost().getId()));
         inlineKeyboardButtons.add(buttons);
 
