@@ -119,14 +119,17 @@ public class KeyboardCreator {
 
     private static List<List<InlineKeyboardButton>> getHostInfoButtons(Message message) {
         List<List<InlineKeyboardButton>> inlineKeyboardButtons = new ArrayList<>();
-        List<InlineKeyboardButton> buttons;
 
-        buttons = new ArrayList<>();
-        buttons.add(new InlineKeyboardButton().setText(commandDao.getCommandTextByCode("delete_host"))
+        List<InlineKeyboardButton> firstRowButtons = new ArrayList<>();
+        firstRowButtons.add(new InlineKeyboardButton().setText(commandDao.getCommandTextByCode("delete_host"))
                 .setCallbackData("delete_host_" + message.getHost().getId()));
-        buttons.add(new InlineKeyboardButton().setText(commandDao.getCommandTextByCode("check_interval"))
+
+        List<InlineKeyboardButton> secondRowButtons = new ArrayList<>();
+        secondRowButtons.add(new InlineKeyboardButton().setText(commandDao.getCommandTextByCode("check_interval"))
                 .setCallbackData("check_interval_" + message.getHost().getId()));
-        inlineKeyboardButtons.add(buttons);
+
+        inlineKeyboardButtons.add(firstRowButtons);
+        inlineKeyboardButtons.add(secondRowButtons);
 
         return inlineKeyboardButtons;
     }
