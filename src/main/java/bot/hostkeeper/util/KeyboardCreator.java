@@ -52,8 +52,8 @@ public class KeyboardCreator {
         List<KeyboardRow> keyboardRowList = new ArrayList<>();
 
         KeyboardRow keyboardFirstRow = new KeyboardRow();
-        keyboardFirstRow.add(new KeyboardButton("Список сайтов"));
-        keyboardFirstRow.add(new KeyboardButton("О боте"));
+        keyboardFirstRow.add(new KeyboardButton(commandDao.getCommandTextByCode("hosts_list")));
+        keyboardFirstRow.add(new KeyboardButton(commandDao.getCommandTextByCode("about_bot")));
 
         keyboardRowList.add(keyboardFirstRow);
 
@@ -89,14 +89,14 @@ public class KeyboardCreator {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
 
         if (message.getCode() == Message.Code.HOSTS_LIST)
-            inlineKeyboardMarkup.setKeyboard(getHostsListInlineButtons(message));
+            inlineKeyboardMarkup.setKeyboard(getHostsListButtons(message));
         else if (message.getCode() == Message.Code.HOST_INFO)
-            inlineKeyboardMarkup.setKeyboard(getDeleteButton(message));
+            inlineKeyboardMarkup.setKeyboard(getHostInfoButtons(message));
 
         return inlineKeyboardMarkup;
     }
 
-    private static List<List<InlineKeyboardButton>> getHostsListInlineButtons(Message message) {
+    private static List<List<InlineKeyboardButton>> getHostsListButtons(Message message) {
         List<List<InlineKeyboardButton>> inlineKeyboardButtons = new ArrayList<>();
         List<InlineKeyboardButton> buttons;
         List<Host> hosts = message.getUser().getHosts();
@@ -117,13 +117,14 @@ public class KeyboardCreator {
         return inlineKeyboardButtons;
     }
 
-    private static List<List<InlineKeyboardButton>> getDeleteButton(Message message) {
+    private static List<List<InlineKeyboardButton>> getHostInfoButtons(Message message) {
         List<List<InlineKeyboardButton>> inlineKeyboardButtons = new ArrayList<>();
         List<InlineKeyboardButton> buttons;
 
         buttons = new ArrayList<>();
         buttons.add(new InlineKeyboardButton().setText(commandDao.getCommandTextByCode("delete_host"))
                 .setCallbackData("delete_host_" + message.getHost().getId()));
+        buttons.add(new InlineKeyboardButton().setText(commandDao.getCommandTextByCode("check_interval")));
         inlineKeyboardButtons.add(buttons);
 
         return inlineKeyboardButtons;

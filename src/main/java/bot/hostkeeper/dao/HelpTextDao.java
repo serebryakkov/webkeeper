@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class MessageDao {
+public class HelpTextDao {
 
     public String getByCode(String code) {
         String helpText = null;

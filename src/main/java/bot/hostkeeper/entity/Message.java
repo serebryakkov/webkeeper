@@ -1,6 +1,6 @@
 package bot.hostkeeper.entity;
 
-import bot.hostkeeper.dao.MessageDao;
+import bot.hostkeeper.dao.HelpTextDao;
 import bot.hostkeeper.util.KeyboardCreator;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -9,7 +9,7 @@ import bot.hostkeeper.server.Bot;
 import java.text.SimpleDateFormat;
 
 public class Message {
-    private static final MessageDao messageDao = new MessageDao();
+    private static final HelpTextDao HELP_TEXT_DAO = new HelpTextDao();
 
     private static Bot bot;
 
@@ -83,7 +83,7 @@ public class Message {
     }
 
     public static String getHelpTextByCode(String code) {
-        return messageDao.getByCode(code);
+        return HELP_TEXT_DAO.getByCode(code);
     }
 
     public enum Code {
