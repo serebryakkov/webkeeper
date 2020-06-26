@@ -79,6 +79,9 @@ public class Bot extends TelegramLongPollingBot {
         } else if (callbackQueryData.startsWith("delete_host_")) {
             String hostId = callbackQueryData.substring(callbackQueryData.lastIndexOf("_") + 1);
             controller.deleteHostAndSendMessage(user, hostId);
+        } else if (callbackQueryData.startsWith("set_check_interval")) {
+            String hostId = callbackQueryData.substring(19);
+            controller.askCheckInterval(user, hostId);
         }
     }
 

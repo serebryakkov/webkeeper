@@ -6,7 +6,7 @@ import org.apache.commons.validator.routines.UrlValidator;
 import java.util.*;
 
 public class Host {
-    private static final HostDao hostDao = new HostDao();
+    private static final HostDao HOSTDAO = new HostDao();
 
     private int id;
     private String url;
@@ -94,22 +94,22 @@ public class Host {
     }
 
     public static Host getById(int id) {
-        return hostDao.getById(id);
+        return HOSTDAO.getById(id);
     }
 
     public static List<Host> getAll() {
-        return hostDao.getAll();
+        return HOSTDAO.getAll();
     }
 
     public static List<Host> getAllByUserId(User user) {
-        return hostDao.getAllByUserId(user);
+        return HOSTDAO.getAllByUserId(user);
     }
 
     public static void updateAvailable(Host host) {
-        hostDao.updateAvailable(host);
+        HOSTDAO.updateAvailable(host);
     }
 
     public static void remove(Host host) {
-        hostDao.remove(host);
+        HOSTDAO.remove(host);
     }
 }

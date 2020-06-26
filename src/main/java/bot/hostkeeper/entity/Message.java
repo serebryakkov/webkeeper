@@ -98,7 +98,8 @@ public class Message {
         INVALID_URL("invalid_url", "replyKeyboardMarkup"),
         HOST_INFO("host_info", "inlineKeyboardMarkup"),
         ADD_META_TAG("add_meta_tag", "replyKeyboardMarkup"),
-        META_TAG_NOT_FOUND("meta_tag_not_found", "replyKeyboardMarkup");
+        META_TAG_NOT_FOUND("meta_tag_not_found", "replyKeyboardMarkup"),
+        ASK_CHECK_INTERVAL("ask_check_interval", "inlineKeyboardMarkup");
 
         private final String code;
         private final String keyboardMode;

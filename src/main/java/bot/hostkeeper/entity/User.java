@@ -63,7 +63,8 @@ public class User {
     public enum State {
         NULL("NULL"),
         SITE_ADDING("SITE_ADDING"),
-        ADD_META_TAG("ADD_META_TAG_");
+        ADD_META_TAG("ADD_META_TAG_"),
+        SET_CHECK_INTERVAL("SET_CHECK_INTERVAL");
 
         State(String stateName) {
             this.stateName = stateName;

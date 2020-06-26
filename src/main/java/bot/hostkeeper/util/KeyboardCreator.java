@@ -18,6 +18,7 @@ public class KeyboardCreator {
     private static final CommandDao commandDao = new CommandDao();
 
     public static ReplyKeyboard getReplyKeyboard(Message message) {
+
         if (message.getCode().getKeyboardMode().equals("replyKeyboardMarkup"))
             return getReplyKeyboardMarkup(message);
         else if (message.getCode().getKeyboardMode().equals("inlineKeyboardMarkup"))
@@ -92,6 +93,8 @@ public class KeyboardCreator {
             inlineKeyboardMarkup.setKeyboard(getHostsListButtons(message));
         else if (message.getCode() == Message.Code.HOST_INFO)
             inlineKeyboardMarkup.setKeyboard(getHostInfoButtons(message));
+        else if (message.getCode() == Message.Code.ASK_CHECK_INTERVAL)
+            inlineKeyboardMarkup.setKeyboard(getCheckIntervalButtons(message));
 
         return inlineKeyboardMarkup;
     }
@@ -121,12 +124,33 @@ public class KeyboardCreator {
         List<List<InlineKeyboardButton>> inlineKeyboardButtons = new ArrayList<>();
 
         List<InlineKeyboardButton> firstRowButtons = new ArrayList<>();
-        firstRowButtons.add(new InlineKeyboardButton().setText(commandDao.getCommandTextByCode("check_interval"))
+        firstRowButtons.add(new InlineKeyboardButton().setText(commandDao.getCommandTextByCode("set_check_interval"))
                 .setCallbackData("check_interval_" + message.getHost().getId()));
 
         List<InlineKeyboardButton> secondRowButtons = new ArrayList<>();
         secondRowButtons.add(new InlineKeyboardButton().setText(commandDao.getCommandTextByCode("delete_host"))
                 .setCallbackData("delete_host_" + message.getHost().getId()));
+
+        inlineKeyboardButtons.add(firstRowButtons);
+        inlineKeyboardButtons.add(secondRowButtons);
+
+        return inlineKeyboardButtons;
+    }
+
+    private static List<List<InlineKeyboardButton>> getCheckIntervalButtons(Message message) {
+        List<List<InlineKeyboardButton>> inlineKeyboardButtons = new ArrayList<>();
+
+        List<InlineKeyboardButton> firstRowButtons = new ArrayList<>();
+        firstRowButtons.add(new InlineKeyboardButton().setText("5")
+                .setCallbackData("check_interval_5_for_" + message.getHost().getId()));
+        firstRowButtons.add(new InlineKeyboardButton().setText("10")
+                .setCallbackData("check_interval_10_for_" + message.getHost().getId()));
+
+        List<InlineKeyboardButton> secondRowButtons = new ArrayList<>();
+        secondRowButtons.add(new InlineKeyboardButton().setText("5")
+                .setCallbackData("check_interval_20_for_" + message.getHost().getId()));
+        secondRowButtons.add(new InlineKeyboardButton().setText("10")
+                .setCallbackData("check_interval_30_for_" + message.getHost().getId()));
 
         inlineKeyboardButtons.add(firstRowButtons);
         inlineKeyboardButtons.add(secondRowButtons);

@@ -77,7 +77,6 @@ public class Controller {
             host.setUid(user.getUid());
             Host.add(host);
             monitor.startMonitor(host, user);
-//            new Monitor(host, user);
             user.setState(User.State.NULL);
             User.updateUserState(user);
             new Message(Message.Code.HOST_SUCCESSFULLY_ADDED, user).sendMessage();
@@ -100,8 +99,14 @@ public class Controller {
         Host host = Host.getById(Integer.parseInt(hostId));
         Host.remove(host);
         monitor.stopMonitor(host);
-//        Monitor.stopAndRemoveMonitor(host);
         new Message(Message.Code.HOST_SUCCESSFULLY_DELETED, user).sendMessage();
         getAndSendHostsList(user);
+    }
+
+    public void askCheckInterval(User user, String hostId) {
+        user.setState(User.State.SET_CHECK_INTERVAL);
+        User.updateUserState(user);
+        Host host = Host.getById(Integer.parseInt(hostId));
+        new Message(Message.Code.ASK_CHECK_INTERVAL, user, host);
     }
 }
