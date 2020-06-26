@@ -15,7 +15,7 @@ import java.util.List;
 
 public class KeyboardCreator {
 
-    private static final CommandDao commandDao = new CommandDao();
+    private static final CommandDao COMMAND_DAO = new CommandDao();
 
     public static ReplyKeyboard getReplyKeyboard(Message message) {
 
@@ -53,8 +53,8 @@ public class KeyboardCreator {
         List<KeyboardRow> keyboardRowList = new ArrayList<>();
 
         KeyboardRow keyboardFirstRow = new KeyboardRow();
-        keyboardFirstRow.add(new KeyboardButton(commandDao.getCommandTextByCode("hosts_list")));
-        keyboardFirstRow.add(new KeyboardButton(commandDao.getCommandTextByCode("about_bot")));
+        keyboardFirstRow.add(new KeyboardButton(COMMAND_DAO.getCommandTextByCode("hosts_list")));
+        keyboardFirstRow.add(new KeyboardButton(COMMAND_DAO.getCommandTextByCode("about_bot")));
 
         keyboardRowList.add(keyboardFirstRow);
 
@@ -113,7 +113,7 @@ public class KeyboardCreator {
             }
         }
         buttons = new ArrayList<>();
-        buttons.add(new InlineKeyboardButton().setText(commandDao.getCommandTextByCode("add_host"))
+        buttons.add(new InlineKeyboardButton().setText(COMMAND_DAO.getCommandTextByCode("add_host"))
                 .setCallbackData("add_host"));
         inlineKeyboardButtons.add(buttons);
 
@@ -124,11 +124,11 @@ public class KeyboardCreator {
         List<List<InlineKeyboardButton>> inlineKeyboardButtons = new ArrayList<>();
 
         List<InlineKeyboardButton> firstRowButtons = new ArrayList<>();
-        firstRowButtons.add(new InlineKeyboardButton().setText(commandDao.getCommandTextByCode("set_check_interval"))
+        firstRowButtons.add(new InlineKeyboardButton().setText(COMMAND_DAO.getCommandTextByCode("set_check_interval"))
                 .setCallbackData("set_check_interval_" + message.getHost().getId()));
 
         List<InlineKeyboardButton> secondRowButtons = new ArrayList<>();
-        secondRowButtons.add(new InlineKeyboardButton().setText(commandDao.getCommandTextByCode("delete_host"))
+        secondRowButtons.add(new InlineKeyboardButton().setText(COMMAND_DAO.getCommandTextByCode("delete_host"))
                 .setCallbackData("delete_host_" + message.getHost().getId()));
 
         inlineKeyboardButtons.add(firstRowButtons);
@@ -147,9 +147,9 @@ public class KeyboardCreator {
                 .setCallbackData("check_interval_10_for_" + message.getHost().getId()));
 
         List<InlineKeyboardButton> secondRowButtons = new ArrayList<>();
-        secondRowButtons.add(new InlineKeyboardButton().setText("5")
+        secondRowButtons.add(new InlineKeyboardButton().setText("20")
                 .setCallbackData("check_interval_20_for_" + message.getHost().getId()));
-        secondRowButtons.add(new InlineKeyboardButton().setText("10")
+        secondRowButtons.add(new InlineKeyboardButton().setText("30")
                 .setCallbackData("check_interval_30_for_" + message.getHost().getId()));
 
         inlineKeyboardButtons.add(firstRowButtons);
