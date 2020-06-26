@@ -109,6 +109,6 @@ public class Controller {
         System.out.println("User state updated");
         Host host = Host.getById(Integer.parseInt(hostId));
         System.out.println("Host received");
-        new Message(Message.Code.ASK_CHECK_INTERVAL, user, host);
+        new Message(Message.Code.ASK_CHECK_INTERVAL, user, host).sendMessage();
     }
 }
