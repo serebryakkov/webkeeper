@@ -125,7 +125,7 @@ public class KeyboardCreator {
 
         List<InlineKeyboardButton> firstRowButtons = new ArrayList<>();
         firstRowButtons.add(new InlineKeyboardButton().setText(commandDao.getCommandTextByCode("set_check_interval"))
-                .setCallbackData("check_interval_" + message.getHost().getId()));
+                .setCallbackData("set_check_interval_" + message.getHost().getId()));
 
         List<InlineKeyboardButton> secondRowButtons = new ArrayList<>();
         secondRowButtons.add(new InlineKeyboardButton().setText(commandDao.getCommandTextByCode("delete_host"))
