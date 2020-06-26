@@ -1,6 +1,7 @@
 package bot.hostkeeper.server;
 
 import bot.hostkeeper.controller.Controller;
+import bot.hostkeeper.dao.CommandDao;
 import bot.hostkeeper.entity.User;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -13,6 +14,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 public class Bot extends TelegramLongPollingBot {
 
     private final Controller controller = new Controller();
+    private final CommandDao commandDao = new CommandDao();
 
     {
         bot.hostkeeper.entity.Message.setBot(this);
@@ -37,33 +39,36 @@ public class Bot extends TelegramLongPollingBot {
         user.setUid(message.getChatId());
         user.setUsername(message.getChat().getUserName());
 
-        switch (text) {
-            case "/start":
-                controller.startBot(user);
-                break;
-            case "Список сайтов":
-                controller.getAndSendHostsList(user);
-                break;
-            case "О боте":
-                controller.getAndSendAboutBotInfo(user);
-                break;
-            case "Подтвердить":
-                user.setState(User.getUserState(user));
-                if (user.getState().equals(User.State.ADD_META_TAG))
-                    controller.checkMetaTagAndAddHost(user);
-                break;
-            case "Отмена":
-                controller.cancelHostAdding(user);
-                break;
-            case "/get_active_streams":
-                for (Thread t : Thread.getAllStackTraces().keySet())
-                    System.out.println(t.getName());
-                break;
-            default:
-                if (User.getUserState(user).equals(User.State.SITE_ADDING))
-                    controller.checkUrlAndSendMetaTag(user, text);
-                break;
-        }
+        if (text.equals(commandDao.getCommandTextByCode("hosts_list")))
+            controller.getAndSendHostsList(user);
+
+//        switch (text) {
+//            case "/start":
+//                controller.startBot(user);
+//                break;
+//            case "Список сайтов":
+//                controller.getAndSendHostsList(user);
+//                break;
+//            case "О боте":
+//                controller.getAndSendAboutBotInfo(user);
+//                break;
+//            case "Подтвердить":
+//                user.setState(User.getUserState(user));
+//                if (user.getState().equals(User.State.ADD_META_TAG))
+//                    controller.checkMetaTagAndAddHost(user);
+//                break;
+//            case "Отмена":
+//                controller.cancelHostAdding(user);
+//                break;
+//            case "/get_active_streams":
+//                for (Thread t : Thread.getAllStackTraces().keySet())
+//                    System.out.println(t.getName());
+//                break;
+//            default:
+//                if (User.getUserState(user).equals(User.State.SITE_ADDING))
+//                    controller.checkUrlAndSendMetaTag(user, text);
+//                break;
+//        }
     }
 
     private void processCallbackQuery(CallbackQuery callbackQuery) {
