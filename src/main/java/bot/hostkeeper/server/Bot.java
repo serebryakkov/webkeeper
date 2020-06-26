@@ -39,36 +39,21 @@ public class Bot extends TelegramLongPollingBot {
         user.setUid(message.getChatId());
         user.setUsername(message.getChat().getUserName());
 
-        if (text.equals(commandDao.getCommandTextByCode("hosts_list")))
+        if (text.equals("/start"))
+            controller.startBot(user);
+        else if (text.equals(commandDao.getCommandTextByCode("hosts_list")))
             controller.getAndSendHostsList(user);
-
-//        switch (text) {
-//            case "/start":
-//                controller.startBot(user);
-//                break;
-//            case "Список сайтов":
-//                controller.getAndSendHostsList(user);
-//                break;
-//            case "О боте":
-//                controller.getAndSendAboutBotInfo(user);
-//                break;
-//            case "Подтвердить":
-//                user.setState(User.getUserState(user));
-//                if (user.getState().equals(User.State.ADD_META_TAG))
-//                    controller.checkMetaTagAndAddHost(user);
-//                break;
-//            case "Отмена":
-//                controller.cancelHostAdding(user);
-//                break;
-//            case "/get_active_streams":
-//                for (Thread t : Thread.getAllStackTraces().keySet())
-//                    System.out.println(t.getName());
-//                break;
-//            default:
-//                if (User.getUserState(user).equals(User.State.SITE_ADDING))
-//                    controller.checkUrlAndSendMetaTag(user, text);
-//                break;
-//        }
+        else if (text.equals(commandDao.getCommandTextByCode("about_bot")))
+            controller.getAndSendAboutBotInfo(user);
+        else if (text.equals(commandDao.getCommandTextByCode("confirm"))) {
+            user.setState(User.getUserState(user));
+            if (user.getState().equals(User.State.ADD_META_TAG))
+                controller.checkMetaTagAndAddHost(user);
+        } else if (text.equals(commandDao.getCommandTextByCode("cancel")))
+            controller.cancelHostAdding(user);
+        else
+            if (User.getUserState(user).equals(User.State.SITE_ADDING))
+                controller.checkUrlAndSendMetaTag(user, text);
     }
 
     private void processCallbackQuery(CallbackQuery callbackQuery) {
