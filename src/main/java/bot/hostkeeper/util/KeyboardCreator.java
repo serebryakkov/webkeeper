@@ -138,6 +138,7 @@ public class KeyboardCreator {
     }
 
     private static List<List<InlineKeyboardButton>> getCheckIntervalButtons(Message message) {
+        System.out.println("getCheckIntervalButtons method start");
         List<List<InlineKeyboardButton>> inlineKeyboardButtons = new ArrayList<>();
 
         List<InlineKeyboardButton> firstRowButtons = new ArrayList<>();
@@ -154,7 +155,7 @@ public class KeyboardCreator {
 
         inlineKeyboardButtons.add(firstRowButtons);
         inlineKeyboardButtons.add(secondRowButtons);
-
+        System.out.println("getCheckIntervalButtons method end");
         return inlineKeyboardButtons;
     }
 }
