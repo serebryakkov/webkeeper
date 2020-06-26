@@ -106,9 +106,7 @@ public class Controller {
     public void askCheckInterval(User user, String hostId) {
         user.setState(User.State.SET_CHECK_INTERVAL);
         User.updateUserState(user);
-        System.out.println("User state updated");
         Host host = Host.getById(Integer.parseInt(hostId));
-        System.out.println("Host received");
         new Message(Message.Code.ASK_CHECK_INTERVAL, user, host).sendMessage();
     }
 }

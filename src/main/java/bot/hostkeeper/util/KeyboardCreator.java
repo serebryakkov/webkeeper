@@ -138,24 +138,23 @@ public class KeyboardCreator {
     }
 
     private static List<List<InlineKeyboardButton>> getCheckIntervalButtons(Message message) {
-        System.out.println("getCheckIntervalButtons method start");
         List<List<InlineKeyboardButton>> inlineKeyboardButtons = new ArrayList<>();
 
         List<InlineKeyboardButton> firstRowButtons = new ArrayList<>();
-        firstRowButtons.add(new InlineKeyboardButton().setText("5")
+        firstRowButtons.add(new InlineKeyboardButton().setText("5 мин.")
                 .setCallbackData("check_interval_5_for_" + message.getHost().getId()));
-        firstRowButtons.add(new InlineKeyboardButton().setText("10")
+        firstRowButtons.add(new InlineKeyboardButton().setText("10 мин.")
                 .setCallbackData("check_interval_10_for_" + message.getHost().getId()));
 
         List<InlineKeyboardButton> secondRowButtons = new ArrayList<>();
-        secondRowButtons.add(new InlineKeyboardButton().setText("20")
+        secondRowButtons.add(new InlineKeyboardButton().setText("20 мин.")
                 .setCallbackData("check_interval_20_for_" + message.getHost().getId()));
-        secondRowButtons.add(new InlineKeyboardButton().setText("30")
+        secondRowButtons.add(new InlineKeyboardButton().setText("30 мин.")
                 .setCallbackData("check_interval_30_for_" + message.getHost().getId()));
 
         inlineKeyboardButtons.add(firstRowButtons);
         inlineKeyboardButtons.add(secondRowButtons);
-        System.out.println("getCheckIntervalButtons method end");
+
         return inlineKeyboardButtons;
     }
 }

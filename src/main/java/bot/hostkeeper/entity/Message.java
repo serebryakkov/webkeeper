@@ -55,7 +55,6 @@ public class Message {
         sendMessage.setChatId(user.getUid());
         sendMessage.setText(text);
         sendMessage.setReplyMarkup(KeyboardCreator.getReplyKeyboard(this));
-        System.out.println("ReplyKeyboard received");
 
         try {
             bot.execute(sendMessage);
