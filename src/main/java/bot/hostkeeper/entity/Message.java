@@ -55,6 +55,7 @@ public class Message {
         sendMessage.setChatId(user.getUid());
         sendMessage.setText(text);
         sendMessage.setReplyMarkup(KeyboardCreator.getReplyKeyboard(this));
+        System.out.println("ReplyKeyboard received");
 
         try {
             bot.execute(sendMessage);
@@ -77,6 +78,7 @@ public class Message {
             text = String.format(getHelpTextByCode(code.code), host.hashCode());
         } else {
             text = getHelpTextByCode(code.code);
+            System.out.println("Help text received");
         }
 
         return text;
